@@ -7,7 +7,7 @@ import { Pressable as RNPressable } from 'react-native';
 export type { AppPressableProps } from './types';
 
 /**
- * App Pressable wrapper — import from @/components/ui, not react-native.
+ * App Pressable wrapper — import from @/components, not react-native.
  */
 export function Pressable({
   ref,

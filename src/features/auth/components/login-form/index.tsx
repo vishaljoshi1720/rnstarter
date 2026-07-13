@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
-import { Button, Input, Text, View } from '@/components/ui';
+import { Button, Input, Text, View } from '@/components';
 import { translate } from '@/lib/i18n';
 import { schema } from './constants';
 import { styles } from './styles';

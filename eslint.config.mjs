@@ -75,10 +75,20 @@ export default antfu(
       'node/prefer-global/process': 'off', // process is commonly used in React Native configs
       'ts/no-require-imports': 'off', // Sometimes needed for mocks
       'ts/no-use-before-define': 'off', // Allow forward references in React components
-      'no-console': 'off', // Console is useful for debugging
+      // Block debug logs in app code; allow warn/error for real problems.
+      // lint-staged runs eslint on commit, so console.log cannot sneak into PRs.
+      'no-console': ['error', { allow: ['warn', 'error'] }],
       'no-cond-assign': 'off', // Allow assignment in conditions when intentional
       'regexp/no-super-linear-backtracking': 'off', // Relax regex performance rules
       'regexp/no-unused-capturing-group': 'off', // Allow unused capturing groups
+    },
+  },
+
+  // CLI / config scripts may log freely
+  {
+    files: ['scripts/**', 'env.ts', 'app.config.ts'],
+    rules: {
+      'no-console': 'off',
     },
   },
 

@@ -7,7 +7,7 @@ import {
   Screen,
   Text,
   View,
-} from '@/components/ui';
+} from '@/components';
 import { translate } from '@/lib/i18n';
 import { Cover } from '../components/cover';
 import { styles } from './styles';

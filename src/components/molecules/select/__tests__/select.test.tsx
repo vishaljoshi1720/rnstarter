@@ -1,4 +1,4 @@
-import type { OptionType } from '@/components/ui';
+import type { OptionType } from '@/components';
 
 import * as React from 'react';
 import { cleanup, render, screen, setup } from '@/lib/test-utils';

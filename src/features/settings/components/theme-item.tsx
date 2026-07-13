@@ -1,10 +1,10 @@
 import type { ColorScheme } from '@/common/types';
 
-import type { OptionType } from '@/components/ui';
+import type { OptionType } from '@/components';
 
 import * as React from 'react';
 import { useSelectedTheme } from '@/common/hooks';
-import { Options, useModal } from '@/components/ui';
+import { Options, useModal } from '@/components';
 import { getThemeOptions } from '@/features/settings/constants';
 
 import { SettingsItem } from './settings-item';

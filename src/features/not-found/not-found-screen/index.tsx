@@ -1,7 +1,7 @@
 import { Link, Stack } from 'expo-router';
 
 import { ROUTES } from '@/common/constants';
-import { Screen, Text, View } from '@/components/ui';
+import { Screen, Text, View } from '@/components';
 import { translate } from '@/lib/i18n';
 import { styles } from './styles';
 

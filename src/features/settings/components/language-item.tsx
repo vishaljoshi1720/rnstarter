@@ -1,8 +1,8 @@
-import type { OptionType } from '@/components/ui';
+import type { OptionType } from '@/components';
 
 import type { Language } from '@/lib/i18n/resources';
 import * as React from 'react';
-import { Options, useModal } from '@/components/ui';
+import { Options, useModal } from '@/components';
 import { translate, useSelectedLanguage } from '@/lib/i18n';
 
 import { SettingsItem } from './settings-item';

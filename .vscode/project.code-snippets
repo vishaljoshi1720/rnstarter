@@ -33,7 +33,7 @@
       "import type { ${1:CompName}Props } from './types';",
       "",
       "import * as React from 'react';",
-      "import { Text, View } from '@/components/ui';",
+      "import { Text, View } from '@/components';",
       "import { styles } from './styles';",
       "",
       "export type { ${1:CompName}Props } from './types';",
@@ -53,7 +53,7 @@
     "prefix": "screen",
     "body": [
       "import * as React from 'react';",
-      "import { FocusAwareStatusBar, Screen, Text } from '@/components/ui';",
+      "import { FocusAwareStatusBar, Screen, Text } from '@/components';",
       "import { styles } from './styles';",
       "",
       "export function ${1:Name}Screen() {",

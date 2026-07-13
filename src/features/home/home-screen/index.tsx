@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { FocusAwareStatusBar, Screen, Text } from '@/components/ui';
+import { FocusAwareStatusBar, Screen, Text } from '@/components';
 import { styles } from './styles';
 
 export function HomeScreen() {
