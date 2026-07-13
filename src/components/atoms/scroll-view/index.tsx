@@ -6,7 +6,7 @@ import { ScrollView as RNScrollView } from 'react-native';
 export type { AppScrollViewProps } from './types';
 
 /**
- * App ScrollView wrapper — import from @/components/ui, not react-native.
+ * App ScrollView wrapper — import from @/components, not react-native.
  */
 export function ScrollView({
   ref,

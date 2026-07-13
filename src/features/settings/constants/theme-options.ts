@@ -1,4 +1,4 @@
-import type { OptionType } from '@/components/ui';
+import type { OptionType } from '@/components';
 
 import { ColorScheme } from '@/common/types';
 import { translate } from '@/lib/i18n';

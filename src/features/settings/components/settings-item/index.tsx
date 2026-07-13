@@ -1,8 +1,8 @@
 import type { SettingsItemProps } from './types';
 
 import * as React from 'react';
+import { Pressable, Text, View } from '@/components';
 import { Icon } from '@/components/atoms/icon';
-import { Pressable, Text, View } from '@/components/ui';
 import { translate } from '@/lib/i18n';
 import { styles } from './styles';
 

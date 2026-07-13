@@ -5,7 +5,7 @@ import { TouchableOpacity as RNTouchableOpacity } from 'react-native';
 export type { AppTouchableOpacityProps } from './types';
 
 /**
- * App TouchableOpacity wrapper — import from @/components/ui, not react-native.
+ * App TouchableOpacity wrapper — import from @/components, not react-native.
  */
 export function TouchableOpacity(props: AppTouchableOpacityProps) {
   return <RNTouchableOpacity {...props} />;

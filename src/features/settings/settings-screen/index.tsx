@@ -1,13 +1,13 @@
 import Env from '@env';
 
-import { Icon } from '@/components/atoms/icon';
 import {
   FocusAwareStatusBar,
   Screen,
   ScrollView,
   Text,
   View,
-} from '@/components/ui';
+} from '@/components';
+import { Icon } from '@/components/atoms/icon';
 import { useAuthStore as useAuth } from '@/features/auth/use-auth-store';
 import { translate } from '@/lib/i18n';
 import { useAppTheme } from '@/theme';

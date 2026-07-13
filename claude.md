@@ -60,7 +60,7 @@ pnpm build:production:ios # EAS production build
 
 ## How: Essential Rules
 
-- ✅ **DO** use absolute imports: `@/components/ui/button`
+- ✅ **DO** use absolute imports: `@/components/atoms/button`
 - ✅ **DO** follow feature-based structure: `src/features/[name]/`
 - ✅ **DO** use React Hook Form for forms
 - ✅ **DO** use MMKV storage for sensitive data (not AsyncStorage)

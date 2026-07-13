@@ -1,7 +1,7 @@
 import type { SettingsContainerProps } from './types';
 
 import * as React from 'react';
-import { Text, View } from '@/components/ui';
+import { Text, View } from '@/components';
 import { styles } from './styles';
 
 export type { SettingsContainerProps } from './types';
