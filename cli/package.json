@@ -1,0 +1,39 @@
+{
+  "name": "create-rnstarter-app",
+  "version": "1.1.0",
+  "description": "CLI to scaffold a React Native / Expo app from vishaljoshi1720/rnstarter",
+  "homepage": "https://github.com/vishaljoshi1720/rnstarter",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vishaljoshi1720/rnstarter.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "bin": {
+    "create-rnstarter-app": "index.js"
+  },
+  "files": [
+    "index.js",
+    "utils.js",
+    "clone-repo.js",
+    "setup-project.js",
+    "strip-tests.js"
+  ],
+  "dependencies": {
+    "consola": "^3.2.3",
+    "fs-extra": "^10.1.0"
+  },
+  "keywords": [
+    "react-native",
+    "expo",
+    "template",
+    "react-native-starter",
+    "expo-starter",
+    "react-native-boilerplate",
+    "cli",
+    "create-rnstarter-app"
+  ],
+  "license": "UNLICENSED"
+}

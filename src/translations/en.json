@@ -1,0 +1,75 @@
+{
+  "common": {
+    "close_modal": "Close modal",
+    "close_modal_hint": "Closes the modal",
+    "empty_list": "Sorry! No data found",
+    "error": "Error",
+    "navigate": "Navigate",
+    "select_placeholder": "Select...",
+    "something_went_wrong": "Something went wrong"
+  },
+  "home": {
+    "subtitle": "Your app starts here.",
+    "title": "Home"
+  },
+  "login": {
+    "button": "Login",
+    "email": "Email",
+    "email_invalid": "Invalid email format",
+    "email_required": "Email is required",
+    "name": "Name",
+    "password": "Password",
+    "password_min": "Password must be at least 6 characters",
+    "password_placeholder": "***",
+    "password_required": "Password is required",
+    "subtitle": "Welcome! 👋 This is a demo login screen! Feel free to use any email and password to sign in and try it out.",
+    "title": "Sign In"
+  },
+  "not_found": {
+    "go_home": "Go to home screen!",
+    "message": "This screen doesn't exist.",
+    "title": "Oops!"
+  },
+  "onboarding": {
+    "brand": "RN Starter",
+    "cta": "Let's Get Started",
+    "feature_dx": "🥷 Developer experience + Productivity",
+    "feature_libs": "💪 Well maintained third-party libraries",
+    "feature_minimal": "🧩 Minimal code and dependencies",
+    "feature_production": "🚀 Production-ready",
+    "message": "Welcome to RN Starter",
+    "tagline": "The right way to build your mobile app"
+  },
+  "settings": {
+    "about": "About",
+    "app_name": "App Name",
+    "arabic": "Arabic",
+    "english": "English",
+    "generale": "General",
+    "github": "Github",
+    "language": "Language",
+    "links": "Links",
+    "logout": "Logout",
+    "more": "More",
+    "privacy": "Privacy Policy",
+    "rate": "Rate",
+    "share": "Share",
+    "support": "Support",
+    "support_us": "Support Us",
+    "terms": "Terms of Service",
+    "theme": {
+      "dark": "Dark 🌙",
+      "light": "Light 🌞",
+      "system": "System ⚙️",
+      "title": "Theme"
+    },
+    "title": "Settings",
+    "version": "Version",
+    "website": "Website"
+  },
+  "tabs": {
+    "home": "Home",
+    "settings": "Settings"
+  },
+  "welcome": "Welcome to RN Starter"
+}

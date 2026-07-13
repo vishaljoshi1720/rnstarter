@@ -1,0 +1,145 @@
+/* eslint-disable react-refresh/only-export-components */
+/**
+ * Modal
+ * Dependencies:
+ * - @gorhom/bottom-sheet.
+ */
+
+import type {
+  BottomSheetBackdropProps,
+  BottomSheetModal,
+  BottomSheetModalProps,
+} from '@gorhom/bottom-sheet';
+import type { CloseButtonProps, ModalHeaderProps, ModalProps, ModalRef } from './types';
+import { BottomSheetModal as GorhomModal, useBottomSheet } from '@gorhom/bottom-sheet';
+import * as React from 'react';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+
+import { Path, Svg } from 'react-native-svg';
+import { s, vs } from '@/common/utils/scale';
+import { Pressable } from '@/components/atoms/pressable';
+import { Text } from '@/components/atoms/text';
+import { View } from '@/components/atoms/view';
+import { translate } from '@/lib/i18n';
+import { useAppTheme } from '@/theme';
+import { styles } from './styles';
+
+export type { CloseButtonProps, ModalHeaderProps, ModalProps } from './types';
+
+export function useModal() {
+  const ref = React.useRef<BottomSheetModal>(null);
+  const present = React.useCallback((data?: any) => {
+    ref.current?.present(data);
+  }, []);
+  const dismiss = React.useCallback(() => {
+    ref.current?.dismiss();
+  }, []);
+  return { ref, present, dismiss };
+}
+
+export function Modal({ ref, snapPoints: _snapPoints = ['60%'] as (string | number)[], title, detached = false, ...props }: ModalProps & { ref?: ModalRef }) {
+  const detachedProps = React.useMemo(
+    () => getDetachedProps(detached),
+    [detached],
+  );
+  const modal = useModal();
+  const snapPoints = React.useMemo(() => _snapPoints, [_snapPoints]);
+
+  React.useImperativeHandle(
+    ref,
+    () => (modal.ref.current as BottomSheetModal) || null,
+  );
+
+  const renderHandleComponent = React.useCallback(
+    () => (
+      <>
+        <View style={styles.handle} />
+        <ModalHeader title={title} dismiss={modal.dismiss} />
+      </>
+    ),
+    [title, modal.dismiss],
+  );
+
+  return (
+    <GorhomModal
+      {...props}
+      {...detachedProps}
+      ref={modal.ref}
+      index={0}
+      snapPoints={snapPoints}
+      backdropComponent={props.backdropComponent || renderBackdrop}
+      enableDynamicSizing={false}
+      handleComponent={renderHandleComponent}
+    />
+  );
+}
+
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+
+function CustomBackdrop({ style }: BottomSheetBackdropProps) {
+  const { close } = useBottomSheet();
+  const { theme } = useAppTheme();
+  return (
+    <AnimatedPressable
+      onPress={() => close()}
+      entering={FadeIn.duration(50)}
+      exiting={FadeOut.duration(20)}
+      style={[style, { backgroundColor: theme.colors.modalBackdrop }]}
+    />
+  );
+}
+
+export function renderBackdrop(props: BottomSheetBackdropProps) {
+  return <CustomBackdrop {...props} />;
+}
+
+function getDetachedProps(detached: boolean) {
+  if (detached) {
+    return {
+      detached: true,
+      bottomInset: 46,
+      style: styles.detached,
+    } as Partial<BottomSheetModalProps>;
+  }
+  return {} as Partial<BottomSheetModalProps>;
+}
+
+const ModalHeader = React.memo(({ title, dismiss }: ModalHeaderProps) => {
+  const { theme } = useAppTheme();
+  return (
+    <>
+      {title && (
+        <View style={styles.headerRow}>
+          <View style={styles.headerSpacer} />
+          <View style={styles.headerTitleWrap}>
+            <Text style={styles.headerTitle}>{title}</Text>
+          </View>
+        </View>
+      )}
+      <CloseButton close={dismiss} fill={theme.colors.closeIconFill} />
+    </>
+  );
+});
+
+function CloseButton({ close, fill }: CloseButtonProps) {
+  const { theme } = useAppTheme();
+  return (
+    <Pressable
+      onPress={close}
+      style={styles.closeButton}
+      hitSlop={{ top: vs(20), bottom: vs(20), left: s(20), right: s(20) }}
+      accessibilityLabel={translate('common.close_modal')}
+      accessibilityRole="button"
+      accessibilityHint={translate('common.close_modal_hint')}
+    >
+      <Svg
+        width={theme.size.md}
+        height={theme.size.md}
+        fill={fill}
+        viewBox="0 0 24 24"
+      >
+        <Path d="M18.707 6.707a1 1 0 0 0-1.414-1.414L12 10.586 6.707 5.293a1 1 0 0 0-1.414 1.414L10.586 12l-5.293 5.293a1 1 0 1 0 1.414 1.414L12 13.414l5.293 5.293a1 1 0 0 0 1.414-1.414L13.414 12l5.293-5.293Z" />
+      </Svg>
+    </Pressable>
+  );
+}

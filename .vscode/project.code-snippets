@@ -1,0 +1,259 @@
+{
+  "View (Unistyles)": {
+    "prefix": "v",
+    "body": [
+      "<View style={styles.${1:container}}>",
+      "  $0",
+      "</View>"
+    ],
+    "description": "View with Unistyles style"
+  },
+  "Text (Unistyles)": {
+    "prefix": "t",
+    "body": [
+      "<Text style={styles.${1:text}}>$0</Text>"
+    ],
+    "description": "Text with Unistyles style"
+  },
+  "Text tx (i18n)": {
+    "prefix": "ttx",
+    "body": [
+      "<Text style={styles.${1:text}} tx=\"${2:namespace.key}\" />"
+    ],
+    "description": "Text with translation key"
+  },
+  "export *": {
+    "prefix": "ex *",
+    "body": ["export * from './$1';"],
+    "description": "Re-export barrel"
+  },
+  "Component (feature)": {
+    "prefix": "comp",
+    "body": [
+      "import type { ${1:CompName}Props } from './types';",
+      "",
+      "import * as React from 'react';",
+      "import { Text, View } from '@/components/ui';",
+      "import { styles } from './styles';",
+      "",
+      "export type { ${1:CompName}Props } from './types';",
+      "",
+      "export function ${1:CompName}({}: ${1:CompName}Props) {",
+      "  return (",
+      "    <View style={styles.container}>",
+      "      <Text style={styles.title}>${1:CompName}</Text>",
+      "      $0",
+      "    </View>",
+      "  );",
+      "}"
+    ],
+    "description": "Feature/UI component with styles + types"
+  },
+  "Screen": {
+    "prefix": "screen",
+    "body": [
+      "import * as React from 'react';",
+      "import { FocusAwareStatusBar, Screen, Text } from '@/components/ui';",
+      "import { styles } from './styles';",
+      "",
+      "export function ${1:Name}Screen() {",
+      "  return (",
+      "    <Screen style={styles.root}>",
+      "      <FocusAwareStatusBar />",
+      "      <Text style={styles.title} tx=\"${2:namespace.title}\" />",
+      "      $0",
+      "    </Screen>",
+      "  );",
+      "}"
+    ],
+    "description": "Expo screen wrapped in Screen + status bar"
+  },
+  "Unistyles styles": {
+    "prefix": "ustyles",
+    "body": [
+      "import { StyleSheet } from 'react-native-unistyles';",
+      "",
+      "export const styles = StyleSheet.create(theme => ({",
+      "  ${1:container}: {",
+      "    flex: 1,",
+      "    paddingHorizontal: theme.paddingX.lg,",
+      "    paddingVertical: theme.paddingY.lg,",
+      "    backgroundColor: theme.colors.background,",
+      "  },",
+      "  ${2:title}: {",
+      "    fontFamily: theme.fontFamily.sans,",
+      "    fontSize: theme.fontSize.xl,",
+      "    fontWeight: theme.fontWeight.bold,",
+      "    color: theme.colors.bodyText,",
+      "  },",
+      "}));",
+      ""
+    ],
+    "description": "Unistyles StyleSheet with theme tokens"
+  },
+  "Component types": {
+    "prefix": "ctypes",
+    "body": [
+      "export type ${1:CompName}Props = {",
+      "  $0",
+      "};",
+      ""
+    ],
+    "description": "Component props type file"
+  },
+  "useAppTheme": {
+    "prefix": "utheme",
+    "body": [
+      "const { theme } = useAppTheme();",
+      "$0"
+    ],
+    "description": "Grab theme from useAppTheme"
+  },
+  "useAppNavigation": {
+    "prefix": "unav",
+    "body": [
+      "const { ${1:navigateToHome} } = useAppNavigation();",
+      "$0"
+    ],
+    "description": "App navigation helpers"
+  },
+  "Button": {
+    "prefix": "btn",
+    "body": [
+      "<Button",
+      "  label={translate('${1:common.submit}')}",
+      "  onPress={${2:onPress}}",
+      "  loading={${3:false}}",
+      "/>"
+    ],
+    "description": "Button with i18n label"
+  },
+  "Icon": {
+    "prefix": "icon",
+    "body": [
+      "<Icon name=\"${1:home}\" size={${2:24}} color={theme.colors.${3:bodyText}} />"
+    ],
+    "description": "Typed SVG Icon"
+  },
+  "useQuery (react-query-kit)": {
+    "prefix": "useq",
+    "body": [
+      "import type { AxiosError } from 'axios';",
+      "import { createQuery } from 'react-query-kit';",
+      "",
+      "import { client } from '@/lib/api';",
+      "",
+      "type Response = ${3:unknown};",
+      "type Variables = void;",
+      "",
+      "export const use${1:Name} = createQuery<Response, Variables, AxiosError>({",
+      "  queryKey: ['${2:resource}'],",
+      "  fetcher: async () => {",
+      "    const { data } = await client.get<Response>('${2:resource}');",
+      "    return data;",
+      "  },",
+      "});",
+      ""
+    ],
+    "description": "react-query-kit createQuery"
+  },
+  "useQuery with variables (react-query-kit)": {
+    "prefix": "useqv",
+    "body": [
+      "import type { AxiosError } from 'axios';",
+      "import { createQuery } from 'react-query-kit';",
+      "",
+      "import { client } from '@/lib/api';",
+      "",
+      "type Variables = {",
+      "  ${3:id}: string;",
+      "};",
+      "type Response = ${4:unknown};",
+      "",
+      "export const use${1:Name} = createQuery<Response, Variables, AxiosError>({",
+      "  queryKey: ['${2:resource}'],",
+      "  fetcher: async (variables) => {",
+      "    const { data } = await client.get<Response>(",
+      "      `/${2:resource}/\\${variables.${3:id}}`,",
+      "    );",
+      "    return data;",
+      "  },",
+      "});",
+      ""
+    ],
+    "description": "react-query-kit createQuery with variables"
+  },
+  "useMutation (react-query-kit)": {
+    "prefix": "usem",
+    "body": [
+      "import type { AxiosError } from 'axios';",
+      "import { createMutation } from 'react-query-kit';",
+      "",
+      "import { client } from '@/lib/api';",
+      "",
+      "type Variables = {",
+      "  $3",
+      "};",
+      "type Response = ${4:unknown};",
+      "",
+      "export const use${1:Name} = createMutation<Response, Variables, AxiosError>({",
+      "  mutationFn: async (variables) => {",
+      "    const { data } = await client.post<Response>('${2:resource}', variables);",
+      "    return data;",
+      "  },",
+      "});",
+      ""
+    ],
+    "description": "react-query-kit createMutation"
+  },
+  "useInfiniteQuery (react-query-kit)": {
+    "prefix": "useiq",
+    "body": [
+      "import type { AxiosError } from 'axios';",
+      "import { createInfiniteQuery } from 'react-query-kit';",
+      "",
+      "import { client, DEFAULT_LIMIT, getNextPageParam } from '@/lib/api';",
+      "import type { PaginateQuery } from '@/lib/api';",
+      "",
+      "type Response = PaginateQuery<${3:unknown}>;",
+      "type Variables = void;",
+      "",
+      "export const use${1:Name} = createInfiniteQuery<Response, Variables, AxiosError>({",
+      "  queryKey: ['${2:resource}'],",
+      "  fetcher: async (_variables, { pageParam }) => {",
+      "    const { data } = await client.get<Response>('${2:resource}', {",
+      "      params: { limit: DEFAULT_LIMIT, offset: pageParam },",
+      "    });",
+      "    return data;",
+      "  },",
+      "  getNextPageParam,",
+      "  initialPageParam: 0,",
+      "});",
+      ""
+    ],
+    "description": "react-query-kit createInfiniteQuery"
+  },
+  "Scale helpers": {
+    "prefix": "scale",
+    "body": [
+      "import { ms, s, vs } from '@/common/utils/scale';",
+      "",
+      "const width = s(${1:16});",
+      "const height = vs(${2:16});",
+      "const font = ms(${3:14});",
+      "$0"
+    ],
+    "description": "Import s/vs/ms scaling helpers"
+  },
+  "Feature folder files": {
+    "prefix": "ffeature",
+    "body": [
+      "// Create next to this file:",
+      "// - index.tsx",
+      "// - styles.ts  (ustyles)",
+      "// - types.ts   (ctypes)",
+      "$0"
+    ],
+    "description": "Reminder for feature file layout"
+  }
+}

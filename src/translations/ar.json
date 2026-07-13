@@ -1,0 +1,75 @@
+{
+  "common": {
+    "close_modal": "إغلاق النافذة",
+    "close_modal_hint": "يغلق النافذة المنبثقة",
+    "empty_list": "عذراً! لا توجد بيانات",
+    "error": "خطأ",
+    "navigate": "تنقل",
+    "select_placeholder": "اختر...",
+    "something_went_wrong": "حدث خطأ ما"
+  },
+  "home": {
+    "subtitle": "يبدأ تطبيقك من هنا.",
+    "title": "الرئيسية"
+  },
+  "login": {
+    "button": "دخول",
+    "email": "البريد الإلكتروني",
+    "email_invalid": "صيغة البريد الإلكتروني غير صحيحة",
+    "email_required": "البريد الإلكتروني مطلوب",
+    "name": "الاسم",
+    "password": "كلمة المرور",
+    "password_min": "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
+    "password_placeholder": "***",
+    "password_required": "كلمة المرور مطلوبة",
+    "subtitle": "مرحباً! 👋 هذه شاشة تسجيل دخول تجريبية! يمكنك استخدام أي بريد إلكتروني وكلمة مرور للتجربة.",
+    "title": "تسجيل الدخول"
+  },
+  "not_found": {
+    "go_home": "العودة إلى الشاشة الرئيسية!",
+    "message": "هذه الشاشة غير موجودة.",
+    "title": "عذراً!"
+  },
+  "onboarding": {
+    "brand": "RN Starter",
+    "cta": "لنبدأ",
+    "feature_dx": "🥷 تجربة مطور + إنتاجية",
+    "feature_libs": "💪 مكتبات طرف ثالث محفوظة جيداً",
+    "feature_minimal": "🧩 كود وتبعيات قليلة",
+    "feature_production": "🚀 جاهز للإنتاج",
+    "message": "مرحبا بكم في RN Starter",
+    "tagline": "الطريقة الصحيحة لبناء تطبيقك للموبايل"
+  },
+  "settings": {
+    "about": "حول التطبيق",
+    "app_name": "اسم التطبيق",
+    "arabic": "عربي",
+    "english": "إنجليزي",
+    "generale": "عام",
+    "github": "جيثب",
+    "language": "لغة",
+    "links": "الروابط",
+    "logout": "تسجيل خروج",
+    "more": "أكثر",
+    "privacy": "سياسة الخصوصية",
+    "rate": "تقييم",
+    "share": "شارك",
+    "support": "الدعم",
+    "support_us": "ادعمنا",
+    "terms": "شروط الخدمة",
+    "theme": {
+      "dark": "مظلم 🌙",
+      "light": "فاتح 🌞",
+      "system": "النظام ⚙️",
+      "title": "سمة"
+    },
+    "title": "إعدادات",
+    "version": "إصدار",
+    "website": "موقع إلكتروني"
+  },
+  "tabs": {
+    "home": "الرئيسية",
+    "settings": "الإعدادات"
+  },
+  "welcome": "مرحبا بكم في RN Starter"
+}
