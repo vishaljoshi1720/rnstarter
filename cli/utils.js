@@ -41,6 +41,8 @@ const showMoreDetails = (projectName, { includeTests = true } = {}) => {
     '   iOS     :  pnpm ios\n',
     '   Android :  pnpm android\n',
     testHint,
+    '\n⚙️  Then set Expo owner + EAS project id in app.config.ts\n',
+    '   and EXPO_PUBLIC_API_URL in .env.local / EAS env.\n',
     '\n📦 Template: https://github.com/vishaljoshi1720/rnstarter',
   );
 };
