@@ -65,5 +65,8 @@ pnpm build:production:ios # EAS production build
 - ✅ **DO** use React Hook Form for forms
 - ✅ **DO** use MMKV storage for sensitive data (not AsyncStorage)
 - ✅ **DO** use EAS Build for production: `pnpm build:production:ios`
-- ✅ **DO** prefix env vars with `EXPO_PUBLIC_*` for app access
+- ✅ **DO** prefix client env vars with `EXPO_PUBLIC_*` (public in the bundle)
+- ✅ **DO** copy `.env.example` → `.env.local` for local overrides; use EAS env for preview/production
+- ✅ **DO** import typed config via `@env` — see `docs/environment.md`
+- ❌ **DO NOT** put private API keys in `EXPO_PUBLIC_*` or commit `.env.local`
 - ❌ **DO NOT** modify `android/` or `ios/` directly (use Expo config plugins)

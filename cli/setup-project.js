@@ -68,6 +68,13 @@ const updateProjectConfig = async (projectName) => {
     appConfig.replace(/vishaljoshi017/gi, 'expo-owner'),
   );
 
+  // Local env for the new app (gitignored via .env.*)
+  const envExamplePath = path.join(process.cwd(), `${projectName}/.env.example`);
+  const envLocalPath = path.join(process.cwd(), `${projectName}/.env.local`);
+  if (fs.existsSync(envExamplePath) && !fs.existsSync(envLocalPath)) {
+    fs.copySync(envExamplePath, envLocalPath);
+  }
+
   const readmeFilePath = path.join(
     process.cwd(),
     `${projectName}/README-project.md`,

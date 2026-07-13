@@ -53,7 +53,7 @@ src/
 └── translations/  # i18n (en, ar, …)
 ```
 
-Customize `env.ts` (name, bundle IDs, API URL) and `app.config.ts` (Expo owner, EAS project id).
+Customize `env.ts` (name, bundle IDs) and set `EXPO_PUBLIC_API_URL` via `.env.local` / EAS — see [docs/environment.md](./docs/environment.md). Also update `app.config.ts` (Expo owner, EAS project id).
 
 More detail: [docs/](./docs).
 
