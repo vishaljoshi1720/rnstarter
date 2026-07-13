@@ -26,4 +26,8 @@ expo-env.d.ts
 
 .cursor/
 .claude/
+
+# Env — never commit secrets. Keep .env.example tracked.
 .env
+.env.*
+!.env.example

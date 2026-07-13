@@ -36,6 +36,7 @@ module.exports = {
   coverageDirectory: '<rootDir>/coverage/',
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
+    '^@env$': '<rootDir>/env.ts',
     '\\.svg$': '<rootDir>/src/components/atoms/icon/__mocks__/svg-mock.tsx',
   },
 };

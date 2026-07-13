@@ -1,5 +1,6 @@
 /**
  * Production SVGO config for reusable React Native SVG icons.
+ * Used by Metro via `.svgrrc.js` (and optionally: `npx svgo --config svgo.config.js …`).
  * Keeps viewBox (needed for scaling) while stripping noise.
  */
 module.exports = {

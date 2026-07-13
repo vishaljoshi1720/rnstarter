@@ -40,11 +40,11 @@ export function SettingsScreen() {
           <SettingsContainer title="settings.about">
             <SettingsItem
               text="settings.app_name"
-              value={Env.EXPO_PUBLIC_NAME}
+              value={Env.NAME}
             />
             <SettingsItem
               text="settings.version"
-              value={Env.EXPO_PUBLIC_VERSION}
+              value={Env.VERSION}
             />
           </SettingsContainer>
 

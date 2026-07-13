@@ -2,87 +2,142 @@ import z from 'zod';
 
 import packageJSON from './package.json';
 
-// Single unified environment schema
-const envSchema = z.object({
-  EXPO_PUBLIC_APP_ENV: z.enum(['development', 'preview', 'production']),
-  EXPO_PUBLIC_NAME: z.string(),
-  EXPO_PUBLIC_SCHEME: z.string(),
-  EXPO_PUBLIC_BUNDLE_ID: z.string(),
-  EXPO_PUBLIC_PACKAGE: z.string(),
-  EXPO_PUBLIC_VERSION: z.string(),
-  EXPO_PUBLIC_API_URL: z.string().url(),
-  EXPO_PUBLIC_ASSOCIATED_DOMAIN: z.string().url().optional(),
-  EXPO_PUBLIC_VAR_NUMBER: z.number(),
-  EXPO_PUBLIC_VAR_BOOL: z.boolean(),
+/**
+ * Client-safe app config.
+ *
+ * Everything exported here ends up in the JS bundle — treat it as public.
+ * Never put private API keys, tokens, or passwords in EXPO_PUBLIC_* or here.
+ *
+ * Where values come from:
+ * - Product identity (NAME, bundle IDs, schemes) → constants in this file
+ * - EXPO_PUBLIC_* → `.env.local` / `.env` locally, EAS Environment Variables on builds
+ * - Missing API URL in development → DEFAULT_DEV_API_URL below
+ *
+ * Customize NAME / BUNDLE_IDS / PACKAGES / SCHEMES for your product.
+ * Set EXPO_PUBLIC_API_URL per environment before shipping.
+ *
+ * @see docs/environment.md
+ */
 
-  // only available for app.config.ts usage
-  APP_BUILD_ONLY_VAR: z.string().optional(),
+const APP_ENVS = ['development', 'preview', 'production'] as const;
+
+const clientEnvSchema = z.object({
+  APP_ENV: z.enum(APP_ENVS),
+  NAME: z.string().min(1),
+  SCHEME: z.string().min(1),
+  BUNDLE_ID: z.string().min(1),
+  PACKAGE: z.string().min(1),
+  VERSION: z.string().min(1),
+  /** Backend base URL — public, not a secret */
+  API_URL: z.string().url(),
+  /** Optional https origin for Universal Links / App Links */
+  ASSOCIATED_DOMAIN: z.string().url().optional(),
 });
 
-// Config records per environment
-const EXPO_PUBLIC_APP_ENV = (process.env.EXPO_PUBLIC_APP_ENV
-  ?? 'development') as z.infer<typeof envSchema>['EXPO_PUBLIC_APP_ENV'];
+export type ClientEnv = z.infer<typeof clientEnvSchema>;
+
+type AppEnv = ClientEnv['APP_ENV'];
+
+// ─── Product identity (edit these) ───────────────────────────────────────────
+
+const NAME = 'RN Starter';
 
 const BUNDLE_IDS = {
   development: 'com.rnstarter.development',
   preview: 'com.rnstarter.preview',
   production: 'com.rnstarter',
-} as const;
+} as const satisfies Record<AppEnv, string>;
 
 const PACKAGES = {
   development: 'com.rnstarter.development',
   preview: 'com.rnstarter.preview',
   production: 'com.rnstarter',
-} as const;
+} as const satisfies Record<AppEnv, string>;
 
 const SCHEMES = {
   development: 'rnstarter',
   preview: 'rnstarter.preview',
   production: 'rnstarter',
-} as const;
+} as const satisfies Record<AppEnv, string>;
 
-const NAME = 'RN Starter';
+/** Used only when APP_ENV=development and EXPO_PUBLIC_API_URL is unset */
+const DEFAULT_DEV_API_URL = 'http://127.0.0.1:3000';
 
-// Check if strict validation is required (before prebuild)
-const STRICT_ENV_VALIDATION = process.env.STRICT_ENV_VALIDATION === '1';
+// ─── Resolve ─────────────────────────────────────────────────────────────────
 
-// Build env object
-const _env: z.infer<typeof envSchema> = {
-  EXPO_PUBLIC_APP_ENV,
-  EXPO_PUBLIC_NAME: NAME,
-  EXPO_PUBLIC_SCHEME: SCHEMES[EXPO_PUBLIC_APP_ENV],
-  EXPO_PUBLIC_BUNDLE_ID: BUNDLE_IDS[EXPO_PUBLIC_APP_ENV],
-  EXPO_PUBLIC_PACKAGE: PACKAGES[EXPO_PUBLIC_APP_ENV],
-  EXPO_PUBLIC_VERSION: packageJSON.version,
-  EXPO_PUBLIC_API_URL: process.env.EXPO_PUBLIC_API_URL ?? '',
-  EXPO_PUBLIC_ASSOCIATED_DOMAIN: process.env.EXPO_PUBLIC_ASSOCIATED_DOMAIN,
-  EXPO_PUBLIC_VAR_NUMBER: Number(process.env.EXPO_PUBLIC_VAR_NUMBER ?? 0),
-  EXPO_PUBLIC_VAR_BOOL: process.env.EXPO_PUBLIC_VAR_BOOL === 'true',
-  APP_BUILD_ONLY_VAR: process.env.APP_BUILD_ONLY_VAR,
-};
-
-function getValidatedEnv(env: z.infer<typeof envSchema>) {
-  const parsed = envSchema.safeParse(env);
-
-  if (parsed.success === false) {
-    const errorMessage
-      = `❌ Invalid environment variables:${
-        JSON.stringify(parsed.error.flatten().fieldErrors, null, 2)
-      }\n❌ Missing variables in .env file for APP_ENV=${EXPO_PUBLIC_APP_ENV}`
-      + `\n💡 Tip: If you recently updated the .env file, try restarting with -c flag to clear the cache.`;
-
-    if (STRICT_ENV_VALIDATION) {
-      console.error(errorMessage);
-      throw new Error('Invalid environment variables');
-    }
+function resolveAppEnv(): AppEnv {
+  const value = process.env.EXPO_PUBLIC_APP_ENV ?? 'development';
+  if (!(APP_ENVS as readonly string[]).includes(value)) {
+    throw new Error(
+      `Invalid EXPO_PUBLIC_APP_ENV="${value}". Expected: ${APP_ENVS.join(', ')}`,
+    );
   }
-  else {
-    console.log('✅ Environment variables validated successfully');
-  }
-
-  return parsed.success ? parsed.data : env;
+  return value as AppEnv;
 }
 
-const Env = STRICT_ENV_VALIDATION ? getValidatedEnv(_env) : _env;
+function resolveApiUrl(appEnv: AppEnv): string {
+  const fromEnv = process.env.EXPO_PUBLIC_API_URL;
+  if (fromEnv && fromEnv.length > 0) {
+    return fromEnv;
+  }
+  if (appEnv === 'development') {
+    return DEFAULT_DEV_API_URL;
+  }
+  // preview / production must set this via EAS or .env
+  return '';
+}
+
+function resolveAssociatedDomain(): string | undefined {
+  const value = process.env.EXPO_PUBLIC_ASSOCIATED_DOMAIN;
+  return value && value.length > 0 ? value : undefined;
+}
+
+const APP_ENV = resolveAppEnv();
+
+const shouldEnforce
+  = process.env.STRICT_ENV_VALIDATION === '1'
+    || APP_ENV === 'preview'
+    || APP_ENV === 'production';
+
+const rawEnv: ClientEnv = {
+  APP_ENV,
+  NAME,
+  SCHEME: SCHEMES[APP_ENV],
+  BUNDLE_ID: BUNDLE_IDS[APP_ENV],
+  PACKAGE: PACKAGES[APP_ENV],
+  VERSION: packageJSON.version,
+  API_URL: resolveApiUrl(APP_ENV),
+  ASSOCIATED_DOMAIN: resolveAssociatedDomain(),
+};
+
+function getValidatedEnv(env: ClientEnv): ClientEnv {
+  const parsed = clientEnvSchema.safeParse(env);
+
+  if (!parsed.success) {
+    const message
+      = `Invalid environment variables:\n${
+        JSON.stringify(parsed.error.flatten().fieldErrors, null, 2)
+      }\n\nFix:\n`
+      + `  • Local: copy .env.example → .env.local and set EXPO_PUBLIC_API_URL\n`
+      + `  • EAS:   eas env:create --name EXPO_PUBLIC_API_URL --environment ${APP_ENV} …\n`
+      + `See README (Environment) or docs/environment.md`;
+
+    if (shouldEnforce) {
+      console.error(message);
+      throw new Error('Invalid environment variables');
+    }
+
+    console.warn(message);
+    return env;
+  }
+
+  return parsed.data;
+}
+
+const Env = getValidatedEnv(rawEnv);
 
 export default Env;
+
+export const isDevelopment = Env.APP_ENV === 'development';
+export const isPreview = Env.APP_ENV === 'preview';
+export const isProduction = Env.APP_ENV === 'production';
