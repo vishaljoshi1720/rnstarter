@@ -63,9 +63,17 @@ const updateProjectConfig = async (projectName) => {
 
   const appConfigPath = path.join(process.cwd(), `${projectName}/app.config.ts`);
   const appConfig = fs.readFileSync(appConfigPath, { encoding: 'utf-8' });
+  const slug = projectName.toLowerCase().replace(/[^a-z0-9-]/g, '-');
   fs.writeFileSync(
     appConfigPath,
-    appConfig.replace(/vishaljoshi017/gi, 'expo-owner'),
+    appConfig
+      // Strip template owner / EAS project so scaffolds never inherit them
+      .replace(/vishaljoshi017/gi, 'expo-owner')
+      .replace(
+        /41618b0c-0eeb-4547-9494-056d1f89447a/gi,
+        'your-eas-project-id',
+      )
+      .replace(/slug:\s*'rnstarter'/g, `slug: '${slug}'`),
   );
 
   // Local env for the new app (gitignored via .env.*)
