@@ -3,9 +3,9 @@
  * Interactive device picker for `pnpm ios:device` / `pnpm android:device`.
  * Lists available simulators/emulators/physical devices, then runs Expo.
  */
-import { spawn, execSync } from 'node:child_process';
-import { createInterface } from 'node:readline/promises';
+import { execSync, spawn } from 'node:child_process';
 import { stdin as input, stdout as output } from 'node:process';
+import { createInterface } from 'node:readline/promises';
 
 const platform = process.argv[2];
 
@@ -143,7 +143,7 @@ async function main() {
 
   const args = [
     'expo',
-    'run:' + platform,
+    `run:${platform}`,
     '--device',
     selected.target,
   ];
