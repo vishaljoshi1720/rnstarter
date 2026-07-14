@@ -16,12 +16,11 @@ import * as React from 'react';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
 import { Path, Svg } from 'react-native-svg';
-import { s, vs } from '@/common/utils/scale';
 import { Pressable } from '@/components/atoms/pressable';
 import { Text } from '@/components/atoms/text';
 import { View } from '@/components/atoms/view';
 import { translate } from '@/lib/i18n';
-import { useAppTheme } from '@/theme';
+import { useTheme } from '@/theme';
 import { styles } from './styles';
 
 export type { CloseButtonProps, ModalHeaderProps, ModalProps } from './types';
@@ -78,13 +77,13 @@ const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 function CustomBackdrop({ style }: BottomSheetBackdropProps) {
   const { close } = useBottomSheet();
-  const { theme } = useAppTheme();
+  const { theme } = useTheme();
   return (
     <AnimatedPressable
       onPress={() => close()}
       entering={FadeIn.duration(50)}
       exiting={FadeOut.duration(20)}
-      style={[style, { backgroundColor: theme.colors.modalBackdrop }]}
+      style={[style, { backgroundColor: theme.colors.overlay.backdrop }]}
     />
   );
 }
@@ -105,7 +104,7 @@ function getDetachedProps(detached: boolean) {
 }
 
 const ModalHeader = React.memo(({ title, dismiss }: ModalHeaderProps) => {
-  const { theme } = useAppTheme();
+  const { theme } = useTheme();
   return (
     <>
       {title && (
@@ -116,25 +115,25 @@ const ModalHeader = React.memo(({ title, dismiss }: ModalHeaderProps) => {
           </View>
         </View>
       )}
-      <CloseButton close={dismiss} fill={theme.colors.closeIconFill} />
+      <CloseButton close={dismiss} fill={theme.colors.icon.default} />
     </>
   );
 });
 
 function CloseButton({ close, fill }: CloseButtonProps) {
-  const { theme } = useAppTheme();
+  const { theme } = useTheme();
   return (
     <Pressable
       onPress={close}
       style={styles.closeButton}
-      hitSlop={{ top: vs(20), bottom: vs(20), left: s(20), right: s(20) }}
+      hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
       accessibilityLabel={translate('common.close_modal')}
       accessibilityRole="button"
       accessibilityHint={translate('common.close_modal_hint')}
     >
       <Svg
-        width={theme.size.md}
-        height={theme.size.md}
+        width={theme.icon.md}
+        height={theme.icon.md}
         fill={fill}
         viewBox="0 0 24 24"
       >

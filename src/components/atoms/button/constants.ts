@@ -30,7 +30,7 @@ export const VARIANT_CONFIG: Record<ButtonVariant, VariantConfig> = {
     containerStyle: styles.variantSecondary,
     labelStyle: styles.labelSecondary,
     indicatorColor: styles.labelSecondary.color as string,
-    rippleColor: 'rgba(0, 0, 0, 0.1)',
+    rippleColor: 'rgba(255, 255, 255, 0.2)',
   },
   outline: {
     containerStyle: styles.variantOutline,

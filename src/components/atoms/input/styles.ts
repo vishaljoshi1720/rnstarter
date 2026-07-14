@@ -1,34 +1,30 @@
 import { StyleSheet } from 'react-native-unistyles';
 
-import { ms } from '@/common/utils/scale';
-
 export const styles = StyleSheet.create(theme => ({
-  container: { marginBottom: theme.marginY.sm },
+  container: { marginBottom: theme.spacing.sm },
   label: {
-    fontFamily: theme.fontFamily.sans,
-    fontSize: theme.fontSize.lg,
-    marginBottom: theme.marginY.xs,
-    color: theme.colors.labelText,
+    ...theme.typography.labelLarge,
+    marginBottom: theme.spacing.xs,
+    color: theme.colors.text.primary,
   },
-  labelError: { color: theme.colors.danger600 },
+  labelError: { color: theme.colors.status.error },
   input: {
-    fontFamily: theme.fontFamily.sans,
+    fontSize: theme.typography.bodyMedium.fontSize,
+    fontWeight: theme.typography.bodyMedium.fontWeight,
+    fontFamily: theme.typography.bodyMedium.fontFamily,
     borderRadius: theme.radius.lg,
     borderWidth: theme.borderWidth.hairline,
-    borderColor: theme.colors.inputBorder,
-    backgroundColor: theme.colors.inputBg,
-    paddingHorizontal: theme.paddingX.lg,
-    paddingVertical: theme.paddingY.md,
-    fontSize: theme.fontSize.md,
-    lineHeight: ms(20),
-    fontWeight: theme.fontWeight.medium,
-    color: theme.colors.inputText,
+    borderColor: theme.colors.border.default,
+    backgroundColor: theme.colors.surface.default,
+    paddingHorizontal: theme.spacing.lg,
+    paddingVertical: theme.spacing.lg,
+    color: theme.colors.text.primary,
   },
-  inputFocused: { borderColor: theme.colors.inputFocusBorder },
-  inputError: { borderColor: theme.colors.danger600 },
-  inputDisabled: { backgroundColor: theme.colors.neutral200 },
+  inputFocused: { borderColor: theme.colors.border.focus },
+  inputError: { borderColor: theme.colors.status.error },
+  inputDisabled: { backgroundColor: theme.colors.background.tertiary },
   errorText: {
-    fontSize: theme.fontSize.sm,
-    color: theme.colors.danger400,
+    ...theme.typography.bodySmall,
+    color: theme.colors.status.error,
   },
 }));

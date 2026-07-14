@@ -2,20 +2,39 @@ import { StyleSheet } from 'react-native-unistyles';
 
 export const styles = StyleSheet.create(theme => ({
   row: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: theme.paddingX.lg,
-    paddingVertical: theme.paddingY.sm,
+    paddingHorizontal: theme.spacing.lg,
+    paddingVertical: theme.spacing.lg,
+    borderBottomWidth: theme.borderWidth.thin,
+    borderBottomColor: theme.colors.border.default,
   },
-  left: { flexDirection: 'row', alignItems: 'center' },
-  iconWrap: { paddingRight: theme.paddingX.sm },
-  right: { flexDirection: 'row', alignItems: 'center' },
+  left: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: theme.spacing.md,
+    flex: 1,
+  },
+  iconWrap: {
+    width: theme.icon.lg,
+    height: theme.icon.lg,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  right: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: theme.spacing.sm,
+  },
   valueText: {
-    color: theme.colors.settingsValueText,
-    fontFamily: theme.fontFamily.sans,
-    fontSize: theme.fontSize.md,
+    ...theme.typography.bodyMedium,
+    color: theme.colors.text.secondary,
   },
-  arrowWrap: { paddingLeft: theme.paddingX.sm },
+  arrowWrap: {
+    width: theme.icon.md,
+    height: theme.icon.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 }));

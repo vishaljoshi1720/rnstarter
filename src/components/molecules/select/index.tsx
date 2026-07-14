@@ -9,14 +9,13 @@ import * as React from 'react';
 import { Platform } from 'react-native';
 
 import Svg, { Path } from 'react-native-svg';
-import { s, vs } from '@/common/utils/scale';
 import { Icon } from '@/components/atoms/icon';
 import { Pressable } from '@/components/atoms/pressable';
 import { Text } from '@/components/atoms/text';
 import { View } from '@/components/atoms/view';
 import { Modal, useModal } from '@/components/organisms/modal';
 import { translate } from '@/lib/i18n';
-import { useAppTheme } from '@/theme';
+import { useTheme } from '@/theme';
 import { styles } from './styles';
 
 export type { OptionsProps, OptionType, SelectProps } from './types';
@@ -30,8 +29,7 @@ function keyExtractor(item: OptionType) {
 export function Options({ ref, options, onSelect, value, testID }: OptionsProps & { ref?: React.RefObject<BottomSheetModal | null> }) {
   const height = options.length * 70 + 100;
   const snapPoints = React.useMemo(() => [height], [height]);
-  const { theme } = useAppTheme();
-  const isDark = theme.colors.isDark;
+  const { theme } = useTheme();
 
   const renderSelectItem = React.useCallback(
     ({ item }: { item: OptionType }) => (
@@ -52,7 +50,7 @@ export function Options({ ref, options, onSelect, value, testID }: OptionsProps 
       index={0}
       snapPoints={snapPoints}
       backgroundStyle={{
-        backgroundColor: isDark ? theme.colors.neutral800 : theme.colors.white,
+        backgroundColor: theme.colors.surface.default,
       }}
     >
       <List
@@ -158,15 +156,15 @@ export function Select(props: SelectProps) {
 }
 
 function Check({ ...props }: SvgProps) {
-  const { theme } = useAppTheme();
+  const { theme } = useTheme();
   return (
     <Svg
-      width={s(25)}
-      height={vs(24)}
+      width={25}
+      height={24}
       fill="none"
       viewBox="0 0 25 24"
       {...props}
-      stroke={theme.colors.bodyText}
+      stroke={theme.colors.text.primary}
     >
       <Path
         d="m20.256 6.75-10.5 10.5L4.506 12"

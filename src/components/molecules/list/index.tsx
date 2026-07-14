@@ -6,7 +6,6 @@ import Svg, { Circle, Path } from 'react-native-svg';
 import { ActivityIndicator } from '@/components/atoms/activity-indicator';
 import { Text } from '@/components/atoms/text';
 import { View } from '@/components/atoms/view';
-import { useAppTheme } from '@/theme';
 import { styles } from './styles';
 
 export type { EmptyListProps } from './types';
@@ -31,8 +30,7 @@ export const EmptyList = React.memo(({ isLoading }: EmptyListProps) => {
 });
 
 export function NoData() {
-  const { theme } = useAppTheme();
-  const side = theme.size.emptyIllustration;
+  const side = 200;
 
   return (
     <Svg width={side} height={side} viewBox="0 0 647.636 632.174">
