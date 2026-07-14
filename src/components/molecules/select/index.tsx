@@ -11,7 +11,7 @@ import { Platform } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { Icon } from '@/components/atoms/icon';
 import { Pressable } from '@/components/atoms/pressable';
-import { Text } from '@/components/atoms/text';
+import { AppText } from '@/components/atoms/text';
 import { View } from '@/components/atoms/view';
 import { Modal, useModal } from '@/components/organisms/modal';
 import { translate } from '@/lib/i18n';
@@ -72,7 +72,7 @@ const Option = React.memo(
   }: SelectOptionItemProps) => {
     return (
       <Pressable style={styles.optionRow} {...props}>
-        <Text style={styles.optionLabel}>{label}</Text>
+        <AppText variant="bodyMedium" style={styles.optionLabel}>{label}</AppText>
         {selected && <Check />}
       </Pressable>
     );
@@ -112,12 +112,14 @@ export function Select(props: SelectProps) {
     <>
       <View style={styles.container}>
         {label && (
-          <Text
+          <AppText
             testID={testID ? `${testID}-label` : undefined}
-            style={[styles.label, Boolean(error) && styles.labelError]}
+            variant="labelLarge"
+            color={error ? 'error' : 'primary'}
+            style={styles.label}
           >
             {label}
-          </Text>
+          </AppText>
         )}
         <Pressable
           style={[
@@ -130,19 +132,20 @@ export function Select(props: SelectProps) {
           testID={testID ? `${testID}-trigger` : undefined}
         >
           <View style={styles.triggerContent}>
-            <Text style={[styles.triggerValue, Boolean(error) && styles.triggerValueError]}>
+            <AppText color={error ? 'error' : 'primary'}>
               {textValue}
-            </Text>
+            </AppText>
           </View>
           <Icon name="caret-down" />
         </Pressable>
         {error && (
-          <Text
+          <AppText
             testID={`${testID}-error`}
-            style={styles.errorText}
+            variant="bodySmall"
+            color="error"
           >
             {error}
-          </Text>
+          </AppText>
         )}
       </View>
       <Options

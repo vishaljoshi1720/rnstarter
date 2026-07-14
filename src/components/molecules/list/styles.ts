@@ -10,7 +10,5 @@ export const styles = StyleSheet.create(theme => ({
   emptyText: {
     paddingTop: theme.spacing.lg,
     textAlign: 'center',
-    ...theme.typography.bodyMedium,
-    color: theme.colors.text.secondary,
   },
 }));

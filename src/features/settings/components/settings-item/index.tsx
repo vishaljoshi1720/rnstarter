@@ -1,7 +1,7 @@
 import type { SettingsItemProps } from './types';
 
 import * as React from 'react';
-import { Pressable, Text, View } from '@/components';
+import { AppText, Pressable, View } from '@/components';
 import { Icon } from '@/components/atoms/icon';
 import { translate } from '@/lib/i18n';
 import { styles } from './styles';
@@ -19,10 +19,10 @@ export function SettingsItem({ text, value, icon, onPress }: SettingsItemProps) 
     >
       <View style={styles.left}>
         {icon && <View style={styles.iconWrap}>{icon}</View>}
-        <Text tx={text} />
+        <AppText tx={text} />
       </View>
       <View style={styles.right}>
-        <Text style={styles.valueText}>{value}</Text>
+        <AppText color="secondary">{value}</AppText>
         {isPressable && (
           <View style={styles.arrowWrap}>
             <Icon name="arrow-right" accessibilityLabel={translate('common.navigate')} />

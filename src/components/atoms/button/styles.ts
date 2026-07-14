@@ -14,8 +14,8 @@ export const styles = StyleSheet.create(theme => ({
   variantDefault: { backgroundColor: theme.colors.brand.primary },
   variantSecondary: { backgroundColor: theme.colors.brand.secondary },
   variantOutline: {
-    backgroundColor: theme.colors.surface.default,
-    borderWidth: theme.borderWidth.thin,
+    backgroundColor: 'transparent',
+    borderWidth: theme.borderWidth.medium,
     borderColor: theme.colors.border.default,
   },
   variantDestructive: { backgroundColor: theme.colors.status.error },
@@ -53,14 +53,6 @@ export const styles = StyleSheet.create(theme => ({
   label: {
     ...theme.typography.labelMedium,
   },
-  labelDefault: { color: theme.colors.text.inverse },
-  labelSecondary: { color: theme.colors.text.inverse },
-  labelOutline: { color: theme.colors.text.primary },
-  labelDestructive: { color: theme.colors.text.inverse },
-  labelGhost: { color: theme.colors.text.primary },
-  labelLink: { color: theme.colors.text.link },
-  labelDisabled: { color: theme.colors.text.disabled },
   labelLg: { ...theme.typography.labelLarge },
   labelSm: { ...theme.typography.labelSmall },
-  indicatorDisabled: { color: theme.colors.icon.muted },
 }));

@@ -1,4 +1,3 @@
-import type { TextStyle } from 'react-native';
 import type { IconProps, LabelProps, RootProps } from './types';
 import * as React from 'react';
 import { useCallback } from 'react';
@@ -7,7 +6,7 @@ import Svg, { Path } from 'react-native-svg';
 
 import { MotiView } from '@/components/atoms/moti-view';
 import { Pressable } from '@/components/atoms/pressable';
-import { Text } from '@/components/atoms/text';
+import { AppText } from '@/components/atoms/text';
 import { View } from '@/components/atoms/view';
 import { useTheme } from '@/theme';
 import { styles } from './styles';
@@ -45,9 +44,9 @@ export function Root({
 
 function Label({ text, testID, style }: LabelProps) {
   return (
-    <Text testID={testID} style={[styles.label as TextStyle, style]}>
+    <AppText testID={testID} variant="bodyLarge" style={style}>
       {text}
-    </Text>
+    </AppText>
   );
 }
 
@@ -78,7 +77,7 @@ export function CheckboxIcon({ checked = false }: IconProps) {
         <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
           <Path
             d="m16.726 7-.64.633c-2.207 2.212-3.878 4.047-5.955 6.158l-2.28-1.928-.69-.584L6 12.66l.683.577 2.928 2.477.633.535.591-.584c2.421-2.426 4.148-4.367 6.532-6.756l.633-.64L16.726 7Z"
-            fill={theme.colors.text.inverse}
+            fill={theme.colors.text.onBrand}
           />
         </Svg>
       </MotiView>
@@ -108,7 +107,6 @@ function CheckboxBase({
             <Label
               text={label}
               testID={testID ? `${testID}-label` : undefined}
-              style={styles.labelEnd}
             />
           )
         : null}

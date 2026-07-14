@@ -5,7 +5,6 @@ import { ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
 import FlashMessage from 'react-native-flash-message';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
@@ -13,6 +12,7 @@ import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
+import { StyleSheet } from 'react-native-unistyles';
 import { loadSelectedTheme } from '@/common/hooks';
 import { useThemeConfig } from '@/components/lib/use-theme-config';
 
@@ -71,7 +71,7 @@ function Providers({
   return (
     <GestureHandlerRootView
       onLayout={onLayout}
-      style={styles.container}
+      style={styles.root}
     >
       <SafeAreaProvider>
         <KeyboardProvider>
@@ -95,8 +95,9 @@ function FlashMessageHost() {
   return <FlashMessage position="top" statusBarHeight={insets.top} />;
 }
 
-const styles = StyleSheet.create({
-  container: {
+const styles = StyleSheet.create(theme => ({
+  root: {
     flex: 1,
+    backgroundColor: theme.colors.background.primary,
   },
-});
+}));

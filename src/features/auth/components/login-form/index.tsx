@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
-import { Button, Input, Text, View } from '@/components';
+import { AppText, Button, Input, View } from '@/components';
 import { translate } from '@/lib/i18n';
 import { schema } from './constants';
 import { styles } from './styles';
@@ -33,12 +33,18 @@ export function LoginForm({ onSubmit = () => {} }: LoginFormProps) {
     >
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text
+          <AppText
             testID="form-title"
+            variant="displaySmall"
             style={styles.title}
             tx="login.title"
           />
-          <Text style={styles.subtitle} tx="login.subtitle" />
+          <AppText
+            variant="bodyLarge"
+            color="secondary"
+            style={styles.subtitle}
+            tx="login.subtitle"
+          />
         </View>
 
         <Controller
@@ -93,6 +99,7 @@ export function LoginForm({ onSubmit = () => {} }: LoginFormProps) {
           label={translate('login.button')}
           onPress={handleSubmit(onSubmit)}
           loading={isSubmitting}
+          variant="outline"
         />
       </View>
     </KeyboardAvoidingView>

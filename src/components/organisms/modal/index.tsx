@@ -17,7 +17,7 @@ import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
 import { Path, Svg } from 'react-native-svg';
 import { Pressable } from '@/components/atoms/pressable';
-import { Text } from '@/components/atoms/text';
+import { AppText } from '@/components/atoms/text';
 import { View } from '@/components/atoms/view';
 import { translate } from '@/lib/i18n';
 import { useTheme } from '@/theme';
@@ -36,12 +36,20 @@ export function useModal() {
   return { ref, present, dismiss };
 }
 
-export function Modal({ ref, snapPoints: _snapPoints = ['60%'] as (string | number)[], title, detached = false, ...props }: ModalProps & { ref?: ModalRef }) {
+export function Modal({
+  ref,
+  snapPoints: _snapPoints = ['60%'] as (string | number)[],
+  title,
+  detached = false,
+  backgroundStyle,
+  ...props
+}: ModalProps & { ref?: ModalRef }) {
   const detachedProps = React.useMemo(
     () => getDetachedProps(detached),
     [detached],
   );
   const modal = useModal();
+  const { theme } = useTheme();
   const snapPoints = React.useMemo(() => _snapPoints, [_snapPoints]);
 
   React.useImperativeHandle(
@@ -69,6 +77,11 @@ export function Modal({ ref, snapPoints: _snapPoints = ['60%'] as (string | numb
       backdropComponent={props.backdropComponent || renderBackdrop}
       enableDynamicSizing={false}
       handleComponent={renderHandleComponent}
+      backgroundStyle={[
+        { backgroundColor: theme.colors.surface.default },
+        backgroundStyle,
+      ]}
+      handleIndicatorStyle={{ backgroundColor: theme.colors.border.default }}
     />
   );
 }
@@ -111,7 +124,7 @@ const ModalHeader = React.memo(({ title, dismiss }: ModalHeaderProps) => {
         <View style={styles.headerRow}>
           <View style={styles.headerSpacer} />
           <View style={styles.headerTitleWrap}>
-            <Text style={styles.headerTitle}>{title}</Text>
+            <AppText variant="titleMedium" style={styles.headerTitle}>{title}</AppText>
           </View>
         </View>
       )}

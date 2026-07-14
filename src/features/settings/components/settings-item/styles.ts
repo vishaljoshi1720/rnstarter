@@ -9,12 +9,14 @@ export const styles = StyleSheet.create(theme => ({
     paddingVertical: theme.spacing.lg,
     borderBottomWidth: theme.borderWidth.thin,
     borderBottomColor: theme.colors.border.default,
+    minHeight: theme.size.button.lg + theme.spacing.md,
   },
   left: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: theme.spacing.md,
     flex: 1,
+    paddingRight: theme.spacing.md,
   },
   iconWrap: {
     width: theme.icon.lg,
@@ -26,10 +28,6 @@ export const styles = StyleSheet.create(theme => ({
     flexDirection: 'row',
     alignItems: 'center',
     gap: theme.spacing.sm,
-  },
-  valueText: {
-    ...theme.typography.bodyMedium,
-    color: theme.colors.text.secondary,
   },
   arrowWrap: {
     width: theme.icon.md,

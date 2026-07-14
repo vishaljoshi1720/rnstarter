@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
 
+import { AppText } from '@/components';
 import { cleanup, render, screen, setup } from '@/lib/test-utils';
 
 import { Button } from '..';
@@ -15,7 +16,7 @@ describe('button component ', () => {
   it('should render correctly if we add explicit child ', () => {
     render(
       <Button testID="button">
-        <Text> Custom child </Text>
+        <AppText> Custom child </AppText>
       </Button>,
     );
     expect(screen.getByText('Custom child')).toBeOnTheScreen();

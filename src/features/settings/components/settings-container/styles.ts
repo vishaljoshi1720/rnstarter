@@ -7,12 +7,12 @@ export const styles = StyleSheet.create(theme => ({
     borderWidth: theme.borderWidth.thin,
     borderColor: theme.colors.border.default,
     overflow: 'hidden',
-    marginBottom: theme.spacing.lg,
+    marginBottom: theme.spacing.xl,
   },
   title: {
-    ...theme.typography.labelLarge,
-    color: theme.colors.text.secondary,
     marginBottom: theme.spacing.sm,
+    marginHorizontal: theme.spacing.xs,
     textTransform: 'uppercase',
+    letterSpacing: 0.6,
   },
 }));

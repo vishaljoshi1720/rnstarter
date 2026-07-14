@@ -1,28 +1,29 @@
 import { StyleSheet } from 'react-native-unistyles';
 
 export const styles = StyleSheet.create(theme => ({
-  keyboard: { flex: 1 },
+  keyboard: {
+    flex: 1,
+    backgroundColor: theme.colors.background.primary,
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
-    paddingHorizontal: theme.spacing.lg,
-    paddingVertical: theme.spacing.lg,
+    paddingHorizontal: theme.spacing.xl,
+    paddingVertical: theme.spacing['2xl'],
+    gap: theme.spacing.sm,
   },
   header: {
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: theme.spacing.lg,
   },
   title: {
-    paddingBottom: theme.spacing.xl,
+    paddingBottom: theme.spacing.md,
     textAlign: 'center',
-    ...theme.typography.displaySmall,
-    color: theme.colors.text.primary,
   },
   subtitle: {
     marginBottom: theme.spacing.xl,
     maxWidth: 320,
     textAlign: 'center',
-    ...theme.typography.bodyLarge,
-    color: theme.colors.text.secondary,
   },
 }));

@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { I18nManager, TextInput as RNTextInput, StyleSheet } from 'react-native';
 import { useTheme } from '@/theme';
-import { Text } from '../text';
+import { AppText } from '../text';
 import { View } from '../view';
 import { styles } from './styles';
 
@@ -33,6 +33,7 @@ export function Input({ ref, ...props }: InputProps & { ref?: React.Ref<NTextInp
 
   const inputStyle = [
     styles.input,
+    { color: theme.colors.text.primary },
     isFocussed && styles.inputFocused,
     Boolean(error) && styles.inputError,
     Boolean(props.disabled) && styles.inputDisabled,
@@ -46,12 +47,14 @@ export function Input({ ref, ...props }: InputProps & { ref?: React.Ref<NTextInp
   return (
     <View style={styles.container}>
       {label && (
-        <Text
+        <AppText
           testID={testID ? `${testID}-label` : undefined}
-          style={[styles.label, Boolean(error) && styles.labelError]}
+          variant="labelLarge"
+          color={error ? 'error' : 'primary'}
+          style={styles.label}
         >
           {label}
-        </Text>
+        </AppText>
       )}
       <RNTextInput
         testID={testID}
@@ -63,12 +66,13 @@ export function Input({ ref, ...props }: InputProps & { ref?: React.Ref<NTextInp
         {...inputProps}
       />
       {error && (
-        <Text
+        <AppText
           testID={testID ? `${testID}-error` : undefined}
-          style={styles.errorText}
+          variant="bodySmall"
+          color="error"
         >
           {error}
-        </Text>
+        </AppText>
       )}
     </View>
   );

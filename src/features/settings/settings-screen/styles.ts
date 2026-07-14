@@ -2,16 +2,14 @@ import { StyleSheet } from 'react-native-unistyles';
 
 export const styles = StyleSheet.create(theme => ({
   container: {
-    paddingHorizontal: theme.spacing.lg,
-    paddingTop: theme.spacing['3xl'],
-    paddingBottom: theme.spacing['2xl'],
+    paddingHorizontal: theme.spacing.xl,
+    paddingTop: theme.spacing['2xl'],
+    paddingBottom: theme.spacing['3xl'],
   },
   title: {
-    ...theme.typography.displaySmall,
-    color: theme.colors.text.primary,
-    marginBottom: theme.spacing.xl,
+    marginBottom: theme.spacing['2xl'],
   },
   logoutContainer: {
-    marginVertical: theme.spacing['2xl'],
+    marginTop: theme.spacing.xl,
   },
 }));

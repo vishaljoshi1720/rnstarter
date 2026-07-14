@@ -29,6 +29,10 @@ export const lightSemantic = {
     tertiary: primitive.neutral500,
     disabled: primitive.neutral400,
     inverse: primitive.white,
+    /** Dark text on brand yellow (primary CTA) — same in light/dark */
+    onBrand: primitive.neutral900,
+    /** Light text on crimson / error / solid accents — same in light/dark */
+    onAccent: primitive.white,
     link: primitive.info600,
   },
 
@@ -86,35 +90,39 @@ export const darkSemantic = {
     tertiary: primitive.neutral800,
   },
 
-  // Surface colors (cards, containers, elevated elements)
+  // Surface colors (cards, containers, elevated elements) — lift above bg for contrast
   surface: {
-    default: primitive.neutral900,
-    elevated: primitive.neutral800,
+    default: primitive.neutral800,
+    elevated: primitive.neutral700,
     overlay: primitive.neutral800,
   },
 
-  // Text colors
+  // Text colors — high contrast on dark surfaces
   text: {
     primary: primitive.neutral50,
-    secondary: primitive.neutral300,
+    secondary: primitive.neutral200,
     tertiary: primitive.neutral400,
-    disabled: primitive.neutral600,
-    inverse: primitive.neutral900,
-    link: primitive.info400,
+    disabled: primitive.neutral500,
+    inverse: primitive.neutral950,
+    /** Dark text on brand yellow (primary CTA) — same in light/dark */
+    onBrand: primitive.neutral900,
+    /** Light text on crimson / error / solid accents — same in light/dark */
+    onAccent: primitive.white,
+    link: primitive.info300,
   },
 
   // Border colors
   border: {
-    default: primitive.neutral700,
-    focus: primitive.neutral600,
-    error: primitive.error500,
-    disabled: primitive.neutral800,
+    default: primitive.neutral600,
+    focus: primitive.neutral400,
+    error: primitive.error400,
+    disabled: primitive.neutral700,
   },
 
   // Icon colors
   icon: {
     default: primitive.neutral200,
-    muted: primitive.neutral500,
+    muted: primitive.neutral400,
     inverse: primitive.neutral900,
     brand: primitive.primary400,
   },

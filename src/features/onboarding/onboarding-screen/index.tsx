@@ -2,10 +2,10 @@ import * as React from 'react';
 
 import { useAppNavigation, useIsFirstTime } from '@/common/hooks';
 import {
+  AppText,
   Button,
   FocusAwareStatusBar,
   Screen,
-  Text,
   View,
 } from '@/components';
 import { translate } from '@/lib/i18n';
@@ -23,13 +23,22 @@ export function OnboardingScreen() {
         <Cover />
       </View>
       <View style={styles.content}>
-        <Text style={styles.brand} tx="onboarding.brand" />
-        <Text style={styles.tagline} tx="onboarding.tagline" />
+        <AppText variant="displaySmall" style={styles.brand} tx="onboarding.brand" />
+        <AppText
+          variant="titleLarge"
+          color="secondary"
+          style={styles.tagline}
+          tx="onboarding.tagline"
+        />
 
-        <Text style={styles.featureFirst} tx="onboarding.feature_production" />
-        <Text style={styles.feature} tx="onboarding.feature_dx" />
-        <Text style={styles.feature} tx="onboarding.feature_minimal" />
-        <Text style={styles.feature} tx="onboarding.feature_libs" />
+        <AppText
+          variant="bodyLarge"
+          style={styles.featureFirst}
+          tx="onboarding.feature_production"
+        />
+        <AppText variant="bodyLarge" style={styles.feature} tx="onboarding.feature_dx" />
+        <AppText variant="bodyLarge" style={styles.feature} tx="onboarding.feature_minimal" />
+        <AppText variant="bodyLarge" style={styles.feature} tx="onboarding.feature_libs" />
       </View>
       <View style={styles.cta}>
         <Button

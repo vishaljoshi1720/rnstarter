@@ -5,7 +5,7 @@ export const styles = StyleSheet.create(theme => ({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: theme.spacing.lg,
+    paddingHorizontal: theme.spacing.xl,
   },
   coverWrap: {
     width: '100%',
@@ -16,31 +16,29 @@ export const styles = StyleSheet.create(theme => ({
     width: '100%',
     alignSelf: 'center',
     justifyContent: 'flex-end',
+    gap: theme.spacing.xs,
+    paddingBottom: theme.spacing.md,
   },
   brand: {
-    marginVertical: theme.spacing.md,
-    textAlign: 'center',
-    ...theme.typography.displaySmall,
-  },
-  tagline: {
+    marginTop: theme.spacing.md,
     marginBottom: theme.spacing.sm,
     textAlign: 'center',
-    ...theme.typography.titleLarge,
-    color: theme.colors.text.secondary,
+  },
+  tagline: {
+    marginBottom: theme.spacing.lg,
+    textAlign: 'center',
   },
   featureFirst: {
-    marginVertical: theme.spacing.xs,
-    paddingTop: theme.spacing.xl,
-    ...theme.typography.bodyLarge,
+    marginTop: theme.spacing.lg,
+    paddingTop: theme.spacing.md,
   },
   feature: {
     marginVertical: theme.spacing.xs,
-    ...theme.typography.bodyLarge,
   },
   cta: {
     width: '100%',
     alignSelf: 'center',
     marginTop: theme.spacing.xl,
-    marginBottom: theme.spacing.md,
+    marginBottom: theme.spacing.lg,
   },
 }));

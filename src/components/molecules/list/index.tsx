@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import Svg, { Circle, Path } from 'react-native-svg';
 import { ActivityIndicator } from '@/components/atoms/activity-indicator';
-import { Text } from '@/components/atoms/text';
+import { AppText } from '@/components/atoms/text';
 import { View } from '@/components/atoms/view';
 import { styles } from './styles';
 
@@ -19,7 +19,12 @@ export const EmptyList = React.memo(({ isLoading }: EmptyListProps) => {
         ? (
             <View>
               <NoData />
-              <Text style={styles.emptyText} tx="common.empty_list" />
+              <AppText
+                variant="bodyMedium"
+                color="secondary"
+                style={styles.emptyText}
+                tx="common.empty_list"
+              />
             </View>
           )
         : (

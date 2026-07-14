@@ -1,10 +1,10 @@
 import Env from '@env';
 
 import {
+  AppText,
   FocusAwareStatusBar,
   Screen,
   ScrollView,
-  Text,
   View,
 } from '@/components';
 import { Icon } from '@/components/atoms/icon';
@@ -27,9 +27,9 @@ export function SettingsScreen() {
       <FocusAwareStatusBar />
       <ScrollView>
         <View style={styles.container}>
-          <Text style={styles.title}>
+          <AppText variant="displaySmall" style={styles.title}>
             {translate('settings.title')}
-          </Text>
+          </AppText>
           <SettingsContainer title="settings.generale">
             <LanguageItem />
             <ThemeItem />

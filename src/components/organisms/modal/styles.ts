@@ -19,8 +19,6 @@ export const styles = StyleSheet.create(theme => ({
   headerTitleWrap: { flex: 1 },
   headerTitle: {
     textAlign: 'center',
-    ...theme.typography.titleMedium,
-    color: theme.colors.text.primary,
   },
   closeButton: {
     position: 'absolute',

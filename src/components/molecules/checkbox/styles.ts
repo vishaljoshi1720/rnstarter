@@ -7,14 +7,6 @@ export const styles = StyleSheet.create(theme => ({
     gap: theme.spacing.md,
   },
   rootDisabled: { opacity: theme.opacity[50] },
-  label: {
-    ...theme.typography.bodyLarge,
-    color: theme.colors.text.primary,
-  },
-  labelEnd: {
-    ...theme.typography.bodyLarge,
-    color: theme.colors.text.primary,
-  },
   checkboxIcon: {
     width: theme.size.checkbox.default,
     height: theme.size.checkbox.default,

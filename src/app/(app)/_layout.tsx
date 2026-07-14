@@ -7,10 +7,12 @@ import { Icon } from '@/components/atoms/icon';
 import { AuthStatus } from '@/features/auth/types';
 import { useAuthStore as useAuth } from '@/features/auth/use-auth-store';
 import { translate } from '@/lib/i18n';
+import { useTheme } from '@/theme';
 
 export default function TabLayout() {
   const status = useAuth.use.status();
   const [isFirstTime] = useIsFirstTime();
+  const { theme } = useTheme();
 
   if (isFirstTime) {
     return <Redirect href={ROUTES.ONBOARDING} />;
@@ -19,7 +21,24 @@ export default function TabLayout() {
     return <Redirect href={ROUTES.LOGIN} />;
   }
   return (
-    <Tabs>
+    <Tabs
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: theme.colors.background.primary,
+        },
+        headerTintColor: theme.colors.text.primary,
+        headerShadowVisible: false,
+        tabBarStyle: {
+          backgroundColor: theme.colors.background.primary,
+          borderTopColor: theme.colors.border.default,
+        },
+        tabBarActiveTintColor: theme.colors.brand.primary,
+        tabBarInactiveTintColor: theme.colors.icon.muted,
+        sceneStyle: {
+          backgroundColor: theme.colors.background.primary,
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{

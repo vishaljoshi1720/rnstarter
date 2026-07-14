@@ -5,18 +5,16 @@ export const styles = StyleSheet.create(theme => ({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: theme.spacing.lg,
-    paddingVertical: theme.spacing.lg,
+    paddingHorizontal: theme.spacing.xl,
+    paddingVertical: theme.spacing['2xl'],
+    gap: theme.spacing.sm,
   },
   title: {
-    ...theme.typography.headlineLarge,
     textAlign: 'center',
-    color: theme.colors.text.primary,
   },
   subtitle: {
-    marginTop: theme.spacing.sm,
+    marginTop: theme.spacing.xs,
     textAlign: 'center',
-    ...theme.typography.bodyMedium,
-    color: theme.colors.text.secondary,
+    paddingHorizontal: theme.spacing.md,
   },
 }));
