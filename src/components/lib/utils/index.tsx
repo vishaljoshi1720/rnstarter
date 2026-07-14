@@ -5,6 +5,19 @@ import { showMessage } from 'react-native-flash-message';
 
 import { translate } from '@/lib/i18n';
 
+export {
+  fs,
+  hs,
+  moderateScale,
+  moderateVerticalScale,
+  mvs,
+  S,
+  scale,
+  sp,
+  verticalScale,
+  ws,
+} from '@/theme';
+
 export const IS_IOS = Platform.OS === 'ios';
 const { width, height } = Dimensions.get('screen');
 

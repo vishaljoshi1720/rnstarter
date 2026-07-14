@@ -1,0 +1,66 @@
+---
+alwaysApply: true
+---
+# Responsive Scaling (normalize)
+
+Source: `src/theme/normalize.ts`. Tokens already scaled in `src/theme/tokens/`.
+
+## Default (always)
+
+Use **scaled theme tokens** in Unistyles / styles:
+
+```ts
+paddingHorizontal: theme.spacing.lg
+height: theme.size.button.md
+fontSize: theme.typography.bodyLarge.fontSize  // via AppText variants preferred
+borderRadius: theme.radius.md
+width: theme.icon.md
+```
+
+Do **not** wrap tokens again: `ws(theme.spacing.lg)` ❌ double-scale.
+
+## Escape hatch (fixed px)
+
+When scaling must **not** apply, use `*Raw`:
+
+```ts
+borderWidth: theme.borderWidth.hairline     // always fixed
+height: theme.size.switch.height           // switch geometry stays raw
+padding: theme.spacingRaw.lg               // explicit fixed 16
+fontSize: theme.typographyRaw.bodyLarge.fontSize
+```
+
+Use raw for: hairlines / 1px borders, switch thumb math, progress hairlines, rare fixed design-spec px.
+
+## One-off numbers (no token)
+
+Import helpers from `@/theme/normalize` (or `@/theme`):
+
+| Helper | Use for |
+|--------|---------|
+| `ws(n)` | width, horizontal pad/margin, left/right |
+| `hs(n)` | height, vertical pad/margin, top/bottom |
+| `fs(n)` | fontSize, lineHeight, icon, radius |
+| `sp(n)` | small/ambiguous spacing |
+| `mvs(n)` | large vertical gaps (sections) |
+
+```ts
+import { ws, mvs } from '@/theme/normalize';
+
+maxWidth: ws(320)
+marginTop: mvs(48)
+```
+
+## Do not
+
+- Hardcode layout px in styles when a token or helper exists
+- Use Unistyles breakpoints for phone density (scaling handles that)
+- Scale `borderWidth`, opacity, motion, zIndex, colors
+- Change `theme.size.switch` / progressBar height away from raw without updating animation math
+
+## Checklist (new UI)
+
+- [ ] Spacing / radius / icon / sizes → `theme.*` (scaled)
+- [ ] Need fixed px → `theme.*Raw` or `theme.borderWidth.*`
+- [ ] One-off layout number → `ws` / `hs` / `fs` / `sp` / `mvs`
+- [ ] No double-scaling

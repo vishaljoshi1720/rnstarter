@@ -3,9 +3,15 @@
  *
  * Complete typography scale with semantic variants.
  * Each variant includes all 5 properties for complete text styling.
+ *
+ * Dual tokens:
+ * - `typographyRaw` — design sizes, no screen scaling
+ * - `typography`    — fontSize/lineHeight scaled with fs() (default)
  */
 
-export const typography = {
+import { fs } from '../normalize';
+
+export const typographyRaw = {
   // Display variants (largest, for hero sections)
   displayLarge: {
     fontFamily: 'Inter',
@@ -145,4 +151,42 @@ export const typography = {
     lineHeight: 12,
     letterSpacing: 0.5,
   },
+} as const;
+
+type TypeVariant = {
+  fontFamily: string;
+  fontWeight: string;
+  fontSize: number;
+  lineHeight: number;
+  letterSpacing: number;
+};
+
+function scaleTypeVariant<T extends TypeVariant>(variant: T) {
+  return {
+    ...variant,
+    fontSize: fs(variant.fontSize),
+    lineHeight: fs(variant.lineHeight),
+  };
+}
+
+/** Typography — fontSize/lineHeight screen-scaled (default) */
+export const typography = {
+  displayLarge: scaleTypeVariant(typographyRaw.displayLarge),
+  displayMedium: scaleTypeVariant(typographyRaw.displayMedium),
+  displaySmall: scaleTypeVariant(typographyRaw.displaySmall),
+  headlineLarge: scaleTypeVariant(typographyRaw.headlineLarge),
+  headlineMedium: scaleTypeVariant(typographyRaw.headlineMedium),
+  headlineSmall: scaleTypeVariant(typographyRaw.headlineSmall),
+  titleLarge: scaleTypeVariant(typographyRaw.titleLarge),
+  titleMedium: scaleTypeVariant(typographyRaw.titleMedium),
+  titleSmall: scaleTypeVariant(typographyRaw.titleSmall),
+  bodyXL: scaleTypeVariant(typographyRaw.bodyXL),
+  bodyLarge: scaleTypeVariant(typographyRaw.bodyLarge),
+  bodyMedium: scaleTypeVariant(typographyRaw.bodyMedium),
+  bodySmall: scaleTypeVariant(typographyRaw.bodySmall),
+  labelLarge: scaleTypeVariant(typographyRaw.labelLarge),
+  labelMedium: scaleTypeVariant(typographyRaw.labelMedium),
+  labelSmall: scaleTypeVariant(typographyRaw.labelSmall),
+  caption: scaleTypeVariant(typographyRaw.caption),
+  overline: scaleTypeVariant(typographyRaw.overline),
 } as const;

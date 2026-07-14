@@ -6,22 +6,42 @@
  */
 
 import { StyleSheet } from 'react-native-unistyles';
-import { borderWidth, breakpoints, icon, motion, opacity, radius, shadow, size, spacing, zIndex } from './tokens/layout';
+import {
+  borderWidth,
+  breakpoints,
+  icon,
+  iconRaw,
+  motion,
+  opacity,
+  radius,
+  radiusRaw,
+  shadow,
+  size,
+  sizeRaw,
+  spacing,
+  spacingRaw,
+  zIndex,
+} from './tokens/layout';
 import { darkSemantic, lightSemantic } from './tokens/semantic';
-import { typography } from './tokens/typography';
+import { typography, typographyRaw } from './tokens/typography';
 
 // Compose light theme from tokens
 const lightTheme = {
   colors: lightSemantic,
   typography,
+  typographyRaw,
   spacing,
+  spacingRaw,
   radius,
+  radiusRaw,
   borderWidth,
   shadow,
   opacity,
   motion,
   icon,
+  iconRaw,
   size,
+  sizeRaw,
   zIndex,
 } as const;
 
@@ -29,14 +49,19 @@ const lightTheme = {
 const darkTheme = {
   colors: darkSemantic,
   typography,
+  typographyRaw,
   spacing,
+  spacingRaw,
   radius,
+  radiusRaw,
   borderWidth,
   shadow,
   opacity,
   motion,
   icon,
+  iconRaw,
   size,
+  sizeRaw,
   zIndex,
 } as const;
 
@@ -67,8 +92,22 @@ StyleSheet.configure({
   },
 });
 
-// Export single theme hook (aliased for clarity)
-export { useUnistyles as useTheme } from 'react-native-unistyles';
+// Screen scaling helpers (one-off layout numbers only — prefer theme tokens)
+export {
+  fs,
+  hs,
+  moderateScale,
+  moderateVerticalScale,
+  mvs,
+  S,
+  scale,
+  sp,
+  verticalScale,
+  ws,
+} from './normalize';
 
 // Export breakpoints for reference
 export { breakpoints };
+
+// Export single theme hook (aliased for clarity)
+export { useUnistyles as useTheme } from 'react-native-unistyles';

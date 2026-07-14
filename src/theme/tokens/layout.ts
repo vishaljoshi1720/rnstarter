@@ -3,15 +3,21 @@
  *
  * Spacing, radius, shadows, opacity, motion, sizing, z-index, and breakpoints.
  * These tokens control the physical layout and visual hierarchy.
+ *
+ * Dual tokens:
+ * - `*Raw`  — design-system numbers, no screen scaling (escape hatch)
+ * - default — scaled for the active device (use these in styles)
  */
 
 import { Platform } from 'react-native';
 
+import { fs, hs, sp, ws } from '../normalize';
+
 /**
- * Spacing scale - 8pt grid system
- * Use for padding, margin, gap
+ * Spacing scale - 8pt grid system (unscaled)
+ * Use for padding, margin, gap when fixed px needed
  */
-export const spacing = {
+export const spacingRaw = {
   'none': 0,
   'xs': 4,
   'sm': 8,
@@ -24,10 +30,24 @@ export const spacing = {
   '5xl': 80,
 } as const;
 
+/** Spacing scale — screen-scaled (default) */
+export const spacing = {
+  'none': spacingRaw.none,
+  'xs': sp(spacingRaw.xs),
+  'sm': sp(spacingRaw.sm),
+  'md': sp(spacingRaw.md),
+  'lg': sp(spacingRaw.lg),
+  'xl': sp(spacingRaw.xl),
+  '2xl': sp(spacingRaw['2xl']),
+  '3xl': sp(spacingRaw['3xl']),
+  '4xl': sp(spacingRaw['4xl']),
+  '5xl': sp(spacingRaw['5xl']),
+} as const;
+
 /**
- * Border radius scale
+ * Border radius scale (unscaled)
  */
-export const radius = {
+export const radiusRaw = {
   'none': 0,
   'xs': 2,
   'sm': 4,
@@ -39,9 +59,21 @@ export const radius = {
   'full': 9999,
 } as const;
 
+/** Border radius — screen-scaled (default). `full` stays unscaled. */
+export const radius = {
+  'none': radiusRaw.none,
+  'xs': fs(radiusRaw.xs),
+  'sm': fs(radiusRaw.sm),
+  'md': fs(radiusRaw.md),
+  'lg': fs(radiusRaw.lg),
+  'xl': fs(radiusRaw.xl),
+  '2xl': fs(radiusRaw['2xl']),
+  '3xl': fs(radiusRaw['3xl']),
+  'full': radiusRaw.full,
+} as const;
+
 /**
- * Border width scale
- * Use for consistent border widths across components
+ * Border width scale — always unscaled (hairlines must stay fixed)
  */
 export const borderWidth = {
   none: 0,
@@ -159,9 +191,9 @@ export const motion = {
 } as const;
 
 /**
- * Icon size scale
+ * Icon size scale (unscaled)
  */
-export const icon = {
+export const iconRaw = {
   'xs': 12,
   'sm': 16,
   'md': 20,
@@ -171,11 +203,22 @@ export const icon = {
   '3xl': 48,
 } as const;
 
+/** Icon size — screen-scaled (default) */
+export const icon = {
+  'xs': fs(iconRaw.xs),
+  'sm': fs(iconRaw.sm),
+  'md': fs(iconRaw.md),
+  'lg': fs(iconRaw.lg),
+  'xl': fs(iconRaw.xl),
+  '2xl': fs(iconRaw['2xl']),
+  '3xl': fs(iconRaw['3xl']),
+} as const;
+
 /**
- * Component size scale
+ * Component size scale (unscaled)
  * Defines consistent dimensions for interactive components
  */
-export const size = {
+export const sizeRaw = {
   button: {
     sm: 32,
     md: 40,
@@ -201,17 +244,57 @@ export const size = {
     default: 24,
     dot: 10,
   },
+  /** Keep fixed — thumb math / hit geometry */
   switch: {
     width: 50,
     height: 28,
     thumb: 22,
   },
+  /** Keep fixed — hairline-ish bars */
   progressBar: {
     height: 2,
   },
   handle: {
     width: 48,
     height: 4,
+  },
+} as const;
+
+/**
+ * Component sizes — scaled where safe.
+ * `switch`, `progressBar`, and handle height stay on raw values intentionally.
+ */
+export const size = {
+  button: {
+    sm: hs(sizeRaw.button.sm),
+    md: hs(sizeRaw.button.md),
+    lg: hs(sizeRaw.button.lg),
+  },
+  input: {
+    sm: hs(sizeRaw.input.sm),
+    md: hs(sizeRaw.input.md),
+    lg: hs(sizeRaw.input.lg),
+  },
+  avatar: {
+    'xs': fs(sizeRaw.avatar.xs),
+    'sm': fs(sizeRaw.avatar.sm),
+    'md': fs(sizeRaw.avatar.md),
+    'lg': fs(sizeRaw.avatar.lg),
+    'xl': fs(sizeRaw.avatar.xl),
+    '2xl': fs(sizeRaw.avatar['2xl']),
+  },
+  checkbox: {
+    default: fs(sizeRaw.checkbox.default),
+  },
+  radio: {
+    default: fs(sizeRaw.radio.default),
+    dot: fs(sizeRaw.radio.dot),
+  },
+  switch: sizeRaw.switch,
+  progressBar: sizeRaw.progressBar,
+  handle: {
+    width: ws(sizeRaw.handle.width),
+    height: sizeRaw.handle.height,
   },
 } as const;
 
