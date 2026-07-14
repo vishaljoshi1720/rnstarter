@@ -24,7 +24,6 @@ expo-env.d.ts
 # Added by code-review-graph
 .code-review-graph/
 
-.cursor/
 .claude/
 
 # Env — never commit secrets. Keep .env.example tracked.

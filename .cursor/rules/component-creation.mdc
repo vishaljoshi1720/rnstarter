@@ -1,0 +1,464 @@
+---
+description: Production-grade component creation rules. Reference Button component as example. Single source of truth for creating atomic components.
+alwaysApply: true
+---
+
+# Component Creation Rules
+
+**Reference implementation:** `src/components/atoms/button/`
+
+---
+
+## How to Use This File
+
+When creating a component, say:
+```
+Create a [ComponentName] component:
+- Variants: [list]
+- Sizes: [list]
+- Features: [list]
+- Base: Pressable/View
+
+Follow component-creation.mdc
+```
+
+I'll create production-ready component following all rules below.
+
+---
+
+## File Structure (Mandatory)
+
+```
+src/components/atoms/{name}/
+├── constants.ts    ← Config (VARIANT_CONFIG, SIZE_CONFIG, DISABLED_CONFIG)
+├── types.ts        ← Union types + Props interface
+├── styles.ts       ← Theme-aware styles
+├── index.tsx       ← Main component (composition only)
+└── __tests__/{name}.test.tsx
+```
+
+Sub-components optional: `icon-wrapper.tsx`, `indicator.tsx`, etc.
+
+---
+
+## 1. constants.ts - Store Values, Not Keys
+
+```typescript
+import type { ComponentVariant, ComponentSize } from './types';
+import type { ViewStyle, TextStyle } from 'react-native';
+import { styles } from './styles';
+
+interface VariantConfig {
+  containerStyle: ViewStyle;
+  labelStyle: TextStyle;
+  indicatorColor: string;
+  rippleColor: string;
+}
+
+interface SizeConfig {
+  containerStyle: ViewStyle;
+  labelStyle: TextStyle;
+  iconSize: number;
+}
+
+// ALL variant behavior in ONE place
+export const VARIANT_CONFIG: Record<ComponentVariant, VariantConfig> = {
+  default: {
+    containerStyle: styles.variantDefault,           // ✅ Value
+    labelStyle: styles.labelDefault,                 // ✅ Value
+    indicatorColor: styles.labelDefault.color as string, // ✅ Value
+    rippleColor: 'rgba(255, 255, 255, 0.2)',        // ✅ Value
+  },
+  // ... other variants
+};
+
+export const SIZE_CONFIG: Record<ComponentSize, SizeConfig> = {
+  default: {
+    containerStyle: styles.sizeDefault,
+    labelStyle: styles.label,
+    iconSize: 20,
+  },
+  // ... other sizes
+};
+
+// Disabled overrides variant
+export const DISABLED_CONFIG: VariantConfig = {
+  containerStyle: styles.disabled,
+  labelStyle: styles.labelDisabled,
+  indicatorColor: styles.indicatorDisabled.color as string,
+  rippleColor: 'rgba(0, 0, 0, 0.05)',
+};
+```
+
+**Key:** Store resolved values at module load. No runtime lookups.
+
+---
+
+## 2. types.ts - Union Types, Not Enums
+
+```typescript
+import type { PressableProps, StyleProp, ViewStyle, TextStyle } from 'react-native';
+
+// ✅ Union types (NOT enums)
+export type ComponentVariant = 'default' | 'primary' | 'secondary';
+export type ComponentSize = 'sm' | 'default' | 'lg';
+
+export type ComponentProps = {
+  // Core
+  label?: string;
+  value?: boolean;
+  onValueChange?: (value: boolean) => void;
+  
+  // State
+  loading?: boolean;
+  variant?: ComponentVariant;
+  size?: ComponentSize;
+  disabled?: boolean;
+  
+  // Icons
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
+  children?: React.ReactNode;
+  
+  // Style
+  style?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
+  
+  // Accessibility
+  testID?: string;
+  accessibilityLabel?: string;
+  accessibilityHint?: string;
+  
+  // Platform
+  android_ripple?: PressableProps['android_ripple'];
+} & Omit<PressableProps, 'disabled'>;
+```
+
+---
+
+## 3. styles.ts - Theme Tokens Only
+
+```typescript
+import { StyleSheet } from 'react-native-unistyles';
+
+export const styles = StyleSheet.create(theme => ({
+  base: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: theme.radius.md,
+    paddingHorizontal: theme.paddingX.lg,
+    gap: theme.gap.sm,
+  },
+  
+  // Variants
+  variantDefault: { backgroundColor: theme.colors.primary },
+  variantPrimary: { backgroundColor: theme.colors.primary600 },
+  
+  // Sizes
+  sizeDefault: {},
+  sizeSm: { paddingHorizontal: theme.paddingX.md },
+  sizeLg: { paddingHorizontal: theme.paddingX.xl },
+  
+  // States
+  disabled: { backgroundColor: theme.colors.neutral300 },
+  
+  // Labels
+  label: {
+    fontFamily: theme.fontFamily.sans,
+    fontSize: theme.fontSize.md,
+    fontWeight: theme.fontWeight.medium,
+  },
+  labelDefault: { color: theme.colors.white },
+  labelDisabled: { color: theme.colors.neutral600 },
+  
+  // Icons/Loading
+  loadingSpinner: { marginRight: theme.gap.sm },
+  iconWrapper: { alignItems: 'center', justifyContent: 'center' },
+  iconLeft: { marginRight: theme.gap.xs },
+  iconRight: { marginLeft: theme.gap.xs },
+  
+  indicatorDisabled: { color: theme.colors.neutral400 },
+}));
+```
+
+---
+
+## 4. index.tsx - Composition Only
+
+```typescript
+import type { View } from 'react-native';
+import type { ComponentProps } from './types';
+
+import * as React from 'react';
+import { ActivityIndicator, Pressable, Text } from '@/components'; // ← Use atoms!
+import { DISABLED_CONFIG, SIZE_CONFIG, VARIANT_CONFIG } from './constants';
+import { styles } from './styles';
+
+export type { ComponentProps, ComponentSize, ComponentVariant } from './types';
+
+export function Component({
+  ref,
+  label,
+  loading = false,
+  variant = 'default',
+  disabled = false,
+  size = 'default',
+  leftIcon,
+  rightIcon,
+  style,
+  textStyle,
+  testID,
+  accessibilityLabel,
+  accessibilityHint,
+  children,
+  android_ripple,
+  ...props
+}: ComponentProps & { ref?: React.Ref<View | null> }) {
+  // Resolve config
+  const variantConfig = disabled ? DISABLED_CONFIG : VARIANT_CONFIG[variant];
+  const sizeConfig = SIZE_CONFIG[size];
+
+  // Compose styles
+  const containerStyle = [
+    styles.base,
+    variantConfig.containerStyle,
+    sizeConfig.containerStyle,
+    style,
+  ];
+
+  const labelStyle = [
+    styles.label,
+    variantConfig.labelStyle,
+    sizeConfig.labelStyle,
+    textStyle,
+  ];
+
+  return (
+    <Pressable
+      ref={ref}
+      disabled={disabled || loading}
+      style={containerStyle}
+      testID={testID}
+      accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel || label}
+      accessibilityHint={accessibilityHint}
+      accessibilityState={{
+        disabled: disabled || loading,
+        busy: loading,
+      }}
+      android_ripple={android_ripple || { color: variantConfig.rippleColor }}
+      {...props}
+    >
+      {loading && (
+        <ActivityIndicator
+          size="small"
+          color={variantConfig.indicatorColor}
+          style={styles.loadingSpinner}
+        />
+      )}
+      {children || (
+        <>
+          {leftIcon}
+          {label && <Text style={labelStyle}>{label}</Text>}
+          {rightIcon}
+        </>
+      )}
+    </Pressable>
+  );
+}
+
+Component.displayName = 'Component';
+```
+
+---
+
+## Sub-Components (When Needed)
+
+```typescript
+// icon-wrapper.tsx
+import { View } from '../view'; // ← Use atom, not primitive!
+import { styles } from './styles';
+
+export function IconWrapper({ children, position, size }) {
+  if (!children) return null;
+  return (
+    <View style={[
+      styles.iconWrapper,
+      { width: size, height: size },
+      position === 'left' && styles.iconLeft,
+      position === 'right' && styles.iconRight,
+    ]}>
+      {children}
+    </View>
+  );
+}
+```
+
+---
+
+## Critical Rules
+
+### ✅ DO:
+- Store resolved values in config: `styles.variantDefault`
+- Use union types: `type Variant = 'a' | 'b'`
+- Import atoms: `import { View } from '@/components'`
+- Config-driven: `variantConfig.containerStyle`
+- Loading inline: `{loading && <Spinner />}{content}`
+- Accessibility complete: role, state, labels
+- Theme tokens: `theme.colors.primary`
+
+### ❌ DON'T:
+- Store keys: `containerStyle: 'variantDefault'` ❌
+- Use enums: `enum Variant` ❌
+- Import primitives: `import { View } from 'react-native'` ❌
+- Conditional chains: `variant === 'a' && styles.a` ❌
+- Loading overlay: `{loading ? <Spinner /> : content}` ❌
+- Hardcode colors: `'#000000'` ❌
+
+---
+
+## Adding New Variant (3 Steps)
+
+1. **types.ts:** Add to union
+   ```typescript
+   export type Variant = '...' | 'success';
+   ```
+
+2. **styles.ts:** Add styles
+   ```typescript
+   variantSuccess: { backgroundColor: theme.colors.success },
+   labelSuccess: { color: theme.colors.white },
+   ```
+
+3. **constants.ts:** Add config entry
+   ```typescript
+   success: {
+     containerStyle: styles.variantSuccess,
+     labelStyle: styles.labelSuccess,
+     indicatorColor: styles.labelSuccess.color as string,
+     rippleColor: 'rgba(40, 167, 69, 0.2)',
+   },
+   ```
+
+Done! Component auto-supports new variant.
+
+---
+
+## Testing Template
+
+```typescript
+describe('Component', () => {
+  it('renders correctly', () => {
+    render(<Component testID="test" />);
+    expect(screen.getByTestId('test')).toBeOnTheScreen();
+  });
+
+  it('handles interaction', async () => {
+    const handler = jest.fn();
+    const { user } = setup(<Component onPress={handler} testID="test" />);
+    await user.press(screen.getByTestId('test'));
+    expect(handler).toHaveBeenCalled();
+  });
+
+  it('respects disabled state', () => {
+    render(<Component disabled testID="test" />);
+    expect(screen.getByTestId('test')).toBeDisabled();
+  });
+
+  it('shows loading indicator', () => {
+    render(<Component loading testID="test" />);
+    expect(screen.getByTestId('test-activity-indicator')).toBeOnTheScreen();
+  });
+});
+```
+
+---
+
+## Validation
+
+```bash
+pnpm type-check              # TypeScript
+pnpm test -- component.test  # Tests
+pnpm lint                    # ESLint
+```
+
+---
+
+## Common Mistakes
+
+| Mistake | Fix |
+|---------|-----|
+| `import { View } from 'react-native'` | `import { View } from '@/components'` |
+| `containerStyle: 'variantDefault'` | `containerStyle: styles.variantDefault` |
+| `enum Variant { A = 'a' }` | `type Variant = 'a' \| 'b'` |
+| `{loading ? <Spinner /> : content}` | `{loading && <Spinner />}{content}` |
+| `backgroundColor: '#000'` | `backgroundColor: theme.colors.primary` |
+| No accessibility props | Add role, state, labels |
+
+---
+
+## Component Types
+
+**Interactive (Pressable base):**
+- Button, IconButton, Checkbox, Radio, Switch
+
+**Input (TextInput base):**
+- Input, TextArea, SearchInput
+
+**Display (View base):**
+- Badge, Chip, Avatar, Divider
+
+---
+
+## Example Request
+
+**Good:**
+```
+Create Checkbox component:
+- Variants: default, primary, danger
+- Sizes: sm, md, lg
+- Features: loading, disabled, indeterminate
+- Base: Pressable
+
+Follow component-creation.mdc
+```
+
+**Bad:**
+```
+Create checkbox
+```
+
+---
+
+## Reference
+
+**Perfect example:** `src/components/atoms/button/`
+- ✅ Config stores values
+- ✅ Union types
+- ✅ Uses atoms
+- ✅ Full accessibility
+- ✅ Loading inline
+- ✅ Production-ready
+
+Rating: 10/10
+
+---
+
+## Quick Checklist
+
+Creating component? Verify:
+
+- [ ] File structure: constants, types, styles, index, tests
+- [ ] Config stores resolved values (not keys)
+- [ ] Union types (not enums)
+- [ ] Imports atoms from @/components
+- [ ] Accessibility: role, state, labels
+- [ ] Loading inline (not overlay)
+- [ ] Theme tokens (no hardcoded colors)
+- [ ] Disabled uses DISABLED_CONFIG
+- [ ] Tests cover all states
+- [ ] TypeScript validates
+- [ ] ESLint passes
+
+All checked? Ship it! 🚀

@@ -4,7 +4,7 @@ import { StyleSheet, Text } from 'react-native';
 import { ms } from '@/common/utils/scale';
 import { cleanup, render, screen, setup } from '@/lib/test-utils';
 
-import { Button, ButtonSize, ButtonVariant } from '..';
+import { Button } from '..';
 
 afterEach(cleanup);
 
@@ -68,7 +68,7 @@ describe('button component ', () => {
         label="Click the button"
         disabled={true}
         onPress={onClick}
-        variant={ButtonVariant.Secondary}
+        variant="secondary"
       />,
     );
     expect(screen.getByTestId('button')).toBeOnTheScreen();
@@ -79,14 +79,14 @@ describe('button component ', () => {
     expect(onClick).toHaveBeenCalledTimes(0);
   });
   it('should apply correct styles based on size prop', () => {
-    render(<Button testID="button" size={ButtonSize.Lg} label="Go" />);
+    render(<Button testID="button" size="lg" label="Go" />);
     const label = screen.getByTestId('button-label');
     const flat = StyleSheet.flatten(label.props.style);
     expect(flat).toMatchObject({ fontSize: ms(20) });
   });
   it('should apply correct styles for label when variant is secondary', () => {
     render(
-      <Button testID="button" variant={ButtonVariant.Secondary} label="Submit" />,
+      <Button testID="button" variant="secondary" label="Submit" />,
     );
     const label = screen.getByTestId('button-label');
     const flat = StyleSheet.flatten(label.props.style);
