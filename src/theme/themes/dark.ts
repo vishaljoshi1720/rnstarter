@@ -18,6 +18,7 @@ export const darkTheme = {
     buttonDefaultBg: palette.white,
     buttonDefaultText: palette.black,
     buttonOutlineText: palette.neutral100,
+    buttonRipple: 'rgba(255, 255, 255, 0.1)',
     inputBg: palette.neutral800,
     inputBorder: palette.neutral700,
     inputFocusBorder: palette.neutral300,

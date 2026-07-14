@@ -18,6 +18,7 @@ export const lightTheme = {
     buttonDefaultBg: palette.black,
     buttonDefaultText: palette.white,
     buttonOutlineText: palette.black,
+    buttonRipple: 'rgba(0, 0, 0, 0.1)',
     inputBg: palette.neutral100,
     inputBorder: palette.neutral300,
     inputFocusBorder: palette.neutral400,
