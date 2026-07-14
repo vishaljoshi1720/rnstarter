@@ -1,17 +1,56 @@
+/**
+ * Theme Configuration
+ *
+ * Composes token files into complete light and dark themes,
+ * configures Unistyles, and exports the theme hook.
+ */
+
 import { StyleSheet } from 'react-native-unistyles';
+import { borderWidth, breakpoints, icon, motion, opacity, radius, shadow, size, spacing, zIndex } from './tokens/layout';
+import { darkSemantic, lightSemantic } from './tokens/semantic';
+import { typography } from './tokens/typography';
 
-import { breakpoints } from './breakpoints';
-import { darkTheme } from './themes/dark';
-import { lightTheme } from './themes/light';
+// Compose light theme from tokens
+const lightTheme = {
+  colors: lightSemantic,
+  typography,
+  spacing,
+  radius,
+  borderWidth,
+  shadow,
+  opacity,
+  motion,
+  icon,
+  size,
+  zIndex,
+} as const;
 
-const appThemes = {
+// Compose dark theme from tokens
+const darkTheme = {
+  colors: darkSemantic,
+  typography,
+  spacing,
+  radius,
+  borderWidth,
+  shadow,
+  opacity,
+  motion,
+  icon,
+  size,
+  zIndex,
+} as const;
+
+// Theme collection
+const themes = {
   light: lightTheme,
   dark: darkTheme,
-};
+} as const;
 
-type AppThemes = typeof appThemes;
+// Type definitions for module augmentation
+type AppThemes = typeof themes;
 type AppBreakpoints = typeof breakpoints;
 
+// Augment Unistyles types
 declare module 'react-native-unistyles' {
   // eslint-disable-next-line ts/consistent-type-definitions
   export interface UnistylesThemes extends AppThemes {}
@@ -19,25 +58,17 @@ declare module 'react-native-unistyles' {
   export interface UnistylesBreakpoints extends AppBreakpoints {}
 }
 
+// Configure Unistyles
 StyleSheet.configure({
-  themes: appThemes,
+  themes,
   breakpoints,
   settings: {
     adaptiveThemes: true,
   },
 });
 
-export { breakpoints } from './breakpoints';
-export { borderWidth, radius, size, sizeH, sizeW } from './tokens/border';
-export { palette } from './tokens/colors';
-export { gap, spacingX, spacingY } from './tokens/spacing';
-export { fontFamily, fontSize, fontWeight } from './tokens/typography';
-export { useAppTheme } from './use-app-theme';
-export {
-  ms,
-  mvs,
-  s,
-  scale,
-  verticalScale,
-  vs,
-} from '@/common/utils/scale';
+// Export single theme hook (aliased for clarity)
+export { useUnistyles as useTheme } from 'react-native-unistyles';
+
+// Export breakpoints for reference
+export { breakpoints };

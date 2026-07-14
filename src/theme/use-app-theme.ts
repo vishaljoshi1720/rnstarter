@@ -1,6 +1,8 @@
-import { useUnistyles } from 'react-native-unistyles';
+/**
+ * Theme Hook
+ *
+ * Re-export Unistyles hook for theme access.
+ * Use this instead of importing directly from react-native-unistyles.
+ */
 
-/** App-owned wrapper around Unistyles theme access. */
-export function useAppTheme() {
-  return useUnistyles();
-}
+export { useUnistyles as useTheme } from 'react-native-unistyles';

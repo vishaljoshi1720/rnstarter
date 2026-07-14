@@ -4,13 +4,13 @@ import * as React from 'react';
 import { Platform } from 'react-native';
 
 import { SystemBars } from 'react-native-edge-to-edge';
-import { useAppTheme } from '@/theme';
+import { useTheme } from '@/theme';
 
 export type { FocusAwareStatusBarProps } from './types';
 
 export function FocusAwareStatusBar({ hidden = false }: FocusAwareStatusBarProps) {
   const isFocused = useIsFocused();
-  const { theme } = useAppTheme();
+  const { theme } = useTheme();
 
   if (Platform.OS === 'web')
     return null;

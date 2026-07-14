@@ -5,21 +5,14 @@ import { useCallback } from 'react';
 import { I18nManager } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 
-import { ms, s, vs } from '@/common/utils/scale';
 import { MotiView } from '@/components/atoms/moti-view';
 import { Pressable } from '@/components/atoms/pressable';
 import { Text } from '@/components/atoms/text';
 import { View } from '@/components/atoms/view';
-import { useAppTheme } from '@/theme';
+import { useTheme } from '@/theme';
 import { styles } from './styles';
 
 export type { LabelProps, RootProps } from './types';
-
-const WIDTH = s(50);
-const HEIGHT = vs(28);
-const THUMB_HEIGHT = ms(22);
-const THUMB_WIDTH = ms(22);
-const THUMB_OFFSET = s(4);
 
 export function Root({
   checked = false,
@@ -59,15 +52,15 @@ function Label({ text, testID, style }: LabelProps) {
 }
 
 export function CheckboxIcon({ checked = false }: IconProps) {
-  const { theme } = useAppTheme();
-  const color = checked ? theme.colors.primary300 : theme.colors.charcoal400;
+  const { theme } = useTheme();
+  const color = checked ? theme.colors.brand.primary : theme.colors.border.default;
   return (
     <MotiView
       style={[
         styles.checkboxIcon,
         { borderColor: color },
       ]}
-      from={{ backgroundColor: 'transparent', borderColor: theme.colors.checkboxMuted }}
+      from={{ backgroundColor: 'transparent', borderColor: theme.colors.border.disabled }}
       animate={{
         backgroundColor: checked ? color : 'transparent',
         borderColor: color,
@@ -85,7 +78,7 @@ export function CheckboxIcon({ checked = false }: IconProps) {
         <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
           <Path
             d="m16.726 7-.64.633c-2.207 2.212-3.878 4.047-5.955 6.158l-2.28-1.928-.69-.584L6 12.66l.683.577 2.928 2.477.633.535.591-.584c2.421-2.426 4.148-4.367 6.532-6.756l.633-.64L16.726 7Z"
-            fill={theme.colors.white}
+            fill={theme.colors.text.inverse}
           />
         </Svg>
       </MotiView>
@@ -130,19 +123,19 @@ export const Checkbox = Object.assign(CheckboxBase, {
 });
 
 export function RadioIcon({ checked = false }: IconProps) {
-  const { theme } = useAppTheme();
-  const color = checked ? theme.colors.primary300 : theme.colors.charcoal400;
+  const { theme } = useTheme();
+  const color = checked ? theme.colors.brand.primary : theme.colors.border.default;
   return (
     <MotiView
       style={[styles.radioIcon, { borderColor: color }]}
-      from={{ borderColor: theme.colors.checkboxMuted }}
+      from={{ borderColor: theme.colors.border.disabled }}
       animate={{ borderColor: color }}
       transition={{ borderColor: { duration: 100, type: 'timing' } }}
     >
       <MotiView
         style={[
           styles.radioDot,
-          { backgroundColor: checked ? theme.colors.primary300 : 'transparent' },
+          { backgroundColor: checked ? theme.colors.brand.primary : 'transparent' },
         ]}
         from={{ opacity: 0 }}
         animate={{ opacity: checked ? 1 : 0 }}
@@ -185,12 +178,17 @@ export const Radio = Object.assign(RadioBase, {
 });
 
 export function SwitchIcon({ checked = false }: IconProps) {
-  const { theme } = useAppTheme();
+  const { theme } = useTheme();
+  const WIDTH = theme.size.switch.width;
+  const HEIGHT = theme.size.switch.height;
+  const THUMB_SIZE = theme.size.switch.thumb;
+  const THUMB_OFFSET = 4;
+
   const translateX = checked
     ? THUMB_OFFSET
-    : WIDTH - THUMB_WIDTH - THUMB_OFFSET;
+    : WIDTH - THUMB_SIZE - THUMB_OFFSET;
 
-  const backgroundColor = checked ? theme.colors.primary300 : theme.colors.charcoal400;
+  const backgroundColor = checked ? theme.colors.brand.primary : theme.colors.border.default;
 
   return (
     <View style={styles.switchTrackWrap}>
@@ -205,11 +203,11 @@ export function SwitchIcon({ checked = false }: IconProps) {
       </View>
       <MotiView
         style={{
-          height: THUMB_HEIGHT,
-          width: THUMB_WIDTH,
+          height: THUMB_SIZE,
+          width: THUMB_SIZE,
           position: 'absolute',
-          backgroundColor: theme.colors.white,
-          borderRadius: theme.radius.xl,
+          backgroundColor: theme.colors.surface.default,
+          borderRadius: theme.radius.full,
           right: 0,
         }}
         animate={{

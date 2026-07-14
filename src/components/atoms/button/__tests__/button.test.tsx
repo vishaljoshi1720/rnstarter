@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, Text } from 'react-native';
 
-import { ms } from '@/common/utils/scale';
 import { cleanup, render, screen, setup } from '@/lib/test-utils';
 
 import { Button } from '..';
@@ -82,7 +81,7 @@ describe('button component ', () => {
     render(<Button testID="button" size="lg" label="Go" />);
     const label = screen.getByTestId('button-label');
     const flat = StyleSheet.flatten(label.props.style);
-    expect(flat).toMatchObject({ fontSize: ms(20) });
+    expect(flat).toMatchObject({ fontSize: 16 });
   });
   it('should apply correct styles for label when variant is secondary', () => {
     render(
@@ -90,12 +89,12 @@ describe('button component ', () => {
     );
     const label = screen.getByTestId('button-label');
     const flat = StyleSheet.flatten(label.props.style);
-    expect(flat).toMatchObject({ color: '#525252' });
+    expect(flat).toMatchObject({ color: '#FFFFFF' });
   });
   it('should apply correct styles for label when is disabled', () => {
     render(<Button testID="button" label="Submit" disabled />);
     const label = screen.getByTestId('button-label');
     const flat = StyleSheet.flatten(label.props.style);
-    expect(flat).toMatchObject({ color: '#525252' });
+    expect(flat).toMatchObject({ color: '#A3A3A3' });
   });
 });

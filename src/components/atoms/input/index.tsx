@@ -3,7 +3,7 @@ import type { InputProps } from './types';
 import * as React from 'react';
 
 import { I18nManager, TextInput as RNTextInput, StyleSheet } from 'react-native';
-import { useAppTheme } from '@/theme';
+import { useTheme } from '@/theme';
 import { Text } from '../text';
 import { View } from '../view';
 import { styles } from './styles';
@@ -13,7 +13,7 @@ export type { InputProps, NInputProps } from './types';
 export function Input({ ref, ...props }: InputProps & { ref?: React.Ref<NTextInput | null> }) {
   const { label, error, testID, onBlur: onBlurProp, onFocus: onFocusProp, ...inputProps } = props;
   const [isFocussed, setIsFocussed] = React.useState(false);
-  const { theme } = useAppTheme();
+  const { theme } = useTheme();
 
   const onBlur = React.useCallback(
     (e: any) => {
@@ -56,7 +56,7 @@ export function Input({ ref, ...props }: InputProps & { ref?: React.Ref<NTextInp
       <RNTextInput
         testID={testID}
         ref={ref}
-        placeholderTextColor={theme.colors.neutral400}
+        placeholderTextColor={theme.colors.text.disabled}
         style={inputStyle}
         onBlur={onBlur}
         onFocus={onFocus}

@@ -1,7 +1,7 @@
-export const breakpoints = {
-  xs: 0,
-  sm: 380,
-  md: 768,
-  lg: 1024,
-  xl: 1280,
-};
+/**
+ * Responsive Breakpoints
+ *
+ * Re-exported from layout tokens for backward compatibility.
+ */
+
+export { breakpoints } from './tokens/layout';

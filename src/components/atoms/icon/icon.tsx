@@ -3,9 +3,8 @@ import type { IconProps } from './types';
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { ms, s, vs } from '@/common/utils/scale';
 import { isRTL } from '@/lib/i18n';
-import { useAppTheme } from '@/theme';
+import { useTheme } from '@/theme';
 import { iconDefaults, icons } from './icons';
 
 export type { IconName, IconProps } from './types';
@@ -33,16 +32,15 @@ export function Icon({
   accessible = true,
   ...accessibilityProps
 }: IconProps) {
-  const { theme } = useAppTheme();
+  const { theme } = useTheme();
   const SvgIcon = icons[name];
   const defaults = iconDefaults[name];
 
   const rawWidth = width ?? defaults?.width ?? size;
   const rawHeight = height ?? defaults?.height ?? size;
-  const isSquare = rawWidth === rawHeight;
-  const resolvedWidth = isSquare ? ms(rawWidth) : s(rawWidth);
-  const resolvedHeight = isSquare ? ms(rawHeight) : vs(rawHeight);
-  const resolvedColor = color ?? theme.colors.bodyText;
+  const resolvedWidth = rawWidth;
+  const resolvedHeight = rawHeight;
+  const resolvedColor = color ?? theme.colors.text.primary;
 
   const rtlStyle = RTL_FLIP_ICONS.has(name)
     ? { transform: [{ scaleX: isRTL ? -1 : 1 }] }

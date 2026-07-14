@@ -8,16 +8,16 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { useAppTheme } from '@/theme';
+import { useTheme } from '@/theme';
 import { View } from '../view';
 import { styles } from './styles';
 
 export type { ProgressBarProps, ProgressBarRef } from './types';
 
 export function ProgressBar({ ref, initialProgress = 0, style }: ProgressBarProps & { ref?: React.RefObject<ProgressBarRef | null> }) {
-  const { theme } = useAppTheme();
-  const fillColor = theme.colors.progressFill;
-  const fillHeight = theme.sizeH.progress;
+  const { theme } = useTheme();
+  const fillColor = theme.colors.brand.primary;
+  const fillHeight = theme.size.progressBar.height;
   const progress = useSharedValue<number>(initialProgress ?? 0);
   useImperativeHandle(ref, () => {
     return {

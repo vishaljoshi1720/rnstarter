@@ -10,7 +10,7 @@ import {
 import { Icon } from '@/components/atoms/icon';
 import { useAuthStore as useAuth } from '@/features/auth/use-auth-store';
 import { translate } from '@/lib/i18n';
-import { useAppTheme } from '@/theme';
+import { useTheme } from '@/theme';
 import { LanguageItem } from '../components/language-item';
 import { SettingsContainer } from '../components/settings-container';
 import { SettingsItem } from '../components/settings-item';
@@ -19,10 +19,8 @@ import { styles } from './styles';
 
 export function SettingsScreen() {
   const signOut = useAuth.use.signOut();
-  const { theme } = useAppTheme();
-  const iconColor = theme.colors.isDark
-    ? theme.colors.neutral400
-    : theme.colors.neutral500;
+  const { theme } = useTheme();
+  const iconColor = theme.colors.icon.muted;
 
   return (
     <Screen edges={['top', 'left', 'right']}>
