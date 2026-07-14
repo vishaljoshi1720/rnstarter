@@ -99,7 +99,6 @@ export function LoginForm({ onSubmit = () => {} }: LoginFormProps) {
           label={translate('login.button')}
           onPress={handleSubmit(onSubmit)}
           loading={isSubmitting}
-          variant="outline"
         />
       </View>
     </KeyboardAvoidingView>
