@@ -19,6 +19,7 @@ import { fs, hs, sp, ws } from '../normalize';
  */
 export const spacingRaw = {
   'none': 0,
+  '2xs': 2,
   'xs': 4,
   'sm': 8,
   'md': 12,
@@ -33,6 +34,7 @@ export const spacingRaw = {
 /** Spacing scale — screen-scaled (default) */
 export const spacing = {
   'none': spacingRaw.none,
+  '2xs': sp(spacingRaw['2xs']),
   'xs': sp(spacingRaw.xs),
   'sm': sp(spacingRaw.sm),
   'md': sp(spacingRaw.md),
@@ -178,6 +180,7 @@ export const opacity = {
   80: 0.8,
   90: 0.9,
   100: 1,
+  disabled: 0.5,
 } as const;
 
 /**
@@ -237,6 +240,11 @@ export const sizeRaw = {
     'xl': 64,
     '2xl': 96,
   },
+  badge: {
+    sm: 20,
+    md: 24,
+    lg: 28,
+  },
   checkbox: {
     default: 24,
   },
@@ -282,6 +290,11 @@ export const size = {
     'lg': fs(sizeRaw.avatar.lg),
     'xl': fs(sizeRaw.avatar.xl),
     '2xl': fs(sizeRaw.avatar['2xl']),
+  },
+  badge: {
+    sm: hs(sizeRaw.badge.sm),
+    md: hs(sizeRaw.badge.md),
+    lg: hs(sizeRaw.badge.lg),
   },
   checkbox: {
     default: fs(sizeRaw.checkbox.default),

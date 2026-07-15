@@ -1,9 +1,9 @@
 import type { EmptyListProps } from './types';
 import { FlashList as NFlashList } from '@shopify/flash-list';
 import * as React from 'react';
+import { ActivityIndicator } from 'react-native';
 
 import Svg, { Circle, Path } from 'react-native-svg';
-import { ActivityIndicator } from '@/components/atoms/activity-indicator';
 import { AppText } from '@/components/atoms/text';
 import { View } from '@/components/atoms/view';
 import { styles } from './styles';

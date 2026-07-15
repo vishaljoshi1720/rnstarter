@@ -121,6 +121,7 @@ const plugins: ExpoConfig['plugins'] = [
   'expo-router',
   ['app-icon-badge', appIconBadgeConfig],
   ['react-native-edge-to-edge'],
+  '@react-native-community/datetimepicker',
 ];
 
 export default ({ config }: ConfigContext): ExpoConfig => ({

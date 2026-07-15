@@ -5,14 +5,13 @@ import { ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import * as React from 'react';
-import FlashMessage from 'react-native-flash-message';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 import {
   SafeAreaProvider,
-  useSafeAreaInsets,
 } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native-unistyles';
+import { Toaster } from 'sonner-native';
 import { loadSelectedTheme } from '@/common/hooks';
 import { useThemeConfig } from '@/components/lib/use-theme-config';
 
@@ -79,7 +78,7 @@ function Providers({
             <APIProvider>
               <BottomSheetModalProvider>
                 {children}
-                <FlashMessageHost />
+                <Toaster />
               </BottomSheetModalProvider>
             </APIProvider>
           </ThemeProvider>
@@ -87,12 +86,6 @@ function Providers({
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );
-}
-
-/** Flash toasts respect status bar / notch inset. */
-function FlashMessageHost() {
-  const insets = useSafeAreaInsets();
-  return <FlashMessage position="top" statusBarHeight={insets.top} />;
 }
 
 const styles = StyleSheet.create(theme => ({

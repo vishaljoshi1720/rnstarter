@@ -52,5 +52,4 @@ export function AppText({
 
 AppText.displayName = 'AppText';
 
-/** @deprecated Prefer `AppText`. Kept as alias for gradual migration. */
 export const Text = AppText;

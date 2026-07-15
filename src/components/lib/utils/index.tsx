@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import type { AxiosError } from 'axios';
 import { Dimensions, Platform } from 'react-native';
-import { showMessage } from 'react-native-flash-message';
+import { toast } from 'sonner-native';
 
 import { translate } from '@/lib/i18n';
 
@@ -29,21 +29,16 @@ export function showError(error: AxiosError) {
   console.error(error?.response?.data);
   const description = extractError(error?.response?.data).trimEnd();
 
-  showMessage({
-    message: translate('common.error'),
+  toast.error(translate('common.error'), {
     description,
-    type: 'danger',
     duration: 4000,
-    icon: 'danger',
   });
 }
 
 export function showErrorMessage(
   message: string = translate('common.something_went_wrong'),
 ) {
-  showMessage({
-    message,
-    type: 'danger',
+  toast.error(message, {
     duration: 4000,
   });
 }

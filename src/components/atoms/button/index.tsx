@@ -3,8 +3,8 @@ import type { AppTextColor } from '../text';
 import type { ButtonProps } from './types';
 
 import * as React from 'react';
+import { ActivityIndicator } from 'react-native';
 import { useTheme } from '@/theme';
-import { ActivityIndicator } from '../activity-indicator';
 import { Pressable } from '../pressable';
 import { AppText } from '../text';
 import { COLOR_RESOLVER } from '../text/constants';

@@ -61,12 +61,6 @@ jest.mock('react-native-reanimated', () => {
   };
 });
 
-// Avoid Moti → RN SafeAreaView deprecation path in tests
-jest.mock('@/components/atoms/moti-view', () => {
-  const { View } = require('react-native');
-  return { MotiView: View };
-});
-
 // Mock expo-localization
 jest.mock('expo-localization', () => ({
   getLocales: jest.fn(() => [
@@ -82,6 +76,21 @@ jest.mock('expo-localization', () => ({
       regionCode: 'US',
     },
   ]),
+}));
+
+jest.mock('react-native-edge-to-edge', () => ({
+  useEdgeToEdge: jest.fn(),
+}));
+
+jest.mock('sonner-native', () => ({
+  Toaster: () => null,
+  toast: {
+    success: jest.fn(),
+    error: jest.fn(),
+    info: jest.fn(),
+    warning: jest.fn(),
+    promise: jest.fn(),
+  },
 }));
 
 // Mock react-native-mmkv
@@ -108,6 +117,19 @@ jest.mock('react-native-mmkv', () => ({
     clearAll: jest.fn(),
     getAllKeys: jest.fn(() => []),
   })),
+}));
+
+// Mock React Navigation Material Top Tabs
+jest.mock('@react-navigation/material-top-tabs', () => ({
+  createMaterialTopTabNavigator: jest.fn(() => ({
+    Navigator: jest.fn(),
+    Screen: jest.fn(),
+  })),
+}));
+
+jest.mock('expo-router', () => ({
+  ...jest.requireActual('expo-router'),
+  withLayoutContext: jest.fn(component => component),
 }));
 
 // Global window object setup for React Native testing

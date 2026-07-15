@@ -1,8 +1,13 @@
 import { StyleSheet } from 'react-native-unistyles';
 
-export const styles = StyleSheet.create(theme => ({
-  root: {
+export const styles = StyleSheet.create(_theme => ({
+  outer: {
     flex: 1,
-    backgroundColor: theme.colors.background.primary,
+  },
+  inner: {
+    flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
   },
 }));

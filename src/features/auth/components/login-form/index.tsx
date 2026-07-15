@@ -1,10 +1,9 @@
-import type { FormType, LoginFormProps } from './types';
-import { zodResolver } from '@hookform/resolvers/zod';
+import type { LoginFormProps } from './types';
 import * as React from 'react';
-import { Controller, useForm } from 'react-hook-form';
 
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
-import { AppText, Button, Input, View } from '@/components';
+import { AppText, Button, View } from '@/components';
+import { ControlledInput, useForm } from '@/lib/form';
 import { translate } from '@/lib/i18n';
 import { schema } from './constants';
 import { styles } from './styles';
@@ -16,8 +15,7 @@ export function LoginForm({ onSubmit = () => {} }: LoginFormProps) {
     control,
     handleSubmit,
     formState: { isSubmitting },
-  } = useForm<FormType>({
-    resolver: zodResolver(schema),
+  } = useForm(schema, {
     defaultValues: {
       name: '',
       email: '',
@@ -47,51 +45,27 @@ export function LoginForm({ onSubmit = () => {} }: LoginFormProps) {
           />
         </View>
 
-        <Controller
+        <ControlledInput
           name="name"
           control={control}
-          render={({ field, fieldState }) => (
-            <Input
-              testID="name"
-              label={translate('login.name')}
-              value={field.value}
-              onBlur={field.onBlur}
-              onChangeText={field.onChange}
-              error={fieldState.error?.message}
-            />
-          )}
+          testID="name"
+          label={translate('login.name')}
         />
 
-        <Controller
+        <ControlledInput
           name="email"
           control={control}
-          render={({ field, fieldState }) => (
-            <Input
-              testID="email-input"
-              label={translate('login.email')}
-              value={field.value}
-              onBlur={field.onBlur}
-              onChangeText={field.onChange}
-              error={fieldState.error?.message}
-            />
-          )}
+          testID="email-input"
+          label={translate('login.email')}
         />
 
-        <Controller
+        <ControlledInput
           name="password"
           control={control}
-          render={({ field, fieldState }) => (
-            <Input
-              testID="password-input"
-              label={translate('login.password')}
-              placeholder={translate('login.password_placeholder')}
-              secureTextEntry={true}
-              value={field.value}
-              onBlur={field.onBlur}
-              onChangeText={field.onChange}
-              error={fieldState.error?.message}
-            />
-          )}
+          testID="password-input"
+          label={translate('login.password')}
+          placeholder={translate('login.password_placeholder')}
+          secureTextEntry
         />
 
         <Button
