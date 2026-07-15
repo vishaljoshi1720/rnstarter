@@ -1,6 +1,6 @@
 {
   "name": "create-rnstarter-app",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "CLI to scaffold a React Native / Expo app from vishaljoshi1720/rnstarter",
   "homepage": "https://github.com/vishaljoshi1720/rnstarter",
   "repository": {

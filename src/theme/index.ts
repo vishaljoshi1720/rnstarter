@@ -23,13 +23,14 @@ import {
   zIndex,
 } from './tokens/layout';
 import { darkSemantic, lightSemantic } from './tokens/semantic';
-import { typography, typographyRaw } from './tokens/typography';
+import { fontWeight, typography, typographyRaw } from './tokens/typography';
 
 // Compose light theme from tokens
 const lightTheme = {
   colors: lightSemantic,
   typography,
   typographyRaw,
+  fontWeight,
   spacing,
   spacingRaw,
   radius,
@@ -50,6 +51,7 @@ const darkTheme = {
   colors: darkSemantic,
   typography,
   typographyRaw,
+  fontWeight,
   spacing,
   spacingRaw,
   radius,

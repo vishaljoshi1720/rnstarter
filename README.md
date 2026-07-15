@@ -53,6 +53,8 @@ src/
 └── translations/  # i18n (en, ar, …)
 ```
 
+See [Architecture Guide](docs/ARCHITECTURE.md) for detailed folder structure rationale and best practices.
+
 Customize `env.ts` (name, bundle IDs) and set `EXPO_PUBLIC_API_URL` via `.env.local` / EAS — see [docs/environment.md](./docs/environment.md). Also update `app.config.ts` (Expo owner, EAS project id).
 
 More detail: [docs/](./docs).
