@@ -11,9 +11,8 @@ import type {
   BottomSheetModalProps,
 } from '@gorhom/bottom-sheet';
 import type { CloseButtonProps, ModalHeaderProps, ModalProps, ModalRef } from './types';
-import { BottomSheetModal as GorhomModal } from '@gorhom/bottom-sheet';
+import { BottomSheetBackdrop, BottomSheetModal as GorhomModal } from '@gorhom/bottom-sheet';
 import * as React from 'react';
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
 import { Path, Svg } from 'react-native-svg';
 import { Pressable } from '@/components/atoms/pressable';
@@ -45,6 +44,10 @@ export function Modal({
   title,
   detached = false,
   backgroundStyle,
+  keyboardBehavior = 'interactive',
+  keyboardBlurBehavior = 'restore',
+  android_keyboardInputMode = 'adjustResize',
+  enableBlurKeyboardOnGesture = true,
   ...props
 }: ModalProps & { ref?: ModalRef }) {
   const detachedProps = React.useMemo(
@@ -70,6 +73,19 @@ export function Modal({
     [title, modal.dismiss],
   );
 
+  const renderBackdrop = React.useCallback(
+    (backdropProps: BottomSheetBackdropProps) => (
+      <BottomSheetBackdrop
+        {...backdropProps}
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+        pressBehavior="close"
+        opacity={0.5}
+      />
+    ),
+    [],
+  );
+
   return (
     <GorhomModal
       {...props}
@@ -80,6 +96,10 @@ export function Modal({
       backdropComponent={props.backdropComponent || renderBackdrop}
       enableDynamicSizing={false}
       handleComponent={renderHandleComponent}
+      keyboardBehavior={keyboardBehavior}
+      keyboardBlurBehavior={keyboardBlurBehavior}
+      android_keyboardInputMode={android_keyboardInputMode}
+      enableBlurKeyboardOnGesture={enableBlurKeyboardOnGesture}
       backgroundStyle={[
         { backgroundColor: theme.colors.surface.default },
         backgroundStyle,
@@ -87,25 +107,6 @@ export function Modal({
       handleIndicatorStyle={{ backgroundColor: theme.colors.border.default }}
     />
   );
-}
-
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
-
-function CustomBackdrop({ style, ..._ }: BottomSheetBackdropProps) {
-  const { theme } = useTheme();
-  const modal = useModal();
-  return (
-    <AnimatedPressable
-      onPress={() => modal.dismiss()}
-      entering={FadeIn.duration(50)}
-      exiting={FadeOut.duration(20)}
-      style={[style, { backgroundColor: theme.colors.overlay.backdrop }]}
-    />
-  );
-}
-
-export function renderBackdrop(props: BottomSheetBackdropProps) {
-  return <CustomBackdrop {...props} />;
 }
 
 function getDetachedProps(detached: boolean) {

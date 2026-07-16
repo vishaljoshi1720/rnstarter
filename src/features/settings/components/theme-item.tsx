@@ -1,45 +1,45 @@
+import type { SettingsOption } from './settings-options-sheet';
 import type { ColorScheme } from '@/common/types';
-
-import type { OptionType } from '@/components';
 
 import * as React from 'react';
 import { useSelectedTheme } from '@/common/hooks';
-import { Options, useModal } from '@/components';
+import { useModal } from '@/components';
 import { getThemeOptions } from '@/features/settings/constants';
-
+import { translate } from '@/lib/i18n';
 import { SettingsItem } from './settings-item';
+import { SettingsOptionsSheet } from './settings-options-sheet';
 
 export function ThemeItem() {
   const { selectedTheme, setSelectedTheme } = useSelectedTheme();
   const modal = useModal();
+  const themes = React.useMemo(() => getThemeOptions(), []);
+
+  const selected = React.useMemo(
+    () => themes.find(t => t.value === selectedTheme),
+    [selectedTheme, themes],
+  );
 
   const onSelect = React.useCallback(
-    (option: OptionType) => {
+    (option: SettingsOption) => {
       setSelectedTheme(option.value as ColorScheme);
       modal.dismiss();
     },
     [setSelectedTheme, modal],
   );
 
-  const themes = React.useMemo(() => getThemeOptions(), []);
-
-  const theme = React.useMemo(
-    () => themes.find(t => t.value === selectedTheme),
-    [selectedTheme, themes],
-  );
-
   return (
     <>
       <SettingsItem
         text="settings.theme.title"
-        value={theme?.label}
+        value={selected?.label}
         onPress={modal.present}
       />
-      <Options
+      <SettingsOptionsSheet
         ref={modal.ref}
+        title={translate('settings.theme.title')}
         options={themes}
+        value={selectedTheme}
         onSelect={onSelect}
-        value={theme?.value}
       />
     </>
   );

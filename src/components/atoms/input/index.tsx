@@ -6,6 +6,7 @@ import { I18nManager, Pressable, TextInput as RNTextInput, StyleSheet } from 're
 import { useTheme } from '@/theme';
 import { AppText } from '../text';
 import { View } from '../view';
+import { SIZE_CONFIG } from './constants';
 import { styles } from './styles';
 
 export type { InputProps, NInputProps } from './types';
@@ -118,6 +119,7 @@ export function Input({ ref, ...props }: InputProps & { ref?: React.Ref<NTextInp
     label,
     error,
     testID,
+    size = 'md',
     onBlur: onBlurProp,
     onFocus: onFocusProp,
     leftElement,
@@ -136,6 +138,8 @@ export function Input({ ref, ...props }: InputProps & { ref?: React.Ref<NTextInp
   const [isFocussed, setIsFocussed] = React.useState(false);
   const { theme } = useTheme();
   const disabled = Boolean(props.disabled);
+
+  const sizeConfig = SIZE_CONFIG[size];
 
   const onBlur = React.useCallback(
     (e: any) => {
@@ -166,6 +170,7 @@ export function Input({ ref, ...props }: InputProps & { ref?: React.Ref<NTextInp
       <View
         style={[
           styles.inputContainer,
+          sizeConfig.containerStyle,
           multiline && styles.inputContainerMultiline,
           isFocussed && styles.inputContainerFocused,
           Boolean(error) && styles.inputContainerError,
@@ -179,6 +184,7 @@ export function Input({ ref, ...props }: InputProps & { ref?: React.Ref<NTextInp
           placeholderTextColor={theme.colors.text.disabled}
           style={[
             styles.input,
+            sizeConfig.inputStyle,
             multiline && styles.inputMultiline,
             { color: theme.colors.text.primary },
             disabled && styles.inputDisabled,

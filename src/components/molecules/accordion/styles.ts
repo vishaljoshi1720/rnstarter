@@ -23,9 +23,7 @@ export const styles = StyleSheet.create(theme => ({
     alignItems: 'center',
     gap: theme.spacing.sm,
   },
-  chevron: {
-    fontSize: theme.icon.md,
-  },
+  chevron: {},
   chevronExpanded: {
     transform: [{ rotate: '180deg' }],
   },

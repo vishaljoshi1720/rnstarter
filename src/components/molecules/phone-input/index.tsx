@@ -1,83 +1,53 @@
-import type { BottomSheetModal } from '@gorhom/bottom-sheet';
-import type { Country, PhoneInputProps } from './types';
+import type { PhoneInputProps } from './types';
 
-import { BottomSheetFlatList } from '@gorhom/bottom-sheet';
 import * as React from 'react';
-import { Pressable } from 'react-native';
-import { AppText, Input, View } from '@/components';
-import { Modal, useModal } from '@/components/organisms/bottom-sheet';
-import { ALL_COUNTRIES, POPULAR_COUNTRIES } from './countries';
-import { styles } from './styles';
+import PhoneInputLib from 'rn-international-phone-number';
+import { AppText, View } from '@/components';
+import { useTheme } from '@/theme';
+import { modalStyles as phoneModalStyles, styles } from './styles';
 
-export type { Country, PhoneInputProps } from './types';
+export type { PhoneInputProps } from './types';
+export type { ICountry } from 'rn-international-phone-number';
 
-function CountryListItem({
-  country,
-  onSelect,
+function FieldMessage({
+  testID,
+  error,
+  helperText,
 }: {
-  country: Country;
-  onSelect: (country: Country) => void;
+  testID?: string;
+  error?: string;
+  helperText?: string;
 }) {
-  return (
-    <Pressable
-      style={styles.countryListItem}
-      onPress={() => onSelect(country)}
-    >
-      <AppText style={styles.flag}>{country.flag}</AppText>
-      <AppText variant="bodyMedium" style={styles.countryName}>
-        {country.name}
+  if (error) {
+    return (
+      <AppText
+        testID={testID ? `${testID}-error` : undefined}
+        variant="bodySmall"
+        color="error"
+        style={styles.helperText}
+      >
+        {error}
       </AppText>
-      <AppText variant="bodyMedium" color="secondary">
-        {country.dialCode}
-      </AppText>
-    </Pressable>
-  );
-}
-
-function CountryPicker({
-  ref,
-  onSelect,
-}: {
-  ref?: React.RefObject<BottomSheetModal | null>;
-  onSelect: (country: Country) => void;
-}) {
-  const renderItem = React.useCallback(
-    ({ item }: { item: Country }) => (
-      <CountryListItem country={item} onSelect={onSelect} />
-    ),
-    [onSelect],
-  );
-
-  const keyExtractor = React.useCallback(
-    (item: Country) => item.code,
-    [],
-  );
-
+    );
+  }
+  if (!helperText)
+    return null;
   return (
-    <Modal
-      ref={ref}
-      snapPoints={['90%']}
-      index={0}
+    <AppText
+      testID={testID ? `${testID}-helper` : undefined}
+      variant="bodySmall"
+      color="secondary"
+      style={styles.helperText}
     >
-      <View style={{ flex: 1 }}>
-        <AppText variant="headlineSmall" style={{ padding: 16 }}>
-          Select Country
-        </AppText>
-        <BottomSheetFlatList
-          data={ALL_COUNTRIES}
-          renderItem={renderItem}
-          keyExtractor={keyExtractor}
-        />
-      </View>
-    </Modal>
+      {helperText}
+    </AppText>
   );
 }
 
 export function PhoneInput({
   value = '',
   onChangeText,
-  country: countryCode = 'US',
-  onCountryChange,
+  defaultCountry = 'US',
   label,
   error,
   helperText,
@@ -87,98 +57,73 @@ export function PhoneInput({
   onBlur,
   onFocus,
 }: PhoneInputProps) {
-  const modal = useModal();
-  const [selectedCountry, setSelectedCountry] = React.useState<Country>(() =>
-    ALL_COUNTRIES.find(c => c.code === countryCode) || POPULAR_COUNTRIES[0],
+  const { theme } = useTheme();
+
+  const phoneInputStyles = React.useMemo(
+    () => ({
+      container: {
+        ...styles.phoneContainer,
+        ...(disabled ? styles.phoneContainerDisabled : null),
+        ...(error ? styles.phoneContainerError : null),
+      },
+      flagContainer: styles.flagContainer,
+      flag: styles.flag,
+      caret: styles.caret,
+      callingCode: styles.callingCode,
+      input: {
+        ...styles.input,
+        ...(disabled ? styles.inputDisabled : null),
+      },
+    }),
+    [disabled, error],
   );
 
-  const handleCountrySelect = React.useCallback(
-    (country: Country) => {
-      setSelectedCountry(country);
-      onCountryChange?.(country);
-      modal.dismiss();
-    },
-    [onCountryChange, modal],
+  const countryModalStyles = React.useMemo(
+    () => ({
+      backdrop: phoneModalStyles.modalBackdrop,
+      content: phoneModalStyles.modalContent,
+      dragHandleIndicator: phoneModalStyles.dragHandle,
+      searchContainer: phoneModalStyles.searchContainer,
+      searchInput: phoneModalStyles.searchInput,
+      list: phoneModalStyles.countryList,
+      countryItem: phoneModalStyles.countryItem,
+      flag: styles.flag,
+      countryName: phoneModalStyles.countryName,
+      callingCode: phoneModalStyles.countryCallingCode,
+      sectionTitle: phoneModalStyles.sectionTitle,
+    }),
+    [],
   );
-
-  const handlePhoneChange = React.useCallback(
-    (text: string) => {
-      // Remove non-digit characters
-      const cleaned = text.replace(/\D/g, '');
-      onChangeText?.(cleaned);
-    },
-    [onChangeText],
-  );
-
-  const showHelper = !error && helperText;
 
   return (
-    <>
-      <View style={styles.container}>
-        {label && (
-          <AppText
-            testID={testID ? `${testID}-label` : undefined}
-            variant="labelLarge"
-            color="primary"
-            style={styles.label}
-          >
-            {label}
-          </AppText>
-        )}
-        <View style={styles.inputContainer}>
-          <Pressable
-            style={[
-              styles.countryButton,
-              Boolean(error) && styles.countryButtonError,
-              disabled && styles.countryButtonDisabled,
-            ]}
-            onPress={modal.present}
-            disabled={disabled}
-            testID={testID ? `${testID}-country` : undefined}
-          >
-            <AppText style={styles.flag}>{selectedCountry.flag}</AppText>
-            <AppText style={styles.dialCode}>{selectedCountry.dialCode}</AppText>
-          </Pressable>
-          <View style={styles.phoneInputWrapper}>
-            <Input
-              value={value}
-              onChangeText={handlePhoneChange}
-              onBlur={onBlur}
-              onFocus={onFocus}
-              placeholder={placeholder}
-              keyboardType="phone-pad"
-              disabled={disabled}
-              error={error ? ' ' : undefined}
-              testID={testID ? `${testID}-input` : undefined}
-            />
-          </View>
-        </View>
-        {error && (
-          <AppText
-            testID={testID ? `${testID}-error` : undefined}
-            variant="bodySmall"
-            color="error"
-            style={styles.helperText}
-          >
-            {error}
-          </AppText>
-        )}
-        {showHelper && (
-          <AppText
-            testID={testID ? `${testID}-helper` : undefined}
-            variant="bodySmall"
-            color="secondary"
-            style={styles.helperText}
-          >
-            {helperText}
-          </AppText>
-        )}
-      </View>
-      <CountryPicker
-        ref={modal.ref}
-        onSelect={handleCountrySelect}
+    <View style={styles.wrapper} testID={testID}>
+      {label && (
+        <AppText
+          testID={testID ? `${testID}-label` : undefined}
+          variant="labelLarge"
+          color="primary"
+          style={styles.label}
+        >
+          {label}
+        </AppText>
+      )}
+      <PhoneInputLib
+        value={value}
+        onChangePhoneNumber={onChangeText}
+        defaultCountry={defaultCountry as any}
+        placeholder={placeholder}
+        disabled={disabled}
+        theme={theme.colors.isDark ? 'dark' : 'light'}
+        onBlur={onBlur}
+        onFocus={onFocus}
+        phoneInputPlaceholderTextColor={theme.colors.text.secondary}
+        phoneInputSelectionColor={theme.colors.brand.primary}
+        accessibilityLabelPhoneInput={label || placeholder}
+        phoneInputStyles={phoneInputStyles}
+        modalStyles={countryModalStyles}
       />
-    </>
+      <FieldMessage testID={testID} error={error} helperText={helperText} />
+    </View>
   );
 }
 

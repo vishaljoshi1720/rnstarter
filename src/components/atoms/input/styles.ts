@@ -12,6 +12,15 @@ export const styles = StyleSheet.create(theme => ({
     borderWidth: theme.borderWidth.thin,
     borderColor: theme.colors.border.default,
     backgroundColor: theme.colors.surface.default,
+  },
+  // Size variants
+  sizeSm: {
+    minHeight: theme.size.input.sm,
+  },
+  sizeMd: {
+    minHeight: theme.size.input.md,
+  },
+  sizeLg: {
     minHeight: theme.size.input.lg,
   },
   inputContainerMultiline: {
@@ -35,11 +44,24 @@ export const styles = StyleSheet.create(theme => ({
   },
   input: {
     flex: 1,
-    fontSize: theme.typography.bodyMedium.fontSize,
-    fontWeight: theme.typography.bodyMedium.fontWeight,
-    fontFamily: theme.typography.bodyMedium.fontFamily,
     paddingHorizontal: theme.spacing.lg,
     paddingVertical: theme.spacing.md,
+  },
+  // Input text size variants
+  inputSm: {
+    fontSize: theme.typography.bodySmall.fontSize,
+    fontWeight: theme.typography.bodySmall.fontWeight,
+    fontFamily: theme.typography.bodySmall.fontFamily,
+  },
+  inputMd: {
+    fontSize: theme.typography.bodyLarge.fontSize,
+    fontWeight: theme.typography.bodyLarge.fontWeight,
+    fontFamily: theme.typography.bodyLarge.fontFamily,
+  },
+  inputLg: {
+    fontSize: theme.typography.bodyLarge.fontSize,
+    fontWeight: theme.typography.bodyLarge.fontWeight,
+    fontFamily: theme.typography.bodyLarge.fontFamily,
   },
   inputMultiline: {
     minHeight: 80,

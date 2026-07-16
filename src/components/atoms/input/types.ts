@@ -1,10 +1,15 @@
 import type { TextInput, TextInputProps } from 'react-native';
 
+export type InputSize = 'sm' | 'md' | 'lg';
+
 export type InputProps = {
   label?: string;
   disabled?: boolean;
   error?: string;
   testID?: string;
+
+  /** Size variant for the input */
+  size?: InputSize;
 
   /** Element to render on the left side of the input */
   leftElement?: React.ReactNode;

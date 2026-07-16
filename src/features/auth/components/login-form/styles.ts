@@ -3,12 +3,11 @@ import { StyleSheet } from 'react-native-unistyles';
 import { ws } from '@/theme/normalize';
 
 export const styles = StyleSheet.create(theme => ({
-  keyboard: {
-    flex: 1,
-    backgroundColor: theme.colors.background.primary,
+  scrollContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
   },
   container: {
-    flex: 1,
     justifyContent: 'center',
     paddingHorizontal: theme.spacing.xl,
     paddingVertical: theme.spacing['2xl'],

@@ -1,12 +1,3 @@
-import type { InputProps } from '@/components/atoms/input/types';
-
-export type Country = {
-  code: string;
-  name: string;
-  dialCode: string;
-  flag: string;
-};
-
 export type PhoneInputProps = {
   /** Current phone number value */
   value?: string;
@@ -14,11 +5,8 @@ export type PhoneInputProps = {
   /** Callback when phone number changes */
   onChangeText?: (text: string) => void;
 
-  /** Selected country code */
-  country?: string;
-
-  /** Callback when country changes */
-  onCountryChange?: (country: Country) => void;
+  /** Default country code (ISO 3166-1 alpha-2) */
+  defaultCountry?: string;
 
   /** Label for the input */
   label?: string;
@@ -37,4 +25,10 @@ export type PhoneInputProps = {
 
   /** Test identifier */
   testID?: string;
-} & Pick<InputProps, 'onBlur' | 'onFocus'>;
+
+  /** Blur callback */
+  onBlur?: () => void;
+
+  /** Focus callback */
+  onFocus?: () => void;
+};
