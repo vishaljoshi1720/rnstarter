@@ -1,7 +1,9 @@
 import type { AccordionProps } from './types';
 
+import { ChevronDown } from 'lucide-react-native';
 import * as React from 'react';
 import { AppText, Pressable, View } from '@/components';
+import { useTheme } from '@/theme';
 import { styles } from './styles';
 
 export type { AccordionItem, AccordionProps } from './types';
@@ -17,6 +19,7 @@ export function Accordion({
   android_ripple,
 }: AccordionProps) {
   const [uncontrolledExpandedKeys, setUncontrolledExpandedKeys] = React.useState<string[]>([]);
+  const { theme } = useTheme();
 
   const isControlled = controlledExpandedKeys !== undefined;
   const expandedKeys = isControlled ? controlledExpandedKeys : uncontrolledExpandedKeys;
@@ -71,12 +74,13 @@ export function Accordion({
                 </AppText>
               </View>
 
-              <AppText
-                style={[styles.chevron, isExpanded && styles.chevronExpanded]}
-                color="secondary"
-              >
-                ▼
-              </AppText>
+              <View style={[styles.chevron, isExpanded && styles.chevronExpanded]}>
+                <ChevronDown
+                  size={theme.icon.md}
+                  color={theme.colors.icon.default}
+                  strokeWidth={2}
+                />
+              </View>
             </Pressable>
 
             {isExpanded && (

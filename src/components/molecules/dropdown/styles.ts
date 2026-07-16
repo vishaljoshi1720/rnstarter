@@ -1,0 +1,111 @@
+import { StyleSheet } from 'react-native-unistyles';
+
+export const styles = StyleSheet.create(theme => ({
+  wrapper: {
+    marginBottom: theme.spacing.md,
+  },
+  label: {
+    marginBottom: theme.spacing.sm,
+    color: theme.colors.text.primary,
+  },
+  container: {
+    height: theme.size.input.md,
+    borderWidth: theme.borderWidth.thin,
+    borderColor: theme.colors.border.default,
+    borderRadius: theme.radius.md,
+    paddingHorizontal: theme.spacing.md,
+    backgroundColor: theme.colors.surface.default,
+  },
+  containerError: {
+    borderColor: theme.colors.status.error,
+  },
+  containerDisabled: {
+    backgroundColor: theme.colors.background.tertiary,
+    borderColor: theme.colors.border.disabled,
+  },
+  placeholder: {
+    color: theme.colors.text.secondary,
+    fontFamily: theme.typography.bodyLarge.fontFamily,
+    fontSize: theme.typography.bodyLarge.fontSize,
+  },
+  selectedText: {
+    color: theme.colors.text.primary,
+    fontFamily: theme.typography.bodyLarge.fontFamily,
+    fontSize: theme.typography.bodyLarge.fontSize,
+  },
+  icon: {
+    width: theme.icon.sm,
+    height: theme.icon.sm,
+    tintColor: theme.colors.icon.default,
+  },
+  dropdownContainer: {
+    borderWidth: theme.borderWidth.thin,
+    borderColor: theme.colors.border.default,
+    borderRadius: theme.radius.md,
+    backgroundColor: theme.colors.surface.default,
+    marginTop: theme.spacing.xs,
+    overflow: 'hidden',
+    shadowColor: theme.shadow.md.shadowColor,
+    shadowOffset: theme.shadow.md.shadowOffset,
+    shadowOpacity: theme.shadow.md.shadowOpacity,
+    shadowRadius: theme.shadow.md.shadowRadius,
+    elevation: theme.shadow.md.elevation,
+  },
+  searchInput: {
+    borderWidth: theme.borderWidth.thin,
+    borderColor: theme.colors.border.default,
+    borderRadius: theme.radius.sm,
+    paddingHorizontal: theme.spacing.sm,
+    backgroundColor: theme.colors.background.tertiary,
+    color: theme.colors.text.primary,
+    fontFamily: theme.typography.bodyMedium.fontFamily,
+    fontSize: theme.typography.bodyMedium.fontSize,
+    height: theme.size.input.sm,
+  },
+  helperText: {
+    marginTop: theme.spacing.xs,
+  },
+  itemRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: theme.spacing.md,
+    paddingHorizontal: theme.spacing.md,
+    borderBottomWidth: theme.borderWidth.thin,
+    borderBottomColor: theme.colors.border.default,
+    gap: theme.spacing.sm,
+  },
+  itemRowSelected: {
+    backgroundColor: theme.colors.background.secondary,
+  },
+  itemLabel: {
+    flex: 1,
+    fontFamily: theme.typography.bodyLarge.fontFamily,
+    fontSize: theme.typography.bodyLarge.fontSize,
+    color: theme.colors.text.primary,
+  },
+  checkbox: {
+    width: theme.icon.md,
+    height: theme.icon.md,
+    borderRadius: theme.radius.sm,
+    borderWidth: theme.borderWidth.medium,
+    borderColor: theme.colors.border.default,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: theme.colors.surface.default,
+  },
+  checkboxSelected: {
+    borderColor: theme.colors.brand.primary,
+    backgroundColor: theme.colors.brand.primary,
+  },
+  chip: {
+    backgroundColor: theme.colors.background.secondary,
+    borderRadius: theme.radius.sm,
+    borderWidth: theme.borderWidth.thin,
+    borderColor: theme.colors.border.default,
+    paddingVertical: theme.spacing.xs,
+    paddingHorizontal: theme.spacing.sm,
+    marginRight: theme.spacing.xs,
+    marginTop: theme.spacing.xs,
+  },
+}));

@@ -132,6 +132,34 @@ jest.mock('expo-router', () => ({
   withLayoutContext: jest.fn(component => component),
 }));
 
+// Mock react-native-otp-entry
+jest.mock('react-native-otp-entry', () => ({
+  OtpInput: jest.fn(() => null),
+}));
+
+// Mock rn-international-phone-number
+jest.mock('rn-international-phone-number', () => ({
+  __esModule: true,
+  default: jest.fn(() => null),
+  getAllCountries: jest.fn(() => []),
+  isValidPhoneNumber: jest.fn(() => true),
+}));
+
+// Mock @carlos3g/element-dropdown
+jest.mock('@carlos3g/element-dropdown', () => ({
+  Dropdown: jest.fn(() => null),
+  MultiSelect: jest.fn(() => null),
+}));
+
+// Mock lucide-react-native
+jest.mock('lucide-react-native', () => ({
+  ChevronDown: jest.fn(() => null),
+  ChevronUp: jest.fn(() => null),
+  Check: jest.fn(() => null),
+  X: jest.fn(() => null),
+  Search: jest.fn(() => null),
+}));
+
 // Global window object setup for React Native testing
 // @ts-expect-error
 global.window = {};

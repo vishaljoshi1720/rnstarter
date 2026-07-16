@@ -1,158 +1,135 @@
 /**
  * Semantic Design Tokens
- *
- * Purpose-driven color tokens that reference primitive colors.
- * These provide meaning and context to raw colors.
  */
 
 import { primitive } from './primitive';
 
 export const lightSemantic = {
-  // Background colors
   background: {
     primary: primitive.white,
     secondary: primitive.neutral50,
     tertiary: primitive.neutral100,
   },
 
-  // Surface colors (cards, containers, elevated elements)
   surface: {
     default: primitive.white,
-    elevated: primitive.white,
+    elevated: primitive.neutral100,
     overlay: primitive.white,
   },
 
-  // Text colors
   text: {
     primary: primitive.neutral900,
-    secondary: primitive.neutral600,
-    tertiary: primitive.neutral500,
-    disabled: primitive.neutral400,
+    secondary: primitive.neutral500,
+    tertiary: primitive.neutral400,
+    disabled: primitive.neutral300,
     inverse: primitive.white,
-    /** Dark text on brand yellow (primary CTA) — same in light/dark */
-    onBrand: primitive.neutral900,
-    /** Light text on crimson / error / solid accents — same in light/dark */
+    /** Light text on indigo (primary CTA) — same in light/dark */
+    onBrand: primitive.white,
+    /** Light text on clay / error / solid accents — same in light/dark */
     onAccent: primitive.white,
     link: primitive.info600,
   },
 
-  // Border colors
   border: {
-    default: primitive.neutral300,
-    focus: primitive.neutral400,
+    default: primitive.neutral200,
+    focus: primitive.neutral300,
     error: primitive.error600,
-    disabled: primitive.neutral200,
+    disabled: primitive.neutral100,
   },
 
-  // Icon colors
   icon: {
-    default: primitive.neutral700,
+    default: primitive.neutral600,
     muted: primitive.neutral400,
     inverse: primitive.white,
-    brand: primitive.primary400,
+    brand: primitive.primary500,
   },
 
-  // Brand colors
   brand: {
-    primary: primitive.primary400,
-    secondary: primitive.secondary800,
-    primaryHover: primitive.primary500,
-    secondaryHover: primitive.secondary900,
+    primary: primitive.primary500,
+    secondary: primitive.secondary500,
+    primaryHover: primitive.primary600,
+    secondaryHover: primitive.secondary600,
   },
 
-  // Status colors
   status: {
-    success: primitive.success600,
+    success: primitive.success500,
     warning: primitive.warning500,
-    error: primitive.error600,
-    info: primitive.info600,
+    error: primitive.error500,
+    info: primitive.info500,
     successBg: primitive.success50,
     warningBg: primitive.warning50,
     errorBg: primitive.error50,
     infoBg: primitive.info50,
   },
 
-  // Overlay colors
   overlay: {
     backdrop: 'rgba(0, 0, 0, 0.4)',
     scrim: 'rgba(0, 0, 0, 0.1)',
   },
 
-  // Theme indicator
   isDark: false,
 } as const;
 
 export const darkSemantic = {
-  // Background colors
   background: {
     primary: primitive.neutral950,
     secondary: primitive.neutral900,
     tertiary: primitive.neutral800,
   },
 
-  // Surface colors (cards, containers, elevated elements) — lift above bg for contrast
   surface: {
-    default: primitive.neutral800,
-    elevated: primitive.neutral700,
-    overlay: primitive.neutral800,
+    default: primitive.neutral900,
+    elevated: primitive.neutral800,
+    overlay: primitive.neutral900,
   },
 
-  // Text colors — high contrast on dark surfaces
   text: {
     primary: primitive.neutral50,
-    secondary: primitive.neutral200,
-    tertiary: primitive.neutral400,
-    disabled: primitive.neutral500,
+    secondary: primitive.neutral400,
+    tertiary: primitive.neutral500,
+    disabled: primitive.neutral600,
     inverse: primitive.neutral950,
-    /** Dark text on brand yellow (primary CTA) — same in light/dark */
-    onBrand: primitive.neutral900,
-    /** Light text on crimson / error / solid accents — same in light/dark */
+    onBrand: primitive.white,
     onAccent: primitive.white,
     link: primitive.info300,
   },
 
-  // Border colors
   border: {
-    default: primitive.neutral600,
-    focus: primitive.neutral400,
+    default: primitive.neutral700,
+    focus: primitive.neutral500,
     error: primitive.error400,
-    disabled: primitive.neutral700,
+    disabled: primitive.neutral800,
   },
 
-  // Icon colors
   icon: {
-    default: primitive.neutral200,
-    muted: primitive.neutral400,
-    inverse: primitive.neutral900,
-    brand: primitive.primary400,
+    default: primitive.neutral300,
+    muted: primitive.neutral500,
+    inverse: primitive.neutral950,
+    brand: primitive.primary300,
   },
 
-  // Brand colors (preserve brand identity)
   brand: {
-    primary: primitive.primary400,
-    secondary: primitive.secondary600,
-    primaryHover: primitive.primary300,
-    secondaryHover: primitive.secondary500,
+    primary: primitive.primary300,
+    secondary: primitive.secondary300,
+    primaryHover: primitive.primary200,
+    secondaryHover: primitive.secondary200,
   },
 
-  // Status colors
   status: {
-    success: primitive.success500,
-    warning: primitive.warning400,
-    error: primitive.error500,
-    info: primitive.info500,
+    success: primitive.success300,
+    warning: primitive.warning300,
+    error: primitive.error300,
+    info: primitive.info300,
     successBg: primitive.success950,
     warningBg: primitive.warning950,
     errorBg: primitive.error950,
     infoBg: primitive.info950,
   },
 
-  // Overlay colors
   overlay: {
     backdrop: 'rgba(0, 0, 0, 0.6)',
     scrim: 'rgba(255, 255, 255, 0.1)',
   },
 
-  // Theme indicator
   isDark: true,
 } as const;

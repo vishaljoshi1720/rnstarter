@@ -1,86 +1,87 @@
-import type { TextInput as NTextInput } from 'react-native';
+import type { OtpInputRef } from 'react-native-otp-entry';
 import type { OTPInputProps } from './types';
 
 import * as React from 'react';
-import { Pressable, TextInput } from 'react-native';
-import { AppText, View } from '@/components';
+import { OtpInput } from 'react-native-otp-entry';
+import { View } from '@/components';
 import { useTheme } from '@/theme';
 import { styles } from './styles';
 
 export type { OTPInputProps } from './types';
 
+const NON_DIGIT_REGEX = /\D/g;
+
 export function OTPInput({
   length = 6,
-  value,
+  value = '',
   onChangeText,
   disabled = false,
   error = false,
   style,
   testID,
   accessibilityLabel,
-  ...textInputProps
 }: OTPInputProps) {
   const { theme } = useTheme();
-  const inputRef = React.useRef<NTextInput>(null);
-  const [focusedIndex, setFocusedIndex] = React.useState<number | null>(null);
+  const otpRef = React.useRef<OtpInputRef>(null);
+  const lastEmittedRef = React.useRef(value);
+  const skipNextSyncRef = React.useRef(false);
 
-  const digits = value.split('');
+  // Sync external value → library only when change came from outside (RHF reset, etc.)
+  React.useEffect(() => {
+    if (skipNextSyncRef.current) {
+      skipNextSyncRef.current = false;
+      lastEmittedRef.current = value;
+      return;
+    }
+    if (value !== lastEmittedRef.current) {
+      otpRef.current?.setValue(value);
+      lastEmittedRef.current = value;
+    }
+  }, [value]);
 
-  const handlePress = () => {
-    inputRef.current?.focus();
-  };
+  const handleChangeText = React.useCallback(
+    (text: string) => {
+      const sanitized = text.replace(NON_DIGIT_REGEX, '').slice(0, length);
+      skipNextSyncRef.current = true;
+      lastEmittedRef.current = sanitized;
+      onChangeText(sanitized);
 
-  const handleChangeText = (text: string) => {
-    const sanitized = text.replace(/\D/g, '').slice(0, length);
-    onChangeText(sanitized);
-  };
+      // Keep library text in sync if sanitizer stripped characters
+      if (sanitized !== text) {
+        otpRef.current?.setValue(sanitized);
+      }
+    },
+    [length, onChangeText],
+  );
 
   return (
-    <View style={style}>
-      <Pressable
-        onPress={handlePress}
+    <View
+      style={[styles.wrapper, style]}
+      testID={testID}
+      accessibilityLabel={accessibilityLabel}
+      accessibilityRole="text"
+    >
+      <OtpInput
+        ref={otpRef}
+        numberOfDigits={length}
+        onTextChange={handleChangeText}
         disabled={disabled}
-        style={styles.container}
-        testID={testID}
-      >
-        {Array.from({ length }).map((_, index) => {
-          const isFocused = focusedIndex === index || (digits.length === index && focusedIndex !== null);
-          const hasValue = Boolean(digits[index]);
-
-          return (
-            <View
-              key={index}
-              style={[
-                styles.input,
-                isFocused && styles.inputFocused,
-                error && styles.inputError,
-                disabled && styles.inputDisabled,
-              ]}
-            >
-              <AppText
-                variant="titleMedium"
-                color="primary"
-                style={{ fontWeight: theme.fontWeight.semibold }}
-              >
-                {hasValue ? digits[index] : ''}
-              </AppText>
-            </View>
-          );
-        })}
-      </Pressable>
-
-      <TextInput
-        ref={inputRef}
-        value={value}
-        onChangeText={handleChangeText}
-        onFocus={() => setFocusedIndex(digits.length)}
-        onBlur={() => setFocusedIndex(null)}
-        keyboardType="number-pad"
-        maxLength={length}
-        editable={!disabled}
-        style={styles.hiddenInput}
-        accessibilityLabel={accessibilityLabel || 'OTP Input'}
-        {...textInputProps}
+        type="numeric"
+        autoFocus={false}
+        focusColor={theme.colors.brand.primary}
+        theme={{
+          containerStyle: styles.container,
+          pinCodeContainerStyle: {
+            ...styles.input,
+            ...(error ? styles.inputError : null),
+            ...(disabled ? styles.inputDisabled : null),
+          },
+          focusedPinCodeContainerStyle: styles.inputFocused,
+          pinCodeTextStyle: styles.inputText,
+          focusStickStyle: {
+            backgroundColor: theme.colors.brand.primary,
+          },
+        }}
       />
     </View>
   );
