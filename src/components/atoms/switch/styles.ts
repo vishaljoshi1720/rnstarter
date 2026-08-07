@@ -6,12 +6,16 @@ export const styles = StyleSheet.create(theme => ({
     alignItems: 'center',
     gap: theme.spacing.sm,
   },
+  label: {
+    flex: 1,
+    flexShrink: 1,
+  },
   track: {
     width: theme.sizeRaw.switch.width,
     height: theme.sizeRaw.switch.height,
     borderRadius: theme.radius.full,
     justifyContent: 'center',
-    padding: theme.spacing['2xs'],
+    padding: theme.spacingRaw['2xs'],
   },
   trackOff: {
     backgroundColor: theme.colors.border.default,
@@ -33,15 +37,6 @@ export const styles = StyleSheet.create(theme => ({
     transform: [{ translateX: 0 }],
   },
   thumbOn: {
-    transform: [{ translateX: theme.sizeRaw.switch.width - theme.sizeRaw.switch.thumb - theme.spacingRaw.xs * 2 }],
-  },
-  label: {
-    fontSize: theme.typography.bodyMedium.fontSize,
-    fontWeight: theme.typography.bodyMedium.fontWeight,
-    fontFamily: theme.typography.bodyMedium.fontFamily,
-    color: theme.colors.text.primary,
-  },
-  labelDisabled: {
-    color: theme.colors.text.disabled,
+    transform: [{ translateX: theme.sizeRaw.switch.width - theme.sizeRaw.switch.thumb - theme.spacingRaw['2xs'] * 2 }],
   },
 }));

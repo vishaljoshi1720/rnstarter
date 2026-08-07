@@ -4,19 +4,23 @@
     "jsx": "react-native",
     "paths": {
       "@/*": ["./src/*"],
-      "@env": ["./env.ts"]
+      "@env": ["./env.ts"],
+      "react-native-unistyles/mocks": ["./src/types/unistyles-mocks.ts"]
     },
     "checkJs": true,
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "skipLibCheck": true
   },
   "include": [
-    "**/*.ts",
-    "**/*.tsx",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.d.ts",
     "**/*.d.ts",
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
-    "env.ts"
+    "env.ts",
+    "jest-setup.ts"
   ],
   "exclude": [
     "node_modules",

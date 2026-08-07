@@ -6,6 +6,7 @@ import { I18nManager, Text as NNText } from 'react-native';
 import { translate } from '@/lib/i18n';
 import { useTheme } from '@/theme';
 import { COLOR_RESOLVER, VARIANT_CONFIG } from './constants';
+import { styles } from './styles';
 
 export type { AppTextColor, AppTextProps, AppTextVariant } from './types';
 
@@ -28,6 +29,7 @@ export function AppText({
   const resolvedColor = COLOR_RESOLVER[color](theme.colors);
 
   const textStyle = [
+    styles.layout,
     variantConfig.style,
     { color: resolvedColor },
     { writingDirection: (I18nManager.isRTL ? 'rtl' : 'ltr') as 'rtl' | 'ltr' },

@@ -9,16 +9,8 @@ export type ControlledSwitchProps<T extends FieldValues>
   = MakeControlled<T, SwitchProps, 'value' | 'onValueChange'>;
 
 /**
- * Controlled Switch component for React Hook Form.
- * Automatically connects to form state and validation.
- *
- * @example
- * const form = useForm(schema);
- * <ControlledSwitch
- *   name="rememberMe"
- *   control={form.control}
- *   label="Remember me"
- * />
+ * Controlled Switch for React Hook Form.
+ * Touches the field on toggle so `mode: 'onTouched'` validation works.
  */
 export function ControlledSwitch<T extends FieldValues>({
   name,
@@ -32,7 +24,10 @@ export function ControlledSwitch<T extends FieldValues>({
     <Switch
       {...switchProps}
       value={field.value ?? false}
-      onValueChange={field.onChange}
+      onValueChange={(value) => {
+        field.onChange(value);
+        field.onBlur();
+      }}
     />
   );
 }

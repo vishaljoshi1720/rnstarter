@@ -1,49 +1,26 @@
 import type { PhoneInputProps } from './types';
 
 import * as React from 'react';
+import { View } from 'react-native';
 import PhoneInputLib from 'rn-international-phone-number';
-import { AppText, View } from '@/components';
 import { useTheme } from '@/theme';
+import { Field } from '../field';
 import { modalStyles as phoneModalStyles, styles } from './styles';
 
 export type { PhoneInputProps } from './types';
 export type { ICountry } from 'rn-international-phone-number';
 
-function FieldMessage({
-  testID,
-  error,
-  helperText,
-}: {
-  testID?: string;
-  error?: string;
-  helperText?: string;
-}) {
-  if (error) {
-    return (
-      <AppText
-        testID={testID ? `${testID}-error` : undefined}
-        variant="bodySmall"
-        color="error"
-        style={styles.helperText}
-      >
-        {error}
-      </AppText>
-    );
-  }
-  if (!helperText)
-    return null;
-  return (
-    <AppText
-      testID={testID ? `${testID}-helper` : undefined}
-      variant="bodySmall"
-      color="secondary"
-      style={styles.helperText}
-    >
-      {helperText}
-    </AppText>
-  );
+/** Must return an element — `null` falls back to the lib caret. */
+function renderHiddenSlot() {
+  return <View style={styles.slotHidden} />;
 }
 
+/**
+ * International phone input (optional heavy dep).
+ * Deep-import: `@/components/molecules/phone-input`
+ *
+ * Dial code + number only — no flag, no dropdown caret.
+ */
 export function PhoneInput({
   value = '',
   onChangeText,
@@ -67,8 +44,9 @@ export function PhoneInput({
         ...(error ? styles.phoneContainerError : null),
       },
       flagContainer: styles.flagContainer,
-      flag: styles.flag,
-      caret: styles.caret,
+      flag: styles.slotHidden,
+      caret: styles.slotHidden,
+      divider: styles.slotHidden,
       callingCode: styles.callingCode,
       input: {
         ...styles.input,
@@ -96,17 +74,12 @@ export function PhoneInput({
   );
 
   return (
-    <View style={styles.wrapper} testID={testID}>
-      {label && (
-        <AppText
-          testID={testID ? `${testID}-label` : undefined}
-          variant="labelLarge"
-          color="primary"
-          style={styles.label}
-        >
-          {label}
-        </AppText>
-      )}
+    <Field
+      label={label}
+      error={error}
+      helperText={helperText}
+      testID={testID}
+    >
       <PhoneInputLib
         value={value}
         onChangePhoneNumber={onChangeText}
@@ -116,14 +89,15 @@ export function PhoneInput({
         theme={theme.colors.isDark ? 'dark' : 'light'}
         onBlur={onBlur}
         onFocus={onFocus}
+        customFlag={renderHiddenSlot}
+        customCaret={renderHiddenSlot}
         phoneInputPlaceholderTextColor={theme.colors.text.secondary}
         phoneInputSelectionColor={theme.colors.brand.primary}
         accessibilityLabelPhoneInput={label || placeholder}
         phoneInputStyles={phoneInputStyles}
         modalStyles={countryModalStyles}
       />
-      <FieldMessage testID={testID} error={error} helperText={helperText} />
-    </View>
+    </Field>
   );
 }
 

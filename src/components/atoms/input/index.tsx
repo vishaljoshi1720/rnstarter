@@ -2,14 +2,14 @@ import type { TextInput as NTextInput } from 'react-native';
 import type { InputProps } from './types';
 import * as React from 'react';
 
-import { I18nManager, Pressable, TextInput as RNTextInput, StyleSheet } from 'react-native';
+import { I18nManager, Pressable, TextInput as RNTextInput } from 'react-native';
 import { useTheme } from '@/theme';
 import { AppText } from '../text';
 import { View } from '../view';
 import { SIZE_CONFIG } from './constants';
 import { styles } from './styles';
 
-export type { InputProps, NInputProps } from './types';
+export type { InputProps, InputSize, NInputProps } from './types';
 
 type InputMetaProps = {
   error?: string;
@@ -87,8 +87,12 @@ function ClearButton({
       style={styles.clearButton}
       testID={testID}
       hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+      accessibilityRole="button"
+      accessibilityLabel="Clear"
     >
-      <AppText style={{ fontSize: 16 }}>✕</AppText>
+      <AppText variant="labelMedium" color="secondary" accessible={false}>
+        ✕
+      </AppText>
     </Pressable>
   );
 }
@@ -133,36 +137,35 @@ export function Input({ ref, ...props }: InputProps & { ref?: React.Ref<NTextInp
     maxLength,
     multiline,
     numberOfLines = 4,
+    disabled = false,
+    style,
+    editable,
     ...inputProps
   } = props;
   const [isFocussed, setIsFocussed] = React.useState(false);
   const { theme } = useTheme();
-  const disabled = Boolean(props.disabled);
 
   const sizeConfig = SIZE_CONFIG[size];
+  const isDisabled = disabled;
+  const direction = I18nManager.isRTL ? 'rtl' : 'ltr';
+  const align = I18nManager.isRTL ? 'right' : 'left';
 
-  const onBlur = React.useCallback(
-    (e: any) => {
-      setIsFocussed(false);
-      onBlurProp?.(e);
-    },
-    [onBlurProp],
-  );
+  const onBlur = React.useCallback((e: any) => {
+    setIsFocussed(false);
+    onBlurProp?.(e);
+  }, [onBlurProp]);
 
-  const onFocus = React.useCallback(
-    (e: any) => {
-      setIsFocussed(true);
-      onFocusProp?.(e);
-    },
-    [onFocusProp],
-  );
+  const onFocus = React.useCallback((e: any) => {
+    setIsFocussed(true);
+    onFocusProp?.(e);
+  }, [onFocusProp]);
 
   const handleClear = React.useCallback(() => {
     onChangeText?.('');
     onClear?.();
   }, [onChangeText, onClear]);
 
-  const showClearButton = clearable && value && value.length > 0 && !disabled;
+  const showClearButton = clearable && value && value.length > 0 && !isDisabled;
 
   return (
     <View style={styles.container}>
@@ -174,7 +177,7 @@ export function Input({ ref, ...props }: InputProps & { ref?: React.Ref<NTextInp
           multiline && styles.inputContainerMultiline,
           isFocussed && styles.inputContainerFocused,
           Boolean(error) && styles.inputContainerError,
-          disabled && styles.inputContainerDisabled,
+          isDisabled && styles.inputContainerDisabled,
         ]}
       >
         {leftElement && <View style={styles.leftElement}>{leftElement}</View>}
@@ -186,13 +189,9 @@ export function Input({ ref, ...props }: InputProps & { ref?: React.Ref<NTextInp
             styles.input,
             sizeConfig.inputStyle,
             multiline && styles.inputMultiline,
-            { color: theme.colors.text.primary },
-            disabled && styles.inputDisabled,
-            inputProps.style,
-            StyleSheet.flatten([
-              { writingDirection: (I18nManager.isRTL ? 'rtl' : 'ltr') as 'rtl' | 'ltr' },
-              { textAlign: (I18nManager.isRTL ? 'right' : 'left') as 'right' | 'left' },
-            ]),
+            { color: theme.colors.text.primary, writingDirection: direction, textAlign: align },
+            isDisabled && styles.inputDisabled,
+            style,
           ]}
           onBlur={onBlur}
           onFocus={onFocus}
@@ -201,6 +200,7 @@ export function Input({ ref, ...props }: InputProps & { ref?: React.Ref<NTextInp
           multiline={multiline}
           numberOfLines={multiline ? numberOfLines : undefined}
           maxLength={maxLength}
+          editable={editable ?? !isDisabled}
           {...inputProps}
         />
         {showClearButton && !multiline && (

@@ -17,8 +17,8 @@ src/
 ├── components/         # Shared UI primitives (atomic design)
 ├── lib/                # Infrastructure integrations
 ├── theme/              # Design tokens + theming
+├── shared/             # App-wide shared (auth session, routes, hooks)
 ├── translations/       # i18n files
-└── common/             # Shared utilities + constants
 ```
 
 ### Why Feature-Based?
@@ -67,7 +67,7 @@ Third-party library integrations, framework wrappers, utilities:
 
 - Business logic → `features/`
 - UI components → `components/`
-- App-specific utilities → `common/`
+- App-specific utilities → `shared/`
 
 ### Industry Standard
 
@@ -102,21 +102,20 @@ components/ → theme/
 
 ## Components Architecture (Atomic Design)
 
-Organized by complexity, not file type:
+Source of truth: `src/components/inventory.ts` + slim `@/components` barrel.
 
-### atoms/
-Single-responsibility primitives with no dependencies on other components:
-- `Button`, `Input`, `Text`, `Icon`, `Avatar`, `Badge`
+### Public core (`@/components`)
+- AppText, Button, Input, Icon, Switch, Field, Screen, Modal/useModal
 
-### molecules/
-Combinations of atoms forming reusable patterns:
-- `Card`, `List`, `Select`, `DatePickerModal`, `MaterialTabs`
+### Optional (deep-import `@/components/<layer>/<name>`)
+- date-time-field, dropdown, otp-input, phone-input, radio-group, navigation helpers
 
-### organisms/
-Complex, feature-rich components:
-- `Header`, `FeedbackState` (EmptyState, ErrorState)
+### Removed
+Unused chrome (Avatar, Badge, Card, Header, …), zero-value RN wrappers from the public barrel, duplicate date/time folders.
 
 **Rule:** Lower levels (atoms) never import from higher levels (molecules, organisms).
+
+**Honesty:** almost nothing is full PASS under `src/components/production-ready.ts`. Screen best organism = CONDITIONAL.
 
 ---
 
@@ -180,18 +179,22 @@ const form = useForm(schema, {
 
 ### Async Default Values (Loading from API)
 
-Use `useFormWithDefaults` hook:
+Prefer React Query + `reset()`:
 
 ```typescript
-const form = useFormWithDefaults(schema, {
-  load: () => api.getProfile(),
-  transform: (data) => ({
-    name: data.fullName,
-    email: data.email,
-  }),
-});
+const { data, isLoading } = useProfileQuery();
+const form = useForm(schema);
 
-if (form.isLoadingDefaults) {
+React.useEffect(() => {
+  if (data) {
+    form.reset({
+      name: data.fullName,
+      email: data.email,
+    });
+  }
+}, [data, form]);
+
+if (isLoading) {
   return <LoadingSpinner />;
 }
 ```

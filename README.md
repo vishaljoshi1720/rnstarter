@@ -1,6 +1,8 @@
 # RN Starter
 
-Production-ready React Native / Expo template. Unistyles, atomic UI, Expo Router, TypeScript, React Query, MMKV, Jest, EAS.
+Opinionated Expo / React Native starter: Unistyles UI, Expo Router, TypeScript, React Query, MMKV, Jest, EAS.
+
+**Status:** solid app shell + evolving component kit — **not** a finished multi-app design-system package. Expect to harden auth/API/security and prune/third-party fields before treating as production product template.
 
 ## Quick start
 
@@ -23,7 +25,7 @@ pnpm ios   # or pnpm android
 - Expo SDK 54 + React Native
 - Expo Router (file-based)
 - TypeScript
-- Unistyles (responsive scaling via `s` / `vs` / `ms`)
+- Unistyles (responsive scaling via `ws` / `hs` / `fs`)
 - Zustand + React Query
 - React Hook Form + Zod
 - MMKV
@@ -47,9 +49,11 @@ pnpm check-all
 ```
 src/
 ├── app/           # Expo Router routes
-├── features/      # Feature modules
+├── features/      # Feature modules (public index.ts)
 ├── components/    # Shared UI (atoms / molecules / organisms)
-├── lib/           # api, auth, i18n, storage, theme
+├── lib/           # api, form, i18n, storage
+├── shared/        # auth session, routes, app hooks
+├── theme/         # tokens + Unistyles
 └── translations/  # i18n (en, ar, …)
 ```
 

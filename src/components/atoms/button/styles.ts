@@ -35,12 +35,22 @@ export const styles = StyleSheet.create(theme => ({
     height: theme.icon.xl,
     width: theme.icon.xl,
     paddingHorizontal: 0,
+    gap: 0,
   },
   selfCenter: { alignSelf: 'center' },
+  fullWidth: {
+    alignSelf: 'stretch',
+    width: '100%',
+  },
   loadingSpinner: {
     marginRight: theme.spacing.sm,
   },
   iconWrapper: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  /** Icon-only buttons — no side margin so glyph sits dead-center. */
+  iconOnly: {
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -52,7 +62,17 @@ export const styles = StyleSheet.create(theme => ({
   },
   label: {
     ...theme.typography.labelMedium,
+    flexShrink: 1,
+    maxWidth: '100%',
   },
-  labelLg: { ...theme.typography.labelLarge },
-  labelSm: { ...theme.typography.labelSmall },
+  labelLg: {
+    ...theme.typography.labelLarge,
+    flexShrink: 1,
+    maxWidth: '100%',
+  },
+  labelSm: {
+    ...theme.typography.labelSmall,
+    flexShrink: 1,
+    maxWidth: '100%',
+  },
 }));

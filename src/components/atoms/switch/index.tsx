@@ -1,8 +1,10 @@
 import type { SwitchProps } from './types';
 
 import * as React from 'react';
-import { Animated, Easing, Text } from 'react-native';
-import { Pressable } from '@/components';
+import { Animated, Easing } from 'react-native';
+import { useTheme } from '@/theme';
+import { Pressable } from '../pressable';
+import { AppText } from '../text';
 import { styles } from './styles';
 
 export type { SwitchProps } from './types';
@@ -17,7 +19,13 @@ export function Switch({
   accessibilityLabel,
   accessibilityHint,
 }: SwitchProps) {
+  const { theme } = useTheme();
   const animatedValue = React.useRef(new Animated.Value(value ? 1 : 0)).current;
+
+  const thumbTravel
+    = theme.size.switch.width
+      - theme.size.switch.thumb
+      - theme.spacingRaw['2xs'] * 2;
 
   React.useEffect(() => {
     Animated.timing(animatedValue, {
@@ -36,7 +44,7 @@ export function Switch({
 
   const thumbTranslateX = animatedValue.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, 22],
+    outputRange: [0, thumbTravel],
   });
 
   const thumbStyle = [
@@ -64,9 +72,13 @@ export function Switch({
         <Animated.View style={thumbStyle} />
       </Animated.View>
       {label && (
-        <Text style={[styles.label, disabled && styles.labelDisabled]}>
+        <AppText
+          variant="bodyMedium"
+          color={disabled ? 'disabled' : 'primary'}
+          style={styles.label}
+        >
           {label}
-        </Text>
+        </AppText>
       )}
     </Pressable>
   );

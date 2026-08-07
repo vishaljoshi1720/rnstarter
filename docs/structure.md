@@ -2,18 +2,20 @@
 
 ```
 src/
-├── app/            # Expo Router routes
-├── features/       # Feature modules (screens, hooks, api)
+├── app/            # Expo Router routes (thin re-exports)
+├── features/       # Feature modules — public API via index.ts
 ├── components/     # Shared UI (atoms / molecules / organisms)
-├── lib/            # api, auth, i18n, storage, unistyles
+├── lib/            # api, form, i18n, storage, auth token helpers
+├── shared/         # App-wide: auth session, routes, hooks, utils
+├── theme/          # Design tokens + Unistyles + nav theme
 └── translations/   # en.json, ar.json, …
 ```
 
 **Rules of thumb**
 
-- New screen → `src/features/[feature]/` + route under `src/app/`
-- Shared UI → `src/components/` (import `@/components` or `@/components/atoms/…`)
-- Shared hooks/utils → `src/common/`
-- App infra → `src/lib/` (api, auth, i18n, storage)
+- New screen → `src/features/[feature]/` (+ `index.ts` export) + route under `src/app/`
+- Shared UI → `src/components/` (import `@/components` or deep atom path)
+- Cross-cutting session / app hooks → `src/shared/` (e.g. `@/shared/auth`)
+- App infra → `src/lib/` (api, form, i18n, storage)
 - App config → `env.ts` + `app.config.ts`
-- Imports → `@/...` (absolute), not relative `../`
+- Imports → `@/...` (absolute); inside `components/` prefer relative imports to avoid barrel cycles

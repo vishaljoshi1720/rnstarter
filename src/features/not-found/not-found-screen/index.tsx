@@ -1,15 +1,19 @@
 import { Link, Stack } from 'expo-router';
 
-import { ROUTES } from '@/common/constants';
-import { AppText, Screen, View } from '@/components';
+import { View } from 'react-native';
+import { AppText, Screen } from '@/components';
 import { translate } from '@/lib/i18n';
+import { ROUTES } from '@/shared/constants';
 import { styles } from './styles';
 
 export function NotFoundScreen() {
   return (
     <>
       <Stack.Screen options={{ title: translate('not_found.title') }} />
-      <Screen style={styles.container}>
+      <Screen
+        inset={{ horizontal: 'xl', vertical: '2xl' }}
+        contentStyle={styles.content}
+      >
         <View>
           <AppText
             variant="displayMedium"

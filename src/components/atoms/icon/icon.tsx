@@ -13,11 +13,9 @@ const RTL_FLIP_ICONS = new Set(['arrow-right']);
 
 /**
  * Typed SVG icon from the project registry.
- * Pass design units — square icons use ms(); rectangular use s()+vs().
+ * Size/width/height are design units (not auto-scaled — pass theme.icon.*).
  *
- * @example
- * <Icon name="home" size={24} color={theme.colors.bodyText} />
- * <Icon name="arrow-right" accessibilityLabel={translate('common.navigate')} />
+ * Decorative by default: set `accessibilityLabel` to expose to screen readers.
  */
 export function Icon({
   name,
@@ -29,7 +27,7 @@ export function Icon({
   testID,
   accessibilityLabel,
   accessibilityHint,
-  accessible = true,
+  accessible,
   ...accessibilityProps
 }: IconProps) {
   const { theme } = useTheme();
@@ -38,9 +36,8 @@ export function Icon({
 
   const rawWidth = width ?? defaults?.width ?? size;
   const rawHeight = height ?? defaults?.height ?? size;
-  const resolvedWidth = rawWidth;
-  const resolvedHeight = rawHeight;
   const resolvedColor = color ?? theme.colors.text.primary;
+  const isAccessible = accessible ?? Boolean(accessibilityLabel);
 
   const rtlStyle = RTL_FLIP_ICONS.has(name)
     ? { transform: [{ scaleX: isRTL ? -1 : 1 }] }
@@ -48,15 +45,16 @@ export function Icon({
 
   return (
     <SvgIcon
-      width={resolvedWidth}
-      height={resolvedHeight}
+      width={rawWidth}
+      height={rawHeight}
       color={resolvedColor}
       style={StyleSheet.flatten([rtlStyle, style])}
       testID={testID}
-      accessible={accessible}
-      accessibilityRole="image"
-      accessibilityLabel={accessibilityLabel ?? name}
+      accessible={isAccessible}
+      accessibilityRole={isAccessible ? 'image' : undefined}
+      accessibilityLabel={accessibilityLabel}
       accessibilityHint={accessibilityHint}
+      importantForAccessibility={isAccessible ? 'yes' : 'no-hide-descendants'}
       {...accessibilityProps}
     />
   );

@@ -8,6 +8,7 @@ import { useTheme } from '@/theme';
 import { Pressable } from '../pressable';
 import { AppText } from '../text';
 import { COLOR_RESOLVER } from '../text/constants';
+import { View as AppView } from '../view';
 import { DISABLED_CONFIG, SIZE_CONFIG, VARIANT_CONFIG } from './constants';
 import { IconWrapper } from './icon-wrapper';
 import { styles } from './styles';
@@ -34,7 +35,7 @@ export function Button({
   variant = 'default',
   disabled = false,
   size = 'default',
-  fullWidth = true,
+  fullWidth = false,
   leftIcon,
   rightIcon,
   style,
@@ -58,7 +59,7 @@ export function Button({
     styles.base,
     variantConfig.containerStyle,
     sizeConfig.containerStyle,
-    !fullWidth && styles.selfCenter,
+    fullWidth ? styles.fullWidth : styles.selfCenter,
     style,
   ];
 
@@ -102,28 +103,35 @@ export function Button({
           />
         )}
 
-        {children || (
-          <>
-            <IconWrapper position="left" size={sizeConfig.iconSize}>
-              {leftIcon}
-            </IconWrapper>
+        {children || (size === 'icon'
+          ? (
+              <AppView style={styles.iconOnly}>
+                {leftIcon || rightIcon}
+              </AppView>
+            )
+          : (
+              <>
+                <IconWrapper position="left" size={sizeConfig.iconSize}>
+                  {leftIcon}
+                </IconWrapper>
 
-            {label && (
-              <AppText
-                testID={testID ? `${testID}-label` : undefined}
-                variant={size === 'lg' ? 'labelLarge' : size === 'sm' ? 'labelSmall' : 'labelMedium'}
-                color={labelColor}
-                style={labelStyle}
-              >
-                {label}
-              </AppText>
-            )}
+                {label && (
+                  <AppText
+                    testID={testID ? `${testID}-label` : undefined}
+                    variant={size === 'lg' ? 'labelLarge' : size === 'sm' ? 'labelSmall' : 'labelMedium'}
+                    color={labelColor}
+                    numberOfLines={1}
+                    style={labelStyle}
+                  >
+                    {label}
+                  </AppText>
+                )}
 
-            <IconWrapper position="right" size={sizeConfig.iconSize}>
-              {rightIcon}
-            </IconWrapper>
-          </>
-        )}
+                <IconWrapper position="right" size={sizeConfig.iconSize}>
+                  {rightIcon}
+                </IconWrapper>
+              </>
+            ))}
       </>
     </Pressable>
   );

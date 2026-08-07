@@ -61,12 +61,12 @@ const schema = z.object({
   age: z.number().min(18),
 });
 
-const form = useForm(schema, {
+  const form = useForm(schema, {
   defaultValues: {
     name: '',
     age: 0,
   },
-  mode: 'onBlur', // Already set by default
+  mode: 'onBlur', // Override default `onTouched` when needed
 });
 ```
 
@@ -96,14 +96,14 @@ All form components are wrapped with React Hook Form's controller logic. Just pa
 
 ---
 
-### ControlledSelect
+### ControlledDropdown
 
 ```tsx
-<ControlledSelect
+<ControlledDropdown
   name="country"
   control={control}
   label="Country"
-  options={[
+  data={[
     { label: 'United States', value: 'US' },
     { label: 'Canada', value: 'CA' },
   ]}
@@ -111,22 +111,22 @@ All form components are wrapped with React Hook Form's controller logic. Just pa
 />
 ```
 
-**Props:** All `SelectProps` + `name`, `control`, `rules`
+**Props:** All `DropdownProps` + `name`, `control`, `rules`
 
 ---
 
-### ControlledMultiSelect
+### ControlledMultiSelectDropdown
 
 ```tsx
-<ControlledMultiSelect
+<ControlledMultiSelectDropdown
   name="interests"
   control={control}
   label="Interests"
-  options={interestOptions}
+  data={interestOptions}
 />
 ```
 
-Automatically sets `multiple={true}` on Select component. Shows checkboxes, Select All/Clear buttons, and confirmation footer.
+Shows checkboxes for multi-select. Import from `@/lib/form`.
 
 ---
 
@@ -166,13 +166,17 @@ Automatically sets `multiple={true}` on Select component. Shows checkboxes, Sele
 ### ControlledPhoneInput
 
 ```tsx
+import { ControlledPhoneInput } from '@/lib/form/controlled/controlled-phone-input';
+
 <ControlledPhoneInput
   name="phone"
   control={control}
   label="Phone Number"
-  country="US"
+  defaultCountry="US"
 />
 ```
+
+Optional heavy dependency — deep-import the controlled wrapper (not re-exported from `@/lib/form` barrel).
 
 Includes country picker with flags and dial codes.
 
@@ -314,30 +318,24 @@ const form = useForm(schema, {
 
 ### Asynchronous Default Values (Loading from API)
 
-Use `useFormWithDefaults` hook for forms that load data from an API:
+Prefer React Query (or your data hook) + `form.reset()`:
 
 ```tsx
-import { useFormWithDefaults } from '@/lib/form';
-
-const profileSchema = z.object({
-  name: z.string(),
-  email: z.string().email(),
-  bio: z.string().optional(),
-});
-
 function ProfileForm() {
-  const form = useFormWithDefaults(profileSchema, {
-    load: () => api.getProfile(),
-    transform: (data) => ({
+  const { data, isLoading } = useProfileQuery();
+  const form = useForm(profileSchema);
+
+  React.useEffect(() => {
+    if (!data)
+      return;
+    form.reset({
       name: data.fullName,
       email: data.email,
       bio: data.biography || '',
-    }),
-    onError: (error) => toast.error(error.message),
-  });
+    });
+  }, [data, form]);
 
-  // Show loading state while fetching defaults
-  if (form.isLoadingDefaults) {
+  if (isLoading) {
     return <LoadingSpinner />;
   }
 

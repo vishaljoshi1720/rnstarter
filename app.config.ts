@@ -48,6 +48,8 @@ const androidConfig: ExpoConfig['android'] = {
     backgroundColor: '#2E3C4B',
   },
   package: Env.PACKAGE,
+  // Helps Gorhom / TextInput keyboard avoidance (pair with Modal android_keyboardInputMode).
+  softwareKeyboardLayoutMode: 'resize',
   ...(associatedHost
     ? {
         intentFilters: [
@@ -122,6 +124,7 @@ const plugins: ExpoConfig['plugins'] = [
   ['app-icon-badge', appIconBadgeConfig],
   ['react-native-edge-to-edge'],
   '@react-native-community/datetimepicker',
+  'expo-secure-store',
 ];
 
 export default ({ config }: ConfigContext): ExpoConfig => ({

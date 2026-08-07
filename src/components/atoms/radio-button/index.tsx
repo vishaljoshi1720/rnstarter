@@ -1,7 +1,9 @@
 import type { RadioButtonProps } from './types';
 
 import * as React from 'react';
-import { AppText, Pressable, View } from '@/components';
+import { Pressable } from '../pressable';
+import { AppText } from '../text';
+import { View } from '../view';
 import { SIZE_CONFIG } from './constants';
 import { styles } from './styles';
 
@@ -59,6 +61,7 @@ export function RadioButton({
         <AppText
           variant={size === 'sm' ? 'bodySmall' : size === 'lg' ? 'bodyLarge' : 'bodyMedium'}
           color={disabled ? 'disabled' : 'primary'}
+          style={styles.label}
         >
           {label}
         </AppText>

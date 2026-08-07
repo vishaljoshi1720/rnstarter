@@ -79,6 +79,7 @@ jest.mock('expo-localization', () => ({
 }));
 
 jest.mock('react-native-edge-to-edge', () => ({
+  SystemBars: () => null,
   useEdgeToEdge: jest.fn(),
 }));
 
@@ -158,6 +159,14 @@ jest.mock('lucide-react-native', () => ({
   Check: jest.fn(() => null),
   X: jest.fn(() => null),
   Search: jest.fn(() => null),
+  Calendar: jest.fn(() => null),
+  Clock: jest.fn(() => null),
+}));
+
+jest.mock('expo-secure-store', () => ({
+  getItemAsync: jest.fn(async () => null),
+  setItemAsync: jest.fn(async () => undefined),
+  deleteItemAsync: jest.fn(async () => undefined),
 }));
 
 // Global window object setup for React Native testing

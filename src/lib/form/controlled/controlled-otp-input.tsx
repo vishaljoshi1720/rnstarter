@@ -1,40 +1,49 @@
 import type { FieldValues } from 'react-hook-form';
 import type { MakeControlled } from './types';
-import type { OTPInputProps } from '@/components';
+import type { OTPInputProps } from '@/components/molecules/otp-input';
 import * as React from 'react';
 import { useController } from 'react-hook-form';
-import { OTPInput } from '@/components';
+import { Field } from '@/components/molecules/field';
+import { OTPInput } from '@/components/molecules/otp-input';
 
 export type ControlledOTPInputProps<T extends FieldValues>
-  = MakeControlled<T, OTPInputProps, 'value' | 'onChangeText'>;
+  = MakeControlled<T, OTPInputProps, 'value' | 'onChangeText'> & {
+    label?: string;
+    helperText?: string;
+  };
 
 /**
- * Controlled OTPInput component for React Hook Form.
- * Automatically connects to form state and validation.
- *
- * @example
- * const form = useForm(schema);
- * <ControlledOTPInput
- *   name="otp"
- *   control={form.control}
- *   length={6}
- * />
+ * Controlled OTPInput for React Hook Form.
+ * Errors surface via Field message only — cell borders stay neutral
+ * (matches common OTP UX: WhatsApp / banking apps).
  */
 export function ControlledOTPInput<T extends FieldValues>({
   name,
   control,
   rules,
+  label,
+  helperText,
+  onFilled,
   ...otpInputProps
 }: ControlledOTPInputProps<T>) {
   const { field, fieldState } = useController({ name, control, rules });
 
   return (
-    <OTPInput
-      {...otpInputProps}
-      value={field.value ?? ''}
-      onChangeText={field.onChange}
-      error={Boolean(fieldState.error)}
-    />
+    <Field
+      label={label}
+      error={fieldState.error?.message}
+      helperText={helperText}
+      testID={otpInputProps.testID}
+    >
+      <OTPInput
+        {...otpInputProps}
+        value={field.value ?? ''}
+        onChangeText={field.onChange}
+        onFilled={(text) => {
+          onFilled?.(text);
+        }}
+      />
+    </Field>
   );
 }
 

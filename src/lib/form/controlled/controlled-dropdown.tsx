@@ -1,25 +1,16 @@
 import type { FieldValues } from 'react-hook-form';
 import type { MakeControlled } from './types';
-import type { DropdownProps } from '@/components';
+import type { DropdownProps } from '@/components/molecules/dropdown';
 import * as React from 'react';
 import { useController } from 'react-hook-form';
-import { Dropdown } from '@/components';
+import { Dropdown } from '@/components/molecules/dropdown';
 
 export type ControlledDropdownProps<T extends FieldValues>
   = MakeControlled<T, DropdownProps, 'value' | 'onChange'>;
 
 /**
  * Controlled Dropdown component for React Hook Form.
- * Automatically connects to form state and validation.
- *
- * @example
- * const form = useForm(schema);
- * <ControlledDropdown
- *   name="country"
- *   control={form.control}
- *   data={countries}
- *   label="Country"
- * />
+ * Calls onBlur after selection so `mode: 'onTouched'` validation runs.
  */
 export function ControlledDropdown<T extends FieldValues>({
   name,
@@ -33,7 +24,10 @@ export function ControlledDropdown<T extends FieldValues>({
     <Dropdown
       {...dropdownProps}
       value={field.value}
-      onChange={field.onChange}
+      onChange={(value) => {
+        field.onChange(value);
+        field.onBlur();
+      }}
       error={fieldState.error?.message}
     />
   );

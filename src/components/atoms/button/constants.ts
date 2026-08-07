@@ -62,7 +62,7 @@ export const SIZE_CONFIG: Record<ButtonSize, SizeConfig> = {
   icon: {
     containerStyle: styles.sizeIcon,
     labelStyle: styles.label,
-    iconSize: 20,
+    iconSize: 24,
   },
 };
 

@@ -1,16 +1,7 @@
 import { StyleSheet } from 'react-native-unistyles';
 
-import { ws } from '@/theme/normalize';
-
 export const styles = StyleSheet.create(theme => ({
-  scrollContent: {
-    flexGrow: 1,
-    justifyContent: 'center',
-  },
   container: {
-    justifyContent: 'center',
-    paddingHorizontal: theme.spacing.xl,
-    paddingVertical: theme.spacing['2xl'],
     gap: theme.spacing.sm,
   },
   header: {
@@ -24,7 +15,7 @@ export const styles = StyleSheet.create(theme => ({
   },
   subtitle: {
     marginBottom: theme.spacing.xl,
-    maxWidth: ws(320),
+    maxWidth: '90%',
     textAlign: 'center',
   },
 }));

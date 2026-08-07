@@ -1,24 +1,40 @@
-/* eslint-disable react-refresh/only-export-components */
-import type { ImgProps } from './types';
-import { Image as NImage } from 'expo-image';
+import type { AppImageProps } from './types';
+
+import { Image as ExpoImage } from 'expo-image';
 import * as React from 'react';
 
-export type { ImgProps } from './types';
+export type { AppImageProps } from './types';
 
+/**
+ * Standard image atom — Expo Image with disk+memory caching by default.
+ */
 export function Image({
+  source,
   style,
-  placeholder = 'L6PZfSi_.AyE_3t7t7R**0o#DgR4',
+  contentFit = 'cover',
+  placeholder,
+  cachePolicy = 'memory-disk',
+  transition = 200,
+  recyclingKey,
+  testID,
+  accessibilityLabel,
   ...props
-}: ImgProps) {
+}: AppImageProps) {
   return (
-    <NImage
-      placeholder={placeholder}
+    <ExpoImage
+      source={source}
       style={style}
+      contentFit={contentFit}
+      placeholder={placeholder}
+      cachePolicy={cachePolicy}
+      transition={transition}
+      recyclingKey={recyclingKey}
+      testID={testID}
+      accessibilityLabel={accessibilityLabel}
+      accessible={Boolean(accessibilityLabel)}
       {...props}
     />
   );
 }
 
-export function preloadImages(sources: string[]) {
-  NImage.prefetch(sources);
-}
+Image.displayName = 'Image';

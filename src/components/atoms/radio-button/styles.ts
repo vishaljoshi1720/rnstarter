@@ -6,6 +6,10 @@ export const styles = StyleSheet.create(theme => ({
     alignItems: 'center',
     gap: theme.spacing.sm,
   },
+  label: {
+    flex: 1,
+    flexShrink: 1,
+  },
   radioOuter: {
     width: theme.size.radio.default,
     height: theme.size.radio.default,

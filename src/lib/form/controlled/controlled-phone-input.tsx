@@ -1,24 +1,16 @@
 import type { FieldValues } from 'react-hook-form';
 import type { MakeControlled } from './types';
-import type { PhoneInputProps } from '@/components';
+import type { PhoneInputProps } from '@/components/molecules/phone-input';
 import * as React from 'react';
 import { useController } from 'react-hook-form';
-import { PhoneInput } from '@/components';
+import { PhoneInput } from '@/components/molecules/phone-input';
 
 export type ControlledPhoneInputProps<T extends FieldValues>
   = MakeControlled<T, PhoneInputProps, 'value' | 'onChangeText'>;
 
 /**
- * Controlled PhoneInput component for React Hook Form.
- * Automatically connects to form state and validation.
- *
- * @example
- * const form = useForm(schema);
- * <ControlledPhoneInput
- *   name="phone"
- *   control={form.control}
- *   label="Phone Number"
- * />
+ * Controlled PhoneInput for React Hook Form.
+ * Optional heavy dep — import from this file, not `@/lib/form` barrel.
  */
 export function ControlledPhoneInput<T extends FieldValues>({
   name,
@@ -32,7 +24,10 @@ export function ControlledPhoneInput<T extends FieldValues>({
     <PhoneInput
       {...phoneInputProps}
       value={field.value ?? ''}
-      onChangeText={field.onChange}
+      onChangeText={(text) => {
+        field.onChange(text);
+      }}
+      onBlur={field.onBlur}
       error={fieldState.error?.message}
     />
   );

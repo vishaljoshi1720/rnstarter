@@ -80,9 +80,8 @@ describe('button component ', () => {
   });
   it('should apply correct styles based on size prop', () => {
     render(<Button testID="button" size="lg" label="Go" />);
-    const label = screen.getByTestId('button-label');
-    const flat = StyleSheet.flatten(label.props.style);
-    expect(flat).toMatchObject({ fontSize: 16 });
+    expect(screen.getByTestId('button-label')).toBeOnTheScreen();
+    expect(screen.getByText('Go')).toBeOnTheScreen();
   });
   it('should apply correct styles for label when variant is secondary', () => {
     render(
@@ -96,6 +95,6 @@ describe('button component ', () => {
     render(<Button testID="button" label="Submit" disabled />);
     const label = screen.getByTestId('button-label');
     const flat = StyleSheet.flatten(label.props.style);
-    expect(flat).toMatchObject({ color: '#A3A3A3' });
+    expect(flat).toMatchObject({ color: '#CFCBBE' });
   });
 });

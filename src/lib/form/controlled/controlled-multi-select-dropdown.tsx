@@ -4,7 +4,7 @@ import type { MakeControlled } from './types';
 import type { MultiSelectDropdownProps } from '@/components/molecules/dropdown';
 import * as React from 'react';
 import { useController } from 'react-hook-form';
-import { MultiSelectDropdown } from '@/components';
+import { MultiSelectDropdown } from '@/components/molecules/dropdown';
 
 export type ControlledMultiSelectDropdownProps<T extends FieldValues> = MakeControlled<
   T,
@@ -25,10 +25,13 @@ export function ControlledMultiSelectDropdown<T extends FieldValues>({
 
   return (
     <MultiSelectDropdown
-      value={field.value ?? []}
-      onChange={field.onChange}
-      error={fieldState.error?.message}
       {...dropdownProps}
+      value={field.value ?? []}
+      onChange={(value) => {
+        field.onChange(value);
+        field.onBlur();
+      }}
+      error={fieldState.error?.message}
     />
   );
 }

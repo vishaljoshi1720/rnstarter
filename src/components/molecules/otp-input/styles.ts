@@ -30,9 +30,6 @@ export const styles = StyleSheet.create(theme => ({
   inputFocused: {
     borderColor: theme.colors.brand.primary,
   },
-  inputError: {
-    borderColor: theme.colors.status.error,
-  },
   inputDisabled: {
     backgroundColor: theme.colors.background.secondary,
     opacity: theme.opacity[50],

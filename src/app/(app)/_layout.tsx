@@ -1,12 +1,11 @@
 import { Redirect, Tabs } from 'expo-router';
 import * as React from 'react';
 
-import { ROUTES } from '@/common/constants';
-import { useIsFirstTime } from '@/common/hooks';
 import { Icon } from '@/components/atoms/icon';
-import { AuthStatus } from '@/features/auth/types';
-import { useAuthStore as useAuth } from '@/features/auth/use-auth-store';
 import { translate } from '@/lib/i18n';
+import { AUTH_STATUS, useAuthStore as useAuth } from '@/shared/auth';
+import { ROUTES } from '@/shared/constants';
+import { useIsFirstTime } from '@/shared/hooks';
 import { useTheme } from '@/theme';
 
 export default function TabLayout() {
@@ -17,12 +16,14 @@ export default function TabLayout() {
   if (isFirstTime) {
     return <Redirect href={ROUTES.ONBOARDING} />;
   }
-  if (status === AuthStatus.SignOut) {
+  if (status === AUTH_STATUS.SignOut) {
     return <Redirect href={ROUTES.LOGIN} />;
   }
+
   return (
     <Tabs
       screenOptions={{
+        headerShown: false,
         headerStyle: {
           backgroundColor: theme.colors.background.primary,
         },
@@ -51,7 +52,6 @@ export default function TabLayout() {
         name="settings"
         options={{
           title: translate('tabs.settings'),
-          headerShown: false,
           tabBarIcon: ({ color }) => <Icon name="settings" color={color} />,
           tabBarButtonTestID: 'settings-tab',
         }}

@@ -5,22 +5,16 @@ import { StyleSheet } from 'react-native-unistyles';
  * Kept here (not inline in JSX) — lib requires plain style objects via props.
  */
 export const styles = StyleSheet.create(theme => ({
-  wrapper: {
-    marginBottom: theme.spacing.md,
-  },
-  label: {
-    marginBottom: theme.spacing.sm,
-  },
-  helperText: {
-    marginTop: theme.spacing.xs,
-  },
   phoneContainer: {
     backgroundColor: theme.colors.surface.default,
     borderColor: theme.colors.border.default,
     borderWidth: theme.borderWidth.thin,
     borderRadius: theme.radius.md,
+    height: theme.size.input.md,
     minHeight: theme.size.input.md,
     paddingHorizontal: theme.spacing.md,
+    paddingVertical: 0,
+    alignItems: 'center',
   },
   phoneContainerDisabled: {
     backgroundColor: theme.colors.background.tertiary,
@@ -31,28 +25,45 @@ export const styles = StyleSheet.create(theme => ({
   flagContainer: {
     backgroundColor: 'transparent',
     justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+    marginRight: 0,
+    borderRightWidth: 0,
     borderTopLeftRadius: theme.radius.md,
     borderBottomLeftRadius: theme.radius.md,
-    paddingRight: theme.spacing.sm,
-    marginRight: theme.spacing.sm,
-    borderRightWidth: theme.borderWidth.thin,
-    borderRightColor: theme.colors.border.default,
+    gap: 0,
   },
-  flag: { fontSize: 22 },
-  caret: {
-    color: theme.colors.icon.default,
-    fontSize: 14,
+  flag: { fontSize: 20 },
+  /** Zero-size stand-in — lib falls back to default caret if custom returns null. */
+  slotHidden: {
+    width: 0,
+    height: 0,
+    margin: 0,
+    padding: 0,
+    opacity: 0,
+    overflow: 'hidden',
   },
   callingCode: {
     fontFamily: theme.typography.bodyLarge.fontFamily,
     fontSize: theme.typography.bodyLarge.fontSize,
+    fontWeight: theme.typography.labelLarge.fontWeight,
     color: theme.colors.text.primary,
     marginRight: theme.spacing.xs,
+    marginLeft: 0,
+    padding: 0,
   },
   input: {
     fontFamily: theme.typography.bodyLarge.fontFamily,
     fontSize: theme.typography.bodyLarge.fontSize,
     color: theme.colors.text.primary,
+    height: '100%',
+    paddingHorizontal: theme.spacing.xs,
+    paddingVertical: 0,
+    margin: 0,
   },
   inputDisabled: {
     color: theme.colors.text.disabled,

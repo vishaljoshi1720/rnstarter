@@ -1,7 +1,9 @@
 import type { RadioGroupProps } from './types';
 
 import * as React from 'react';
-import { AppText, RadioButton, View } from '@/components';
+import { RadioButton } from '../../atoms/radio-button';
+import { View } from '../../atoms/view';
+import { Field } from '../field';
 import { styles } from './styles';
 
 export type { RadioGroupProps, RadioOption } from './types';
@@ -17,70 +19,38 @@ export function RadioGroup({
   style,
   testID,
 }: RadioGroupProps) {
-  const showHelper = !error && helperText;
-
   return (
-    <View
-      style={[styles.wrapper, style]}
+    <Field
+      label={label}
+      error={error}
+      helperText={helperText}
+      style={style}
       testID={testID}
-      accessibilityRole="radiogroup"
     >
-      {label && (
-        <AppText
-          testID={testID ? `${testID}-label` : undefined}
-          variant="labelLarge"
-          color="primary"
-          style={styles.label}
-        >
-          {label}
-        </AppText>
-      )}
-      <View style={styles.container}>
+      <View
+        style={styles.container}
+        accessibilityRole="radiogroup"
+      >
         {options.map((option) => {
           const isSelected = value === option.value;
           const isDisabled = disabled || option.disabled;
 
           return (
-            <View key={option.value} style={styles.option}>
-              <RadioButton
-                value={option.value}
-                selected={isSelected}
-                onSelect={onValueChange}
-                disabled={isDisabled}
-                testID={testID ? `${testID}-${option.value}` : undefined}
-              />
-              <AppText
-                variant="bodyMedium"
-                color={isDisabled ? 'disabled' : 'primary'}
-                onPress={isDisabled ? undefined : () => onValueChange(option.value)}
-              >
-                {option.label}
-              </AppText>
-            </View>
+            <RadioButton
+              key={option.value}
+              value={option.value}
+              selected={isSelected}
+              onSelect={onValueChange}
+              label={option.label}
+              disabled={isDisabled}
+              accessibilityLabel={option.label}
+              testID={testID ? `${testID}-${option.value}` : undefined}
+              style={styles.option}
+            />
           );
         })}
       </View>
-      {error && (
-        <AppText
-          testID={testID ? `${testID}-error` : undefined}
-          variant="bodySmall"
-          color="error"
-          style={styles.helperText}
-        >
-          {error}
-        </AppText>
-      )}
-      {showHelper && (
-        <AppText
-          testID={testID ? `${testID}-helper` : undefined}
-          variant="bodySmall"
-          color="secondary"
-          style={styles.helperText}
-        >
-          {helperText}
-        </AppText>
-      )}
-    </View>
+    </Field>
   );
 }
 

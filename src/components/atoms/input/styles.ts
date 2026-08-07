@@ -25,7 +25,8 @@ export const styles = StyleSheet.create(theme => ({
   },
   inputContainerMultiline: {
     alignItems: 'flex-start',
-    minHeight: 100,
+    minHeight: theme.size.input.lg * 2,
+    paddingVertical: theme.spacing.sm,
   },
   inputContainerFocused: {
     borderColor: theme.colors.border.focus,
@@ -64,8 +65,10 @@ export const styles = StyleSheet.create(theme => ({
     fontFamily: theme.typography.bodyLarge.fontFamily,
   },
   inputMultiline: {
-    minHeight: 80,
+    minHeight: theme.size.input.lg * 1.5,
+    width: '100%',
     textAlignVertical: 'top',
+    paddingTop: theme.spacing.sm,
   },
   inputDisabled: {
     color: theme.colors.text.disabled,

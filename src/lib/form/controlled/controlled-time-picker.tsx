@@ -1,33 +1,19 @@
 import type { FieldValues } from 'react-hook-form';
 import type { MakeControlled } from './types';
-import type { TimePickerInputProps } from '@/components';
+import type { DateTimeFieldProps } from '@/components/molecules/date-time-field';
+
 import * as React from 'react';
 import { useController } from 'react-hook-form';
-import { TimePickerInput } from '@/components';
+import { DateTimeField } from '@/components/molecules/date-time-field';
 
-export type ControlledTimePickerProps<T extends FieldValues>
-  = MakeControlled<T, TimePickerInputProps, 'value' | 'onChange'>;
+export type ControlledTimePickerProps<T extends FieldValues> = MakeControlled<
+  T,
+  Omit<DateTimeFieldProps, 'mode' | 'minimumDate' | 'maximumDate'>,
+  'value' | 'onChange'
+>;
 
 /**
- * Controlled TimePickerInput component integrated with React Hook Form.
- * Automatically handles validation, error display, and form state.
- *
- * Uses react-native-modal-datetime-picker for production-ready time selection.
- *
- * @example
- * const schema = z.object({
- *   meetingTime: z.date(),
- * });
- *
- * const form = useForm(schema);
- *
- * <ControlledTimePicker
- *   name="meetingTime"
- *   control={form.control}
- *   label="Meeting Time"
- *   placeholder="Select meeting time"
- *   is24Hour
- * />
+ * Controlled time field for React Hook Form (DateTimeField mode="time").
  */
 export function ControlledTimePicker<T extends FieldValues>({
   name,
@@ -35,21 +21,18 @@ export function ControlledTimePicker<T extends FieldValues>({
   rules,
   ...props
 }: ControlledTimePickerProps<T>) {
-  const {
-    field: { value, onChange },
-    fieldState: { error },
-  } = useController({
-    name,
-    control,
-    rules,
-  });
+  const { field, fieldState } = useController({ name, control, rules });
 
   return (
-    <TimePickerInput
+    <DateTimeField
       {...props}
-      value={value}
-      onChange={onChange}
-      error={error?.message}
+      mode="time"
+      value={field.value}
+      onChange={(date) => {
+        field.onChange(date);
+        field.onBlur();
+      }}
+      error={fieldState.error?.message}
     />
   );
 }

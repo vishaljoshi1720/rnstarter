@@ -1,18 +1,17 @@
 import { StyleSheet } from 'react-native-unistyles';
 
 export const styles = StyleSheet.create(theme => ({
-  root: {
+  content: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: theme.spacing.xl,
   },
   coverWrap: {
     width: '100%',
     flex: 1,
     alignSelf: 'center',
   },
-  content: {
+  body: {
     width: '100%',
     alignSelf: 'center',
     justifyContent: 'flex-end',

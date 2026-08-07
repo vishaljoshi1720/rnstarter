@@ -3,11 +3,32 @@ import type { DropdownItem, DropdownProps, MultiSelectDropdownProps } from './ty
 import { Dropdown as RNDropdown, MultiSelect as RNMultiSelect } from '@carlos3g/element-dropdown';
 import { Check } from 'lucide-react-native';
 import * as React from 'react';
-import { AppText, View } from '@/components';
+import { Keyboard } from 'react-native';
 import { useTheme } from '@/theme';
+import { AppText } from '../../atoms/text';
+import { View } from '../../atoms/view';
+import { Field } from '../field';
+import { formatMultiSelectLabel } from './format-label';
 import { styles } from './styles';
 
 export type { DropdownItem, DropdownProps, MultiSelectDropdownProps } from './types';
+
+/** Fixed menu cap — not density-scaled (scrollable list viewport). */
+const DROPDOWN_MAX_HEIGHT = 300;
+
+function dismissKeyboard() {
+  Keyboard.dismiss();
+}
+
+function resolveValue(
+  data: DropdownItem[],
+  raw: string | number | undefined,
+): string | number | undefined {
+  if (raw == null)
+    return undefined;
+  const match = data.find(item => String(item.value) === String(raw));
+  return match?.value ?? raw;
+}
 
 function DropdownItemRow({
   item,
@@ -59,28 +80,19 @@ export function Dropdown({
   data = [],
   onChange,
   placeholder = 'Select an option',
+  search,
+  searchPlaceholder = 'Search...',
   testID,
 }: DropdownProps) {
   const { theme } = useTheme();
+  const enableSearch = search ?? data.length > 5;
 
   const handleChange = (item: DropdownItem) => {
-    onChange?.(item?.value);
+    onChange?.(resolveValue(data, item?.value) as string | number);
   };
 
-  const showHelper = !error && helperText;
-
   return (
-    <View style={styles.wrapper}>
-      {label && (
-        <AppText
-          testID={testID ? `${testID}-label` : undefined}
-          variant="labelLarge"
-          color="primary"
-          style={styles.label}
-        >
-          {label}
-        </AppText>
-      )}
+    <Field label={label} error={error} helperText={helperText} testID={testID}>
       <RNDropdown
         data={data}
         labelField="label"
@@ -89,6 +101,7 @@ export function Dropdown({
         value={value != null ? String(value) : undefined}
         onChange={handleChange}
         disable={disabled}
+        onFocus={dismissKeyboard}
         style={[
           styles.container,
           error && styles.containerError,
@@ -105,32 +118,13 @@ export function Dropdown({
         renderItem={(item, selected) => (
           <DropdownItemRow item={item} selected={selected} />
         )}
-        search={data.length > 5}
-        searchPlaceholder="Search..."
-        testID={testID}
-        maxHeight={300}
+        search={enableSearch}
+        searchPlaceholder={searchPlaceholder}
+        testID={testID ? `${testID}-control` : undefined}
+        maxHeight={DROPDOWN_MAX_HEIGHT}
+        accessibilityLabel={label || placeholder}
       />
-      {error && (
-        <AppText
-          testID={testID ? `${testID}-error` : undefined}
-          variant="bodySmall"
-          color="error"
-          style={styles.helperText}
-        >
-          {error}
-        </AppText>
-      )}
-      {showHelper && (
-        <AppText
-          testID={testID ? `${testID}-helper` : undefined}
-          variant="bodySmall"
-          color="secondary"
-          style={styles.helperText}
-        >
-          {helperText}
-        </AppText>
-      )}
-    </View>
+    </Field>
   );
 }
 
@@ -145,80 +139,57 @@ export function MultiSelectDropdown({
   data = [],
   onChange,
   placeholder = 'Select options',
+  search,
+  searchPlaceholder = 'Search...',
   testID,
 }: MultiSelectDropdownProps) {
   const { theme } = useTheme();
+  const enableSearch = search ?? data.length > 5;
+  const stringValue = value.map(v => String(v));
+  const triggerLabel = formatMultiSelectLabel(value, data, placeholder);
 
   const handleChange = (selected: string[]) => {
-    onChange?.(selected as (string | number)[]);
+    const mapped = selected.map(raw => resolveValue(data, raw) as string | number);
+    onChange?.(mapped);
   };
 
-  const showHelper = !error && helperText;
-  const stringValue = value.map(v => String(v));
-
   return (
-    <View style={styles.wrapper}>
-      {label && (
-        <AppText
-          testID={testID ? `${testID}-label` : undefined}
-          variant="labelLarge"
-          color="primary"
-          style={styles.label}
-        >
-          {label}
-        </AppText>
-      )}
+    <Field label={label} error={error} helperText={helperText} testID={testID}>
       <RNMultiSelect
         data={data}
         labelField="label"
         valueField="value"
-        placeholder={placeholder}
+        placeholder={triggerLabel}
         value={stringValue}
         onChange={handleChange}
         disable={disabled}
+        onFocus={dismissKeyboard}
+        visibleSelectedItem={false}
         style={[
           styles.container,
           error && styles.containerError,
           disabled && styles.containerDisabled,
         ]}
-        placeholderStyle={styles.placeholder}
+        placeholderStyle={
+          value.length > 0 ? styles.selectedText : styles.placeholder
+        }
         selectedTextStyle={styles.selectedText}
         inputSearchStyle={styles.searchInput}
         iconStyle={styles.icon}
         containerStyle={styles.dropdownContainer}
         iconColor={theme.colors.icon.default}
         activeColor={theme.colors.background.secondary}
-        selectedStyle={styles.chip}
         itemContainerStyle={{ paddingVertical: 0, paddingHorizontal: 0 }}
         renderItem={(item, selected) => (
           <DropdownItemRow item={item} selected={selected} showCheckbox />
         )}
-        search={data.length > 5}
-        searchPlaceholder="Search..."
-        testID={testID}
-        maxHeight={300}
+        search={enableSearch}
+        searchPlaceholder={searchPlaceholder}
+        testID={testID ? `${testID}-control` : undefined}
+        maxHeight={DROPDOWN_MAX_HEIGHT}
+        accessibilityLabel={label || placeholder}
       />
-      {error && (
-        <AppText
-          testID={testID ? `${testID}-error` : undefined}
-          variant="bodySmall"
-          color="error"
-          style={styles.helperText}
-        >
-          {error}
-        </AppText>
-      )}
-      {showHelper && (
-        <AppText
-          testID={testID ? `${testID}-helper` : undefined}
-          variant="bodySmall"
-          color="secondary"
-          style={styles.helperText}
-        >
-          {helperText}
-        </AppText>
-      )}
-    </View>
+    </Field>
   );
 }
 

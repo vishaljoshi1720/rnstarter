@@ -11,12 +11,12 @@ import {
   SafeAreaProvider,
 } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native-unistyles';
-import { Toaster } from 'sonner-native';
-import { loadSelectedTheme } from '@/common/hooks';
-import { useThemeConfig } from '@/components/lib/use-theme-config';
-
-import { hydrateAuth } from '@/features/auth/use-auth-store';
 import { APIProvider } from '@/lib/api';
+import { AppToaster } from '@/lib/toast';
+import { hydrateAuth } from '@/shared/auth';
+
+import { loadSelectedTheme } from '@/shared/hooks';
+import { useNavigationTheme } from '@/theme/use-navigation-theme';
 // Initialize Unistyles themes
 import '@/theme';
 
@@ -54,6 +54,12 @@ export default function RootLayout() {
         <Stack.Screen name="(app)" options={{ headerShown: false }} />
         <Stack.Screen name="onboarding" options={{ headerShown: false }} />
         <Stack.Screen name="login" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="playground"
+          options={{
+            headerShown: false,
+          }}
+        />
       </Stack>
     </Providers>
   );
@@ -66,19 +72,23 @@ function Providers({
   children: React.ReactNode;
   onLayout: ViewProps['onLayout'];
 }) {
-  const theme = useThemeConfig();
+  const theme = useNavigationTheme();
   return (
     <GestureHandlerRootView
       onLayout={onLayout}
       style={styles.root}
     >
       <SafeAreaProvider>
-        <KeyboardProvider>
+        <KeyboardProvider
+          statusBarTranslucent
+          navigationBarTranslucent
+          preserveEdgeToEdge
+        >
           <ThemeProvider value={theme}>
             <APIProvider>
               <BottomSheetModalProvider>
                 {children}
-                <Toaster />
+                <AppToaster />
               </BottomSheetModalProvider>
             </APIProvider>
           </ThemeProvider>

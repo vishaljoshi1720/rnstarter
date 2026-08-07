@@ -1,14 +1,13 @@
 import * as React from 'react';
 
-import { useAppNavigation, useIsFirstTime } from '@/common/hooks';
+import { View } from 'react-native';
 import {
   AppText,
   Button,
-  FocusAwareStatusBar,
   Screen,
-  View,
 } from '@/components';
 import { translate } from '@/lib/i18n';
+import { useAppNavigation, useIsFirstTime } from '@/shared/hooks';
 import { Cover } from '../components/cover';
 import { styles } from './styles';
 
@@ -17,12 +16,15 @@ export function OnboardingScreen() {
   const { replaceToLogin } = useAppNavigation();
 
   return (
-    <Screen style={styles.root}>
-      <FocusAwareStatusBar />
+    <Screen
+      layout="scroll"
+      inset={{ horizontal: 'xl' }}
+      contentStyle={styles.content}
+    >
       <View style={styles.coverWrap}>
         <Cover />
       </View>
-      <View style={styles.content}>
+      <View style={styles.body}>
         <AppText variant="displaySmall" style={styles.brand} tx="onboarding.brand" />
         <AppText
           variant="titleLarge"

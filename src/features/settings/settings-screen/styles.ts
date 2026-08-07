@@ -1,15 +1,22 @@
 import { StyleSheet } from 'react-native-unistyles';
 
 export const styles = StyleSheet.create(theme => ({
-  container: {
+  /**
+   * Do NOT use alignItems:'center' here with full-width row children.
+   * Yoga + Text-in-row under a centered parent causes mid-word wraps
+   * ("Logou"/"t") even when the button is wide.
+   */
+  content: {
+    flex: 1,
+    justifyContent: 'center',
+    gap: theme.spacing.xl,
     paddingHorizontal: theme.spacing.xl,
-    paddingTop: theme.spacing['2xl'],
-    paddingBottom: theme.spacing['3xl'],
   },
   title: {
-    marginBottom: theme.spacing['2xl'],
+    textAlign: 'center',
+    width: '100%',
   },
-  logoutContainer: {
-    marginTop: theme.spacing.xl,
+  logout: {
+    marginVertical: 0,
   },
 }));

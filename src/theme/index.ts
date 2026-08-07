@@ -111,5 +111,7 @@ export {
 // Export breakpoints for reference
 export { breakpoints };
 
+export { useNavigationTheme, useThemeConfig } from './use-navigation-theme';
+
 // Export single theme hook (aliased for clarity)
 export { useUnistyles as useTheme } from 'react-native-unistyles';

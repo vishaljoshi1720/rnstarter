@@ -1,6 +1,14 @@
 import { StyleSheet } from 'react-native-unistyles';
 
 export const styles = StyleSheet.create(theme => ({
+  /**
+   * Yoga 3 / RN 0.79+: Text in a flexDirection:'row' parent reports a bad
+   * intrinsic width unless it can shrink. Without this, short labels wrap
+   * mid-word ("Logou" / "t") even when the row is wide.
+   */
+  layout: {
+    flexShrink: 1,
+  },
   // Typography only — colors applied at runtime via useTheme (see AppText)
   displayLarge: { ...theme.typography.displayLarge },
   displayMedium: { ...theme.typography.displayMedium },
