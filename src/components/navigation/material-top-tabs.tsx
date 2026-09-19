@@ -1,6 +1,10 @@
-import type { MaterialTopTabNavigationEventMap, MaterialTopTabNavigationOptions } from '@react-navigation/material-top-tabs';
-import type { ParamListBase, TabNavigationState } from '@react-navigation/native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import {
+  type MaterialTopTabNavigationEventMap,
+  type MaterialTopTabNavigationOptions,
+  createMaterialTopTabNavigator,
+} from 'expo-router/js-top-tabs';
+
+import type { ParamListBase, TabNavigationState } from 'expo-router/react-navigation';
 import { withLayoutContext } from 'expo-router';
 
 const { Navigator } = createMaterialTopTabNavigator();
@@ -8,8 +12,7 @@ const { Navigator } = createMaterialTopTabNavigator();
 /**
  * Material Top Tabs navigator for Expo Router.
  *
- * Uses the official React Navigation Material Top Tabs implementation
- * with proper Expo Router integration (SDK 54 compatible).
+ * Uses Expo Router's `js-top-tabs` entry point (SDK 56+).
  *
  * Features:
  * - Swipeable tabs with gesture support
@@ -37,7 +40,7 @@ const { Navigator } = createMaterialTopTabNavigator();
  *   );
  * }
  *
- * @see https://reactnavigation.org/docs/material-top-tab-navigator
+ * @see https://docs.expo.dev/router/migrate/sdk-55-to-56/
  */
 export const MaterialTopTabs = withLayoutContext<
   MaterialTopTabNavigationOptions,

@@ -1,12 +1,25 @@
+import type { ComponentType, ElementType } from 'react';
 import type { TextInput, TextInputProps } from 'react-native';
 
 export type InputSize = 'sm' | 'md' | 'lg';
+
+/**
+ * Compatible TextInput surface (RN TextInput or Gorhom BottomSheetTextInput).
+ * Loosely typed — sheet libraries disagree on ref nullability.
+ */
+export type InputTextInputComponent = ElementType | ComponentType<TextInputProps>;
 
 export type InputProps = {
   label?: string;
   disabled?: boolean;
   error?: string;
   testID?: string;
+
+  /**
+   * Swap the underlying field (e.g. `BottomSheetTextInput`) so Gorhom sheets
+   * track the keyboard. Defaults to React Native `TextInput`.
+   */
+  TextInputComponent?: InputTextInputComponent;
 
   /** Size variant for the input */
   size?: InputSize;

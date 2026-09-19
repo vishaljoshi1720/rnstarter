@@ -44,7 +44,7 @@ export default function TabLayout() {
         name="index"
         options={{
           title: translate('tabs.home'),
-          tabBarIcon: ({ color }) => <Icon name="home" color={color} />,
+          tabBarIcon: ({ color }) => <Icon name="home" color={String(color)} />,
           tabBarButtonTestID: 'home-tab',
         }}
       />
@@ -52,7 +52,7 @@ export default function TabLayout() {
         name="settings"
         options={{
           title: translate('tabs.settings'),
-          tabBarIcon: ({ color }) => <Icon name="settings" color={color} />,
+          tabBarIcon: ({ color }) => <Icon name="settings" color={String(color)} />,
           tabBarButtonTestID: 'settings-tab',
         }}
       />

@@ -1,5 +1,5 @@
 import type { FocusAwareStatusBarProps } from './types';
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused } from 'expo-router/react-navigation';
 import * as React from 'react';
 import { Platform } from 'react-native';
 

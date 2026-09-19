@@ -18,7 +18,7 @@ export { Image } from './atoms/image';
 export type { AppImageProps } from './atoms/image';
 
 export { Input } from './atoms/input';
-export type { InputProps, InputSize } from './atoms/input';
+export type { InputProps, InputSize, InputTextInputComponent } from './atoms/input';
 
 export { Switch } from './atoms/switch';
 export type { SwitchProps } from './atoms/switch';
@@ -41,7 +41,9 @@ export {
   useBottomSheet,
   useModal,
 } from './organisms/bottom-sheet';
-export type { ModalProps } from './organisms/bottom-sheet';
+export type {
+  ModalProps,
+} from './organisms/bottom-sheet';
 
 export { Screen } from './organisms/screen';
 export type {

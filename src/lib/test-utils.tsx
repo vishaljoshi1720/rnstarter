@@ -3,7 +3,7 @@ import type { RenderOptions } from '@testing-library/react-native';
 
 import type { ReactElement } from 'react';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer } from 'expo-router/react-navigation';
 import { render, userEvent } from '@testing-library/react-native';
 import * as React from 'react';
 import { KeyboardProvider } from 'react-native-keyboard-controller';

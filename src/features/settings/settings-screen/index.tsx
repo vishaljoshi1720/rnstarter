@@ -15,6 +15,7 @@ export function SettingsScreen() {
         style={styles.title}
         tx="settings.title"
       />
+
       <Button
         label={translate('settings.logout')}
         variant="outline"

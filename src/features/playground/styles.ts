@@ -28,19 +28,8 @@ export const playgroundStyles = StyleSheet.create(theme => ({
     paddingBottom: theme.spacing.xl,
     gap: theme.spacing.md,
   },
-  sheetInput: {
-    borderWidth: theme.borderWidth.thin,
-    borderColor: theme.colors.border.default,
-    borderRadius: theme.radius.md,
-    paddingHorizontal: theme.spacing.md,
-    paddingVertical: theme.spacing.sm,
-    color: theme.colors.text.primary,
-    backgroundColor: theme.colors.surface.default,
-    fontSize: theme.typography.bodyMedium.fontSize,
-  },
-  sheetInputMultiline: {
-    minHeight: theme.size.input.lg * 2,
-    textAlignVertical: 'top',
+  sheetFooterActions: {
+    gap: theme.spacing.sm,
   },
   image: {
     width: '100%',

@@ -25,8 +25,9 @@ export const styles = StyleSheet.create(theme => ({
   },
   inputContainerMultiline: {
     alignItems: 'flex-start',
-    minHeight: theme.size.input.lg * 2,
-    paddingVertical: theme.spacing.sm,
+    // Tall enough that caret + several lines stay readable in sheets.
+    minHeight: theme.size.input.lg * 3.5,
+    paddingVertical: theme.spacing.md,
   },
   inputContainerFocused: {
     borderColor: theme.colors.border.focus,
@@ -65,10 +66,11 @@ export const styles = StyleSheet.create(theme => ({
     fontFamily: theme.typography.bodyLarge.fontFamily,
   },
   inputMultiline: {
-    minHeight: theme.size.input.lg * 1.5,
+    minHeight: theme.size.input.lg * 3,
     width: '100%',
     textAlignVertical: 'top',
-    paddingTop: theme.spacing.sm,
+    paddingTop: theme.spacing.md,
+    paddingBottom: theme.spacing.md,
   },
   inputDisabled: {
     color: theme.colors.text.disabled,

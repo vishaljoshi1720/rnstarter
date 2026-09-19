@@ -9,7 +9,12 @@ import { View } from '../view';
 import { SIZE_CONFIG } from './constants';
 import { styles } from './styles';
 
-export type { InputProps, InputSize, NInputProps } from './types';
+export type {
+  InputProps,
+  InputSize,
+  InputTextInputComponent,
+  NInputProps,
+} from './types';
 
 type InputMetaProps = {
   error?: string;
@@ -124,6 +129,7 @@ export function Input({ ref, ...props }: InputProps & { ref?: React.Ref<NTextInp
     error,
     testID,
     size = 'md',
+    TextInputComponent = RNTextInput,
     onBlur: onBlurProp,
     onFocus: onFocusProp,
     leftElement,
@@ -144,6 +150,8 @@ export function Input({ ref, ...props }: InputProps & { ref?: React.Ref<NTextInp
   } = props;
   const [isFocussed, setIsFocussed] = React.useState(false);
   const { theme } = useTheme();
+  // BottomSheetTextInput is API-compatible; cast keeps ref typing workable.
+  const FieldInput = TextInputComponent as typeof RNTextInput;
 
   const sizeConfig = SIZE_CONFIG[size];
   const isDisabled = disabled;
@@ -181,7 +189,7 @@ export function Input({ ref, ...props }: InputProps & { ref?: React.Ref<NTextInp
         ]}
       >
         {leftElement && <View style={styles.leftElement}>{leftElement}</View>}
-        <RNTextInput
+        <FieldInput
           testID={testID}
           ref={ref}
           placeholderTextColor={theme.colors.text.disabled}

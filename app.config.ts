@@ -121,10 +121,21 @@ const plugins: ExpoConfig['plugins'] = [
   interFontPlugin,
   'expo-localization',
   'expo-router',
+  'expo-image',
+  'expo-status-bar',
   ['app-icon-badge', appIconBadgeConfig],
   ['react-native-edge-to-edge'],
   '@react-native-community/datetimepicker',
   'expo-secure-store',
+  [
+    'expo-build-properties',
+    {
+      ios: {
+        // Official Xcode 27 / iOS 27 UIScene lifecycle (Expo SDK 57.0.23+)
+        enableSceneSupport: true,
+      },
+    },
+  ],
 ];
 
 export default ({ config }: ConfigContext): ExpoConfig => ({

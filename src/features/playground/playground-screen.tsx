@@ -40,7 +40,6 @@ const playgroundSchema = z.object({
  */
 export function PlaygroundScreen() {
   const modal = useModal();
-  const formModal = useModal();
   const { goBack } = useAppNavigation();
   const [loading, setLoading] = React.useState(false);
 
@@ -108,15 +107,12 @@ export function PlaygroundScreen() {
       <MoleculesSection
         options={DEMO_OPTIONS}
         onOpenSheet={() => modal.present()}
-        onOpenSheetForm={() => formModal.present()}
       />
       <FormSection control={control} options={DEMO_OPTIONS} />
 
       <SheetModals
         simpleRef={modal.ref}
-        formRef={formModal.ref}
         onDismissSimple={() => modal.dismiss()}
-        onDismissForm={() => formModal.dismiss()}
       />
     </Screen>
   );

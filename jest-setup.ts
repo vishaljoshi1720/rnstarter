@@ -120,8 +120,8 @@ jest.mock('react-native-mmkv', () => ({
   })),
 }));
 
-// Mock React Navigation Material Top Tabs
-jest.mock('@react-navigation/material-top-tabs', () => ({
+// Mock Expo Router Material Top Tabs (SDK 56+ entry point)
+jest.mock('expo-router/js-top-tabs', () => ({
   createMaterialTopTabNavigator: jest.fn(() => ({
     Navigator: jest.fn(),
     Screen: jest.fn(),

@@ -13,11 +13,9 @@ type Option = { label: string; value: string };
 export function MoleculesSection({
   options,
   onOpenSheet,
-  onOpenSheetForm,
 }: {
   options: Option[];
   onOpenSheet: () => void;
-  onOpenSheetForm: () => void;
 }) {
   const [dropdown, setDropdown] = React.useState<string | number | undefined>();
   const [multi, setMulti] = React.useState<(string | number)[]>([]);
@@ -86,12 +84,6 @@ export function MoleculesSection({
         variant="outline"
         onPress={onOpenSheet}
         testID="playground-open-sheet"
-      />
-      <Button
-        label="Open sheet form (keyboard)"
-        variant="outline"
-        onPress={onOpenSheetForm}
-        testID="playground-open-sheet-form"
       />
     </Section>
   );
